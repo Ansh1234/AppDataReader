@@ -1,13 +1,11 @@
-package com.awesomedroidapps.inappstoragereader;
+package com.awesomedroidapps.appstoragedatareader.demo;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
-import com.awesomedroidapps.inappstoragereader.entity.Person;
+import com.awesomedroidapps.appstoragedatareader.demo.entity.Person;
 
 /**
  * Created by anshul on 11/2/17.
@@ -55,16 +53,5 @@ public class DataReaderSqliteOpenHelper extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
     //Do nothing
-  }
-
-  public void getAllTables(){
-    Cursor c = getWritableDatabase().rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-
-    if (c.moveToFirst()) {
-      while ( !c.isAfterLast() ) {
-        System.out.println(c.getString(0));
-        c.moveToNext();
-      }
-    }
   }
 }

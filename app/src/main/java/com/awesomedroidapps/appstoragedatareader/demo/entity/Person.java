@@ -1,4 +1,4 @@
-package com.awesomedroidapps.inappstoragereader.entity;
+package com.awesomedroidapps.appstoragedatareader.demo.entity;
 
 /**
  * Created by anshul on 11/2/17.

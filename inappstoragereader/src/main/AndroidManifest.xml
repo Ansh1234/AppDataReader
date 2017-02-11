@@ -17,10 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".views.TableListActivity" />
+        <activity android:name=".views.TableDataActivity"/>
 
-        <provider
-            android:name=".CustomContentProvider"
-            android:authorities="com.awesomedroidapps.inappstoragereader.CustomContentProvider" />
     </application>
 
 </manifest>

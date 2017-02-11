@@ -1,16 +1,14 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.awesomedroidapps.inappstoragereader.Constants;
-import com.awesomedroidapps.inappstoragereader.InAppStorageSDK;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
-import com.awesomedroidapps.inappstoragereader.adapters.DatabaseListAdapter;
+import com.awesomedroidapps.inappstoragereader.adapters.TablesListAdapter;
 
 import java.util.List;
 
@@ -33,7 +31,7 @@ public class TableListActivity extends AppCompatActivity {
     if (tablesList == null) {
       return;
     }
-    DatabaseListAdapter adapter = new DatabaseListAdapter(tablesList,this);
+    TablesListAdapter adapter = new TablesListAdapter(tablesList,this,databaseName);
     tablesRecylerView.setLayoutManager(new LinearLayoutManager(this));
     tablesRecylerView.setAdapter(adapter);
 

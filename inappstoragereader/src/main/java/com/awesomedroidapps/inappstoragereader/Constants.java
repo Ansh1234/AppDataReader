@@ -7,4 +7,5 @@ package com.awesomedroidapps.inappstoragereader;
 public class Constants {
 
   public static String BUNDLE_DATABASE_NAME = "databaseName";
+  public static String BUNDLE_TABLE_NAME = "tableName";
 }

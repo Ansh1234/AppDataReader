@@ -6,9 +6,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.awesomedroidapps.appstoragedatareader.R;
-import com.awesomedroidapps.inappstoragereader.DataReaderSqliteOpenHelper;
 import com.awesomedroidapps.inappstoragereader.Utils;
-import com.awesomedroidapps.inappstoragereader.entity.Person;
+import com.awesomedroidapps.appstoragedatareader.demo.entity.Person;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

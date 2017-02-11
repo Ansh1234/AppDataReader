@@ -56,4 +56,33 @@ public class SqliteDatabaseReader {
     }
     return tablesList;
   }
+
+  public static ArrayList getAllTableColumns(Context context, String databaseName, String
+      tableName) {
+    if (context == null) {
+      return null;
+    }
+
+    SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    Cursor dbCursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
+    String[] columnNames = dbCursor.getColumnNames();
+    return new ArrayList(Arrays.asList(columnNames));
+  }
+
+  public static ArrayList getAllTableData(Context context, String databaseName, String
+      tableName) {
+    if (context == null) {
+      return null;
+    }
+
+    SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    Cursor cursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
+    if (cursor.moveToFirst()) {
+      do {
+
+      } while (cursor.moveToNext());
+    }
+    cursor.close();
+    return null;
+  }
 }

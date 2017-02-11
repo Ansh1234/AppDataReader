@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="database_item_height">50dp</dimen>
+    <dimen name="database_item_margin">10dp</dimen>
+    <dimen name="database_item_text_marginLeft">20dp</dimen>
+    <dimen name="database_item_image_marginLeft">10dp</dimen>
+    <dimen name="database_item_text_size">18dp</dimen>
+    <dimen name="table_item_text_size">18dp</dimen>
+</resources>
