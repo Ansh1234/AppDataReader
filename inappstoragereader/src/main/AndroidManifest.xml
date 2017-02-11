@@ -1,0 +1,26 @@
+<manifest package="com.awesomedroidapps.inappstoragereader"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/angry_48"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+
+        <activity android:name=".views.DatabaseListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".views.TableListActivity" />
+
+        <provider
+            android:name=".CustomContentProvider"
+            android:authorities="com.awesomedroidapps.inappstoragereader.CustomContentProvider" />
+    </application>
+
+</manifest>
