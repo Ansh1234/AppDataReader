@@ -66,6 +66,9 @@ public class AppDataItemViewHolder extends RecyclerView.ViewHolder
       bundle.putString(Constants.BUNDLE_DATABASE_NAME, appDataStorageItem.getStorageName());
       intent.putExtras(bundle);
       activity.get().startActivity(intent);
+    } else if (appDataStorageItem.getStorageType() == StorageType.SHARED_PREFERENCE) {
+      Intent intent = new Intent(activity.get(), SharedPreferencesActivity.class);
+      activity.get().startActivity(intent);
     }
   }
 }

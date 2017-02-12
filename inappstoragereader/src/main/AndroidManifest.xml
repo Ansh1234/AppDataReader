@@ -17,8 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".views.TableListActivity" />
-        <activity android:name=".views.TableDataActivity"/>
-
+        <activity android:name=".views.TableDataActivity" />
+        <activity android:name=".views.SharedPreferencesActivity" />
     </application>
-
 </manifest>
