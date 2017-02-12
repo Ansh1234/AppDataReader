@@ -19,13 +19,20 @@ public class DataReaderSqliteOpenHelper extends SQLiteOpenHelper {
   public static final String COLUMN_ID = "id";
   public static final String COLUMN_NAME = "name";
   public static final String COLUMN_SURNAME = "surname";
+  public static final String COLUMN_AGE = "age";
+  public static final String COLUMN_OCCUPATION = "occupation";
+  public static final String COLUMN_INTERESTS = "interests";
+
   private SQLiteDatabase sqLiteDatabase;
 
   private static final String SQL_CREATE_ENTRIES =
       "CREATE TABLE " + TABLE_NAME + " (" +
           COLUMN_ID + " INTEGER PRIMARY KEY," +
           COLUMN_NAME + " TEXT," +
-          COLUMN_SURNAME + " TEXT)";
+          COLUMN_SURNAME + " TEXT," +
+          COLUMN_AGE + " INTEGER," +
+          COLUMN_OCCUPATION + " TEXT," +
+          COLUMN_INTERESTS + " TEXT)";
 
   public DataReaderSqliteOpenHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,6 +46,12 @@ public class DataReaderSqliteOpenHelper extends SQLiteOpenHelper {
     ContentValues values = new ContentValues();
     values.put(COLUMN_NAME, person.getName());
     values.put(COLUMN_SURNAME, person.getSurName());
+
+    //Hardcoded values
+    values.put(COLUMN_AGE,35);
+    values.put(COLUMN_OCCUPATION, "Student");
+    values.put(COLUMN_INTERESTS, "Reading, writing, exploring new avenues are my interests " +
+        "primarily");
 
     db.insert(TABLE_NAME, null, values);
   }

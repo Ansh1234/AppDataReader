@@ -3,6 +3,8 @@ package com.awesomedroidapps.inappstoragereader;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,32 +59,64 @@ public class SqliteDatabaseReader {
     return tablesList;
   }
 
-  public static ArrayList getAllTableColumns(Context context, String databaseName, String
-      tableName) {
+  public static int getColumnCount(Context context, String databaseName, String tableName) {
     if (context == null) {
-      return null;
+      return 0;
     }
 
     SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
-    Cursor dbCursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
-    String[] columnNames = dbCursor.getColumnNames();
-    return new ArrayList(Arrays.asList(columnNames));
+    Cursor cursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
+    return cursor.getColumnCount();
   }
 
-  public static ArrayList getAllTableData(Context context, String databaseName, String
-      tableName) {
+  public static ArrayList<ArrayList<String>> getAllTableData(Context context, String databaseName,
+                                                             String tableName) {
     if (context == null) {
       return null;
     }
 
     SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
     Cursor cursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
-    if (cursor.moveToFirst()) {
-      do {
+    ArrayList<ArrayList<String>> tableData = new ArrayList();
+    String[] columnNames = cursor.getColumnNames();
+    ArrayList columnData = new ArrayList();
+    for (int i = 0; i < columnNames.length; i++) {
+      columnData.add(columnNames[i]);
+    }
+    tableData.add(columnData);
 
+    int columnCount = cursor.getColumnCount();
+    if (cursor.moveToFirst()) {
+      //Beginning of the row
+      do {
+        ArrayList rowData = getRowData(cursor, columnCount);
+        tableData.add(rowData);
       } while (cursor.moveToNext());
+      //End of the row.
     }
     cursor.close();
-    return null;
+    return tableData;
+  }
+
+  @NonNull
+  private static ArrayList getRowData(Cursor cursor, int columnCount) {
+    ArrayList rowData = new ArrayList();
+    for (int i = 0; i < columnCount; i++) {
+      int columnType = cursor.getType(i);
+      switch (columnType) {
+        case Cursor.FIELD_TYPE_STRING:
+          rowData.add(cursor.getString(i));
+          break;
+        case Cursor.FIELD_TYPE_INTEGER:
+          rowData.add(Integer.toString(cursor.getInt(i)));
+          break;
+        case Cursor.FIELD_TYPE_BLOB:
+          rowData.add("blob");
+          break;
+        case Cursor.FIELD_TYPE_FLOAT:
+          rowData.add(Float.toString(cursor.getFloat(i)));
+      }
+    }
+    return rowData;
   }
 }

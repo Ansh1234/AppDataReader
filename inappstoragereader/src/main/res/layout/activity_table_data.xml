@@ -4,10 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+    <com.awesomedroidapps.inappstoragereader.MySmartRecyclerView
         android:id="@+id/table_data_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+    </com.awesomedroidapps.inappstoragereader.MySmartRecyclerView>
+    </HorizontalScrollView>
 
 </LinearLayout>

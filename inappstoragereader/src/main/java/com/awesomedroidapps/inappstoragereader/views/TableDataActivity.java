@@ -31,10 +31,13 @@ public class TableDataActivity extends AppCompatActivity {
     String databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);
     String tableName = bundle.getString(Constants.BUNDLE_TABLE_NAME);
 
-    ArrayList columnNames = SqliteDatabaseReader.getAllTableColumns(this, databaseName,
-        tableName);
-    TableDataListAdapter adapter = new TableDataListAdapter(columnNames, this);
-    tableDataRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    ArrayList<ArrayList<String>> tableData = SqliteDatabaseReader.getAllTableData(this,
+        databaseName, tableName);
+    int columnCount = SqliteDatabaseReader.getColumnCount(this,databaseName,tableName);
+    TableDataListAdapter adapter = new TableDataListAdapter(tableData, this,columnCount);
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager
+        .VERTICAL,false);
+    tableDataRecyclerView.setLayoutManager(linearLayoutManager);
     tableDataRecyclerView.setAdapter(adapter);
   }
 }
