@@ -3,6 +3,7 @@ package com.awesomedroidapps.inappstoragereader.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -40,11 +41,18 @@ public class TableDataItemViewHolder extends RecyclerView.ViewHolder
     TableRow tableRow = new TableRow(context);
     tableRow.setLayoutParams(layoutParams);
 
+
+    Resources resources = context.getResources();
+    int columnWidth = (int) resources.getDimension(R.dimen.table_data_column_width);
+    int padding = (int) resources.getDimension(R.dimen.table_data_column_padding);
+    int textSize = (int) resources.getDimension(R.dimen.table_data_text_size);
     for (int i = 0; i < columnCount; i++) {
-      TableRow.LayoutParams params = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams
+      TableRow.LayoutParams params = new TableRow.LayoutParams(columnWidth, ViewGroup.LayoutParams
           .WRAP_CONTENT);
       TextView textView = new TextView(context);
       textView.setLayoutParams(params);
+      textView.setPadding(padding, padding, padding, padding);
+      textView.setTextSize(textSize);
       tableRow.addView(textView);
     }
     tableDataRowContainer.addView(tableRow);
