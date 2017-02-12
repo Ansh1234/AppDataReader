@@ -6,16 +6,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.awesomedroidapps.inappstoragereader.R;
+import com.awesomedroidapps.inappstoragereader.SharedPreferenceReader;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
-import com.awesomedroidapps.inappstoragereader.adapters.DatabaseListAdapter;
+import com.awesomedroidapps.inappstoragereader.adapters.AppDataListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by anshul on 11/2/17.
  */
 
-public class DatabaseListActivity extends AppCompatActivity {
+public class AppDataListActivity extends AppCompatActivity {
 
   RecyclerView databaseRecylerView;
 
@@ -25,12 +27,15 @@ public class DatabaseListActivity extends AppCompatActivity {
     setContentView(R.layout.activity_database_list);
     databaseRecylerView = (RecyclerView) findViewById(R.id.database_recycler_view);
 
-    List databaseList = SqliteDatabaseReader.readDatabaseList(this);
-    if(databaseList==null){
-      return;
+    List databaseList = SqliteDatabaseReader.readAppDataStorageList(this);
+    if (databaseList == null) {
+      databaseList = new ArrayList();
     }
-    DatabaseListAdapter adapter = new DatabaseListAdapter(databaseList,this);
+
+    AppDataListAdapter adapter = new AppDataListAdapter(databaseList, this);
     databaseRecylerView.setLayoutManager(new LinearLayoutManager(this));
     databaseRecylerView.setAdapter(adapter);
+    SharedPreferenceReader.getAllSharedPreferences(this);
+
   }
 }
