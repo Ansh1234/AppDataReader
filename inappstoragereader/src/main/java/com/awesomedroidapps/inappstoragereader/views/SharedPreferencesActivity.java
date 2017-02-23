@@ -11,6 +11,7 @@ import com.awesomedroidapps.inappstoragereader.SharedPreferenceReader;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
 import com.awesomedroidapps.inappstoragereader.adapters.SharedPreferencesListAdapter;
 import com.awesomedroidapps.inappstoragereader.adapters.TablesListAdapter;
+import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 
 import java.util.List;
 
@@ -29,7 +30,8 @@ public class SharedPreferencesActivity extends AppCompatActivity {
     sharedPreferencesRecylerView =
         (RecyclerView) findViewById(R.id.shared_preferences_recycler_view);
 
-    List sharedPreferenceObjectArrayList = SharedPreferenceReader.getAllSharedPreferences(this);
+    List<SharedPreferenceObject> sharedPreferenceObjectArrayList = SharedPreferenceReader.getAllSharedPreferences
+        (this);
     if (sharedPreferenceObjectArrayList == null) {
       return;
     }

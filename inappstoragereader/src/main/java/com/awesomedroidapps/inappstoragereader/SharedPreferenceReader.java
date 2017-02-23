@@ -12,17 +12,19 @@ import java.util.Set;
 
 /**
  * Created by anshul on 12/2/17.
+ * <p>
+ * A class for reading shared preferences data of an application.
  */
 
 public class SharedPreferenceReader {
 
   /**
-   * This method is used to return all the shared preferences
+   * This method is used to return all the shared preferences tags stored inside of an application.
    *
-   * @param context
-   * @return
+   * @param context - Context object.
+   * @return - List of all the tags of the shared preferences.
    */
-  public static ArrayList<String> getSharedPreferencesTags(Context context) {
+  private static ArrayList<String> getSharedPreferencesTags(Context context) {
     ArrayList<String> sharedPreferences = new ArrayList<>();
     String rootPath = context.getApplicationInfo().dataDir + SqliteConstants
         .SHARED_PREFERENCES_PATH;
@@ -32,7 +34,7 @@ public class SharedPreferenceReader {
     }
     for (File file : sharedPreferenceDirectory.listFiles()) {
       String fileName = file.getName();
-      if (fileName.endsWith(SqliteConstants.XML_SUFFIX)) {
+      if (fileName != null && fileName.endsWith(SqliteConstants.XML_SUFFIX)) {
         fileName = fileName.substring(0, fileName.length() - SqliteConstants.XML_SUFFIX.length());
         sharedPreferences.add(fileName);
       }
@@ -40,8 +42,92 @@ public class SharedPreferenceReader {
     return sharedPreferences;
   }
 
-  public static ArrayList<SharedPreferenceObject> getAllSharedPreferences(Context context) {
 
+  private static ArrayList<SharedPreferenceObject> getSharedPreferencesForTag(Context context,
+                                                                              String tag) {
+
+    //This list will contain all the key-value-type of the shared preferences based on the tag.
+    ArrayList<SharedPreferenceObject> sharedPreferenceListForTag = new ArrayList<>();
+
+    if (context == null || tag == null || tag.equals("")) {
+      return sharedPreferenceListForTag;
+    }
+
+    //Open the shared preferences file.
+    SharedPreferences sharedPreferences = context.getSharedPreferences(tag, Context.MODE_PRIVATE);
+
+    if (sharedPreferences == null) {
+      return sharedPreferenceListForTag;
+    }
+
+    //Get all the key-value pairs of a shared preference file
+    Map<String, ?> sharedPreferenceEntities = sharedPreferences.getAll();
+
+    if (sharedPreferenceEntities == null || sharedPreferenceEntities.size() == 0) {
+      return sharedPreferenceListForTag;
+    }
+
+    for (Map.Entry<String, ?> entry : sharedPreferenceEntities.entrySet()) {
+
+      if (entry == null || entry.getKey() == null) {
+        continue;
+      }
+
+      //Create new instance of SharedPreferenceObject
+      SharedPreferenceObject sharedPreferenceObject = new SharedPreferenceObject();
+      sharedPreferenceObject.setKey(entry.getKey());
+
+      if (entry.getValue() == null) {
+        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.STRING);
+        continue;
+      }
+
+      if (entry.getValue() instanceof String) {
+        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.STRING);
+        String strValue = (String) entry.getValue();
+        sharedPreferenceObject.setValue(strValue);
+
+      } else if (entry.getValue() instanceof Integer) {
+        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.INT);
+        Integer intValue = (Integer) entry.getValue();
+        sharedPreferenceObject.setValue(Integer.toString(intValue));
+
+      } else if (entry.getValue() instanceof Long) {
+        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.LONG);
+        Long longValue = (Long) entry.getValue();
+        sharedPreferenceObject.setValue(Long.toString(longValue));
+
+      } else if (entry.getValue() instanceof Float) {
+        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.FLOAT);
+        Float floatValue = (Float) entry.getValue();
+        sharedPreferenceObject.setValue(Float.toString((floatValue)));
+
+      } else if (entry.getValue() instanceof Boolean) {
+        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.BOOLEAN);
+        Boolean boolValue = (Boolean) entry.getValue();
+        sharedPreferenceObject.setValue(Boolean.toString(boolValue));
+
+      } else if (entry.getValue() instanceof Set) {
+        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.STRING_SET);
+        Set set = (Set) entry.getValue();
+        sharedPreferenceObject.setValue(set.toString());
+      }
+
+      sharedPreferenceListForTag.add(sharedPreferenceObject);
+    }
+
+    return sharedPreferenceListForTag;
+  }
+
+  /**
+   * This method is used to get all the shared preferences stored inside of an application. First
+   * it gets through all the shared preference tags and based on the tag, retrieve the shared
+   * preferences for every tag.
+   *
+   * @param context - Context object.
+   * @return - List of all the shared preferences stored in the application.
+   */
+  public static ArrayList<SharedPreferenceObject> getAllSharedPreferences(Context context) {
     ArrayList<String> sharedPreferencesTagList = getSharedPreferencesTags(context);
     if (sharedPreferencesTagList == null || sharedPreferencesTagList.isEmpty()) {
       return null;
@@ -51,49 +137,6 @@ public class SharedPreferenceReader {
     for (String tag : sharedPreferencesTagList) {
       ArrayList sharedPreferencesForTagList = getSharedPreferencesForTag(context, tag);
       sharedPreferenceDataTypeArrayList.addAll(sharedPreferencesForTagList);
-    }
-    return sharedPreferenceDataTypeArrayList;
-  }
-
-
-  public static ArrayList<SharedPreferenceObject> getSharedPreferencesForTag(Context context,
-                                                                             String tag) {
-
-    ArrayList<SharedPreferenceObject> sharedPreferenceDataTypeArrayList = new ArrayList<>();
-
-    SharedPreferences preferences = context.getSharedPreferences(tag, Context.MODE_PRIVATE);
-
-    Map<String, ?> allEntries = preferences.getAll();
-
-
-    for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-
-      SharedPreferenceObject sharedPreferenceObject = new SharedPreferenceObject();
-      sharedPreferenceObject.setKey(entry.getKey());
-      if (entry.getValue() == null) {
-        continue;
-      }
-
-      if (entry.getValue() instanceof String) {
-        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.STRING);
-        sharedPreferenceObject.setValue((String) entry.getValue());
-      } else if (entry.getValue() instanceof Integer) {
-        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.INTEGER);
-        sharedPreferenceObject.setValue(Integer.toString((Integer) entry.getValue()));
-      } else if (entry.getValue() instanceof Long) {
-        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.LONG);
-        sharedPreferenceObject.setValue(Long.toString((Long) entry.getValue()));
-      } else if (entry.getValue() instanceof Float) {
-        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.FLOAT);
-        sharedPreferenceObject.setValue(Float.toString((Float) entry.getValue()));
-      } else if (entry.getValue() instanceof Boolean) {
-        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.BOOLEAN);
-        sharedPreferenceObject.setValue(Boolean.toString((Boolean) entry.getValue()));
-      } else if (entry.getValue() instanceof Set) {
-        sharedPreferenceObject.setSharedPreferenceDataType(SharedPreferenceDataType.SET);
-        sharedPreferenceObject.setValue((String) entry.getValue());
-      }
-      sharedPreferenceDataTypeArrayList.add(sharedPreferenceObject);
     }
     return sharedPreferenceDataTypeArrayList;
   }

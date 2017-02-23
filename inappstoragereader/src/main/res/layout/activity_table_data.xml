@@ -6,13 +6,18 @@
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="1000dp"
         android:fillViewport="true">
-    <com.awesomedroidapps.inappstoragereader.MySmartRecyclerView
+        <com.awesomedroidapps.inappstoragereader.MySmartRecyclerView
         android:id="@+id/table_data_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.awesomedroidapps.inappstoragereader.MySmartRecyclerView>
+        </com.awesomedroidapps.inappstoragereader.MySmartRecyclerView>
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/table_data_recycler_view"-->
+            <!--android:layout_width="1000dp"-->
+            <!--android:layout_height="match_parent" />-->
     </HorizontalScrollView>
 
 </LinearLayout>

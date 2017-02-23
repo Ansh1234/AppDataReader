@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.views.TableDataItemViewHolder;
 import com.awesomedroidapps.inappstoragereader.views.TableHeaderViewHolder;
@@ -24,8 +25,7 @@ public class TableDataListAdapter extends RecyclerView.Adapter {
   private ArrayList<ArrayList<String>> tableDataList;
   private WeakReference<Activity> activityWeakReference;
   private final int columnCount;
-  private static final int HEADER = 0;
-  private static final int ITEM = 1;
+
 
   public TableDataListAdapter(ArrayList<ArrayList<String>> tableDataList, Activity activity, int
       columnCount) {
@@ -39,13 +39,13 @@ public class TableDataListAdapter extends RecyclerView.Adapter {
 
     View view;
     switch (viewType) {
-      case HEADER:
+      case Constants.HEADER:
         view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.view_table_header_item, parent, false);
         TableHeaderViewHolder tableHeaderViewHolder = new TableHeaderViewHolder(view, columnCount,
             view.getContext());
         return tableHeaderViewHolder;
-      case ITEM:
+      case Constants.ITEM:
         view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.view_table_data_item, parent, false);
         TableDataItemViewHolder tableDataItemViewHolder =
@@ -70,9 +70,9 @@ public class TableDataListAdapter extends RecyclerView.Adapter {
   @Override
   public int getItemViewType(int position) {
     if (position == 0) {
-      return HEADER;
+      return Constants.HEADER;
     }
-    return ITEM;
+    return Constants.ITEM;
   }
 
   @Override

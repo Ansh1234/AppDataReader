@@ -16,7 +16,9 @@
             android:id="@+id/shared_preferences_data_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="DateType"
             android:gravity="center"
+            android:textColor="@android:color/secondary_text_light"
             android:layout_weight="250" />
         <Button
             android:layout_width="0dp"
@@ -27,20 +29,25 @@
         <TextView
             android:id="@+id/shared_preferences_key"
             android:layout_width="0dp"
+            android:text="Key"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="@android:color/secondary_text_light"
             android:layout_weight="250" />
+
+
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="#323232"/>
-
         <TextView
             android:id="@+id/shared_preferences_value"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:text="Value"
             android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/secondary_text_light"
             android:layout_weight="500" />
 
 
