@@ -4,11 +4,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/angry_48"
         android:label="@string/app_name"
         android:supportsRtl="true">
 
-        <activity android:name=".views.AppDataListActivity">
+        <activity
+            android:name=".views.AppDataListActivity"
+            android:taskAffinity=".views.AppDataListActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,8 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.TableListActivity" />
-        <activity android:name=".views.TableDataActivity" />
-        <activity android:name=".views.SharedPreferencesActivity" />
+        <activity android:name=".views.TableListActivity"
+            android:taskAffinity=".views.AppDataListActivity"/>
+        <activity android:name=".views.TableDataActivity"
+            android:taskAffinity=".views.AppDataListActivity"/>
+        <activity android:name=".views.SharedPreferencesActivity"
+            android:taskAffinity=".views.AppDataListActivity"/>
     </application>
 </manifest>

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">inappstoragereader</string>
+    <string name="sharedPreference_type">TYPE</string>
+    <string name="sharedPreference_key">KEY</string>
+    <string name="sharedPreference_value">VALUE</string>
+
 </resources>

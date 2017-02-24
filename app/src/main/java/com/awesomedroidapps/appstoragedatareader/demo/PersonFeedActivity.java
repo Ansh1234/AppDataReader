@@ -55,7 +55,7 @@ public class PersonFeedActivity extends AppCompatActivity {
 
     sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_APPEND);
     editor = sharedPreferences.edit();
-    editor.putString("name1", "anshul");
+    editor.putString("name1", "anshul FlowR is a wrapper class around the Fragment Manager. It’s mainly used to navigate between different fragments easily while providing a wide range of functionality. The following are the functionalities provided by the Flowr:");
     editor.putString("age2", "24");
     Set set = new HashSet<>();
     set.add("set1");

@@ -24,14 +24,14 @@ public class TableDataListAdapter extends RecyclerView.Adapter {
 
   private ArrayList<ArrayList<String>> tableDataList;
   private WeakReference<Activity> activityWeakReference;
-  private final int columnCount;
+  private final ArrayList<Integer> columnWidthList;
 
 
-  public TableDataListAdapter(ArrayList<ArrayList<String>> tableDataList, Activity activity, int
-      columnCount) {
+  public TableDataListAdapter(ArrayList<ArrayList<String>> tableDataList, Activity activity,
+                              ArrayList<Integer> columnWidthList) {
     this.tableDataList = tableDataList;
     this.activityWeakReference = new WeakReference<Activity>(activity);
-    this.columnCount = columnCount;
+    this.columnWidthList = columnWidthList;
   }
 
   @Override
@@ -42,14 +42,14 @@ public class TableDataListAdapter extends RecyclerView.Adapter {
       case Constants.HEADER:
         view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.view_table_header_item, parent, false);
-        TableHeaderViewHolder tableHeaderViewHolder = new TableHeaderViewHolder(view, columnCount,
+        TableHeaderViewHolder tableHeaderViewHolder = new TableHeaderViewHolder(view, columnWidthList,
             view.getContext());
         return tableHeaderViewHolder;
       case Constants.ITEM:
         view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.view_table_data_item, parent, false);
         TableDataItemViewHolder tableDataItemViewHolder =
-            new TableDataItemViewHolder(view, columnCount, view.getContext());
+            new TableDataItemViewHolder(view, columnWidthList, view.getContext());
         return tableDataItemViewHolder;
     }
     return null;

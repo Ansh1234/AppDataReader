@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -29,31 +33,29 @@ public class TableDataItemViewHolder extends RecyclerView.ViewHolder
     implements View.OnClickListener {
 
   private final TableLayout tableDataRowContainer;
-  private final int columnCount;
+  private final ArrayList<Integer> columnWidthList;
 
-  public TableDataItemViewHolder(View itemView, int columnCount, Context context) {
+
+  public TableDataItemViewHolder(View itemView, ArrayList<Integer> columnWidth, Context context) {
     super(itemView);
     this.tableDataRowContainer = (TableLayout) itemView.findViewById(R.id.table_data_row_container);
-    this.columnCount = columnCount;
+    this.columnWidthList = columnWidth;
+
 
     TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(ViewGroup.LayoutParams
         .MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     TableRow tableRow = new TableRow(context);
     tableRow.setLayoutParams(layoutParams);
 
-
-    Resources resources = context.getResources();
-    int columnWidth = (int) resources.getDimension(R.dimen.table_data_column_width);
-    int padding = (int) resources.getDimension(R.dimen.table_data_column_padding);
-    int textSize = (int) resources.getDimension(R.dimen.table_data_text_size);
-    for (int i = 0; i < columnCount; i++) {
-      TableRow.LayoutParams params = new TableRow.LayoutParams(columnWidth, ViewGroup.LayoutParams
-          .WRAP_CONTENT);
-      TextView textView = new TextView(context);
-      textView.setLayoutParams(params);
-      textView.setPadding(padding, padding, padding, padding);
-      textView.setTextSize(textSize);
-      tableRow.addView(textView);
+    for (int i = 0; i < columnWidthList.size(); i++) {
+      LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context
+          .LAYOUT_INFLATER_SERVICE);
+      LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.view_individual_database_item,
+          null);
+      LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(columnWidthList.get
+          (i), ViewGroup.LayoutParams.MATCH_PARENT);
+      view.getChildAt(0).setLayoutParams(layoutParams1);
+      tableRow.addView(view);
     }
     tableDataRowContainer.addView(tableRow);
 
@@ -62,10 +64,10 @@ public class TableDataItemViewHolder extends RecyclerView.ViewHolder
   public void updateTableDataItem(int position, ArrayList<String> rowData) {
     TableRow tableRow = (TableRow) tableDataRowContainer.getChildAt(0);
     for (int i = 0; i < rowData.size(); i++) {
-      TextView textView = (TextView) tableRow.getChildAt(i);
+      LinearLayout linearLayout = (LinearLayout) tableRow.getChildAt(i);
+      TextView textView = (TextView) linearLayout.getChildAt(0);
       textView.setText(rowData.get(i));
     }
-
   }
 
   @Override

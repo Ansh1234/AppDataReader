@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView android:id="@+id/item_table_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/table_data_item_height"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/database_item_margin"
+    android:layout_marginRight="@dimen/database_item_margin"
+    android:layout_marginTop="@dimen/database_item_margin"
+    android:minHeight="@dimen/shared_preference_item_min_height">
 
-    <TableLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/table_data_row_container">
-    </TableLayout>
+        android:layout_height="@dimen/table_data_item_height"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TableLayout
+            android:id="@+id/table_data_row_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"></TableLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

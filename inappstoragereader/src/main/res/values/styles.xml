@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources  xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="SharedPreferenceHeaderTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/sharedPreferenceTextViewColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/sharedpreferences_textview_text_size</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">4</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:minHeight">@dimen/shared_preference_item_min_height</item>
+        <item name="android:padding">@dimen/sharedpreference_item_padding</item>
+    </style>
+    <style name="SharedPreferenceItemTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/sharedPreferenceTextViewColor</item>
+        <item name="android:textSize">@dimen/sharedpreferences_textview_text_size</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">4</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:minHeight">@dimen/shared_preference_item_min_height</item>
+        <item name="android:padding">@dimen/sharedpreference_item_padding</item>
+    </style>
+</resources>

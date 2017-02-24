@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MyTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">#F00</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

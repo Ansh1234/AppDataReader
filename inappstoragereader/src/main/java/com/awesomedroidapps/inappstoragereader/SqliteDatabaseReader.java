@@ -130,4 +130,53 @@ public class SqliteDatabaseReader {
     }
     return rowData;
   }
+
+  @NonNull
+  public static ArrayList<Integer> getTableDataColumnWidth(Context context, String databaseName,
+                                                           String
+                                                               tableName) {
+    SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    Cursor cursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
+    ArrayList<Integer> tableDataColumnWidth = new ArrayList<>();
+
+    if (!cursor.moveToFirst()) {
+      return tableDataColumnWidth;
+    }
+
+    int width = 0;
+    for (int i = 0; i < cursor.getColumnCount(); i++) {
+      int columnType = cursor.getType(i);
+      switch (columnType) {
+        case Cursor.FIELD_TYPE_STRING:
+          width = (int) context.getResources().getDimension(R.dimen
+              .database_item_string_width);
+          break;
+        case Cursor.FIELD_TYPE_INTEGER:
+          width = width + (int) context.getResources().getDimension(R.dimen
+              .database_item_int_width);
+          break;
+        case Cursor.FIELD_TYPE_BLOB:
+          width = width + (int) context.getResources().getDimension(R.dimen
+              .database_item_blob_width);
+          break;
+        case Cursor.FIELD_TYPE_FLOAT:
+          width = width + (int) context.getResources().getDimension(R.dimen
+              .database_item_float_width);
+      }
+      tableDataColumnWidth.add(width);
+    }
+    return tableDataColumnWidth;
+  }
+
+  public static int getTableWidth(ArrayList<Integer> tableDataColumnWidth) {
+    int width = 0;
+    if (tableDataColumnWidth == null) {
+      return width;
+    }
+
+    for (Integer i : tableDataColumnWidth) {
+      width = width + i;
+    }
+    return width;
+  }
 }

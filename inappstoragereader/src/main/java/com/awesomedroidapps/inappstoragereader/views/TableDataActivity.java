@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
@@ -18,23 +19,26 @@ import java.util.ArrayList;
 
 public class TableDataActivity extends AppCompatActivity {
 
-  private RecyclerView tableDataRecyclerView;
+  private AppStorageDataRecyclerView tableDataRecyclerView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_table_data);
-    tableDataRecyclerView = (RecyclerView) findViewById(R.id.table_data_recycler_view);
+    tableDataRecyclerView = (AppStorageDataRecyclerView) findViewById(R.id.table_data_recycler_view);
 
     //Read the bundle
     Bundle bundle = getIntent().getExtras();
     String databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);
     String tableName = bundle.getString(Constants.BUNDLE_TABLE_NAME);
 
+    ArrayList<Integer> tableDataColumnWidthList = SqliteDatabaseReader.getTableDataColumnWidth(this,
+        databaseName, tableName);
+    int recyclerViewWidth = SqliteDatabaseReader.getTableWidth(tableDataColumnWidthList);
+    tableDataRecyclerView.setRecyclerViewWidth(recyclerViewWidth);
     ArrayList<ArrayList<String>> tableData = SqliteDatabaseReader.getAllTableData(this,
         databaseName, tableName);
-    int columnCount = SqliteDatabaseReader.getColumnCount(this,databaseName,tableName);
-    TableDataListAdapter adapter = new TableDataListAdapter(tableData, this,columnCount);
+    TableDataListAdapter adapter = new TableDataListAdapter(tableData, this,tableDataColumnWidthList);
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager
         .VERTICAL,false);
     tableDataRecyclerView.setLayoutManager(linearLayoutManager);

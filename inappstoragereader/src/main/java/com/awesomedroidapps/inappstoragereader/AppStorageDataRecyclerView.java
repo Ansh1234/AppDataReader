@@ -8,20 +8,24 @@ import android.util.AttributeSet;
  * Created by anshul on 12/2/17.
  */
 
-public class MySmartRecyclerView extends RecyclerView {
+public class AppStorageDataRecyclerView extends RecyclerView {
 
-  public int computedWidth = 3000;
+  public int recyclerViewWidth;
 
-  public MySmartRecyclerView(Context context) {
+  public AppStorageDataRecyclerView(Context context) {
     super(context);
   }
 
-  public MySmartRecyclerView(Context context, AttributeSet attrs) {
+  public AppStorageDataRecyclerView(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
-  public MySmartRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+  public AppStorageDataRecyclerView(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
+  }
+
+  public void setRecyclerViewWidth(int recyclerViewWidth) {
+    this.recyclerViewWidth = recyclerViewWidth;
   }
 
   @Override
@@ -31,17 +35,17 @@ public class MySmartRecyclerView extends RecyclerView {
 
   @Override
   public int getMinimumWidth() {
-    return computedWidth;
+    return recyclerViewWidth;
   }
 
   @Override
   protected void onMeasure(int widthSpec, int heightSpec) {
     super.onMeasure(widthSpec, heightSpec);
-    setMeasuredDimension(computedWidth, getMeasuredHeight());
+    setMeasuredDimension(recyclerViewWidth, getMeasuredHeight());
   }
 
   @Override
   protected int getSuggestedMinimumWidth() {
-    return computedWidth;
+    return recyclerViewWidth;
   }
 }
