@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
+import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageHandler;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
@@ -32,6 +33,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
 
   private AppStorageDataRecyclerView sharedPreferencesRecylerView;
   private RelativeLayout errorHandlerLayout;
+  private String fileName = null;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +48,21 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
             .sharedpreferences_value_width));
     sharedPreferencesRecylerView.setRecyclerViewWidth(height);
     errorHandlerLayout = (RelativeLayout) findViewById(R.id.error_handler);
+
+    Bundle bundle = getIntent().getExtras();
+    if (bundle != null) {
+      fileName = bundle.getString(Constants.BUNDLE_FILE_NAME);
+    }
   }
 
   @Override
   public void onStart() {
     super.onStart();
-    loadAllSharedPreferences();
+    if (Utils.isEmpty(fileName)) {
+      loadAllSharedPreferences();
+    } else {
+      loadSharedPreferencesFromFile(fileName);
+    }
   }
 
   @Override
@@ -83,6 +94,16 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   private void loadAllSharedPreferences() {
     List<SharedPreferenceObject> sharedPreferenceObjectArrayList =
         SharedPreferenceReader.getAllSharedPreferences(this);
+    getSharedPreference(sharedPreferenceObjectArrayList);
+  }
+
+  private void loadSharedPreferencesFromFile(String fileName) {
+    List<SharedPreferenceObject> sharedPreferenceObjectArrayList =
+        SharedPreferenceReader.getSharedPreferencesBaseOnFileName(this, fileName);
+    getSharedPreference(sharedPreferenceObjectArrayList);
+  }
+
+  private void getSharedPreference(List<SharedPreferenceObject> sharedPreferenceObjectArrayList) {
     if (Utils.isEmpty(sharedPreferenceObjectArrayList)) {
       handleError(ErrorType.NO_SHARED_PREFERENCES_FOUND);
       return;

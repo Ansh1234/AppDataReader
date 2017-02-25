@@ -44,8 +44,8 @@ public class SharedPreferenceReader {
   }
 
 
-  private static ArrayList<SharedPreferenceObject> getSharedPreferencesForTag(Context context,
-                                                                              String tag) {
+  public static ArrayList<SharedPreferenceObject> getSharedPreferencesBaseOnFileName(Context context,
+                                                                                     String tag) {
 
     //This list will contain all the key-value-type of the shared preferences based on the tag.
     ArrayList<SharedPreferenceObject> sharedPreferenceListForTag = new ArrayList<>();
@@ -136,7 +136,7 @@ public class SharedPreferenceReader {
 
     ArrayList<SharedPreferenceObject> sharedPreferenceDataTypeArrayList = new ArrayList<>();
     for (String tag : sharedPreferencesTagList) {
-      ArrayList sharedPreferencesForTagList = getSharedPreferencesForTag(context, tag);
+      ArrayList sharedPreferencesForTagList = getSharedPreferencesBaseOnFileName(context, tag);
       sharedPreferenceDataTypeArrayList.addAll(sharedPreferencesForTagList);
     }
     return sharedPreferenceDataTypeArrayList;

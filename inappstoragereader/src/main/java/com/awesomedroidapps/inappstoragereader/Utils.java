@@ -25,4 +25,8 @@ public class Utils {
   public static boolean isEmpty(Collection collection) {
     return collection == null || collection.isEmpty();
   }
+
+  public static boolean isEmpty(String string) {
+    return string == null || string.equals("");
+  }
 }
