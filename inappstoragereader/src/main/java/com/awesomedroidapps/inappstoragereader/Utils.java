@@ -1,28 +1,20 @@
 package com.awesomedroidapps.inappstoragereader;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.v7.app.ActionBar;
+import android.widget.TextView;
+
+import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by anshul on 11/2/17.
  */
 
 public class Utils {
-  public static boolean isValid(String name, String surName) {
-
-    if (true) {
-      return true;
-    }
-    if (name == null || name.equals("") || surName == null || surName.equals("")) {
-      return false;
-    }
-
-    if (name.length() < 5 || surName.length() < 5) {
-      return false;
-    }
-    return true;
-  }
 
   public static boolean isEmpty(Collection collection) {
     return collection == null || collection.isEmpty();
@@ -37,5 +29,37 @@ public class Utils {
       return 0;
     }
     return (int) context.getResources().getDimension(resourceId);
+  }
+
+  public static void setTextAppearance(TextView textView, int style) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      textView.setTextAppearance(style);
+    } else {
+      textView.setTextAppearance(textView.getContext(), style);
+    }
+  }
+
+  /**
+   * Sets the title of the action bar with the number of shared preferences items.
+   *
+   * @param sharedPreferenceObjectList - List containing the items.
+   */
+  private void setActionBarTitle(List<SharedPreferenceObject> sharedPreferenceObjectList,
+                                 ActionBar actionBar, String title, int size) {
+    if (actionBar == null) {
+      return;
+    }
+
+    if (Utils.isEmpty(sharedPreferenceObjectList)) {
+      actionBar.setTitle(title);
+      return;
+    }
+
+    StringBuilder stringBuilder = new StringBuilder(title);
+    stringBuilder.append(Constants.SPACE);
+    stringBuilder.append(Constants.OPENING_BRACKET);
+    stringBuilder.append(size);
+    stringBuilder.append(Constants.CLOSING_BRACKET);
+    actionBar.setTitle(stringBuilder.toString());
   }
 }

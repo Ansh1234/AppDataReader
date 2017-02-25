@@ -45,10 +45,6 @@ public class PersonFeedActivity extends Activity {
     editor.putString("age", "24");
     editor.commit();
 
-    if (true) {
-      return;
-    }
-
     sharedPreferences = getSharedPreferences("MySharedPref2", Context
         .MODE_PRIVATE);
     editor = sharedPreferences.edit();
@@ -109,14 +105,12 @@ public class PersonFeedActivity extends Activity {
     String nameStr = name.getText().toString();
     String surNameStr = surName.getText().toString();
 
-    if (Utils.isValid(nameStr, surNameStr)) {
-      submit.setEnabled(true);
-      Person person = new Person();
-      person.setName(nameStr);
-      person.setSurName(surNameStr);
-      DataReaderSqliteOpenHelper helper = new DataReaderSqliteOpenHelper(this);
-      //  helper.getWritableDatabase();
-      helper.insert(person);
-    }
+    submit.setEnabled(true);
+    Person person = new Person();
+    person.setName(nameStr);
+    person.setSurName(surNameStr);
+    DataReaderSqliteOpenHelper helper = new DataReaderSqliteOpenHelper(this);
+    //  helper.getWritableDatabase();
+    helper.insert(person);
   }
 }

@@ -1,6 +1,7 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.awesomedroidapps.inappstoragereader.R;
+import com.awesomedroidapps.inappstoragereader.Utils;
 
 import java.util.ArrayList;
 
@@ -42,14 +44,18 @@ public class DataItemViewHolder extends RecyclerView.ViewHolder
       view.setLayoutParams(layoutParams1);
       rowDataContainer.addView(view);
     }
-
   }
 
-  public void updateTableDataItem(ArrayList<String> rowData) {
+  public void updateTableDataItem(ArrayList<String> rowData, boolean isHeader) {
     for (int i = 0; i < rowData.size(); i++) {
       RelativeLayout linearLayout = (RelativeLayout) rowDataContainer.getChildAt(i);
       TextView textView = (TextView) linearLayout.getChildAt(0);
       textView.setText(rowData.get(i));
+      if(isHeader){
+        Utils.setTextAppearance(textView,R.style.AppItemHeaderTextViewStyle);
+      }else{
+        Utils.setTextAppearance(textView,R.style.AppItemTextViewStyle);
+      }
     }
   }
 

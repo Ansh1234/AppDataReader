@@ -9,9 +9,12 @@ import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
+import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
+import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by anshul on 11/2/17.
@@ -43,5 +46,30 @@ public class TableDataActivity extends AppCompatActivity {
         .VERTICAL,false);
     tableDataRecyclerView.setLayoutManager(linearLayoutManager);
     tableDataRecyclerView.setAdapter(adapter);
+  }
+
+  /**
+   * Sets the title of the action bar with the number of shared preferences items.
+   *
+   * @param sharedPreferenceObjectList - List containing the items.
+   */
+  private void setActionBarTitle(List<SharedPreferenceObject> sharedPreferenceObjectList) {
+    if (getSupportActionBar() == null) {
+      return;
+    }
+    String sharedPreferenceTitle = getResources().getString(R.string
+        .com_awesomedroidapps_inappstoragereader_shared_preferences_list_activity);
+    if (Utils.isEmpty(sharedPreferenceObjectList)) {
+      getSupportActionBar().setTitle(sharedPreferenceTitle);
+      return;
+    }
+
+    int size = sharedPreferenceObjectList.size();
+    StringBuilder stringBuilder = new StringBuilder(sharedPreferenceTitle);
+    stringBuilder.append(Constants.SPACE);
+    stringBuilder.append(Constants.OPENING_BRACKET);
+    stringBuilder.append(size);
+    stringBuilder.append(Constants.CLOSING_BRACKET);
+    getSupportActionBar().setTitle(stringBuilder.toString());
   }
 }

@@ -100,6 +100,11 @@ public class SqliteDatabaseReader {
     ArrayList<Integer> tableDataColumnWidth = new ArrayList<>();
 
     if (!cursor.moveToFirst()) {
+      int defaultWidth = (int) context.getResources().getDimension(R.dimen
+          .database_item_string_width);
+      for (int i = 0; i < cursor.getColumnCount(); i++) {
+        tableDataColumnWidth.add(defaultWidth);
+      }
       return tableDataColumnWidth;
     }
 

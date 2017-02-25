@@ -35,11 +35,11 @@ public class AppDataReader {
     appDataStorageList.addAll(appDatabaseItemsList);
 
     //Get SharedPreference Object
-    AppDataStorageItem appDataStorageItem = getSharedPreferenceItem();
+    AppDataStorageItem sharedPreferenceItem = getSharedPreferenceItem();
     if (!Utils.isEmpty(appDatabaseItemsList)) {
-      appDataStorageList.add(appDataStorageItem);
+      appDataStorageList.add(0, sharedPreferenceItem);
     } else if (!SharedPreferenceReader.isSharedPreferencesEmpty(context)) {
-      appDataStorageList.add(appDataStorageItem);
+      appDataStorageList.add(0, sharedPreferenceItem);
     }
     return appDataStorageList;
   }

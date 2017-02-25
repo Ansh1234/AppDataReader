@@ -38,6 +38,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   private AppStorageDataRecyclerView sharedPreferencesRecylerView;
   private RelativeLayout errorHandlerLayout;
   private String fileName = null;
+  private boolean isFileModeEnabled = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -68,16 +69,18 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
 
   private ArrayList<Integer> getRecyleViewWidthList() {
     ArrayList<Integer> arrayList = new ArrayList<>();
-    arrayList.add(Utils.getDimensionInInteger(this, R.dimen.sharedpreferences_type_width));
     arrayList.add(Utils.getDimensionInInteger(this, R.dimen.sharedpreferences_key_width));
     arrayList.add(Utils.getDimensionInInteger(this, R.dimen.sharedpreferences_value_width));
+    arrayList.add(Utils.getDimensionInInteger(this, R.dimen.sharedpreferences_type_width));
     return arrayList;
   }
 
   @Override
   public void onStart() {
     super.onStart();
-    if (Utils.isEmpty(fileName)) {
+    if (isFileModeEnabled) {
+      loadSharedPreferencesFiles();
+    } else if (Utils.isEmpty(fileName)) {
       loadAllSharedPreferences();
     } else {
       loadSharedPreferencesFromFile(fileName);
@@ -120,7 +123,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
    * This function is for loading all the shared preferences.
    */
   private void loadAllSharedPreferences() {
-    List<SharedPreferenceObject> sharedPreferenceObjectArrayList =
+    ArrayList<SharedPreferenceObject> sharedPreferenceObjectArrayList =
         SharedPreferenceReader.getAllSharedPreferences(this);
     getSharedPreference(sharedPreferenceObjectArrayList);
   }
@@ -131,7 +134,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
    * @param fileName
    */
   private void loadSharedPreferencesFromFile(String fileName) {
-    List<SharedPreferenceObject> sharedPreferenceObjectArrayList =
+    ArrayList<SharedPreferenceObject> sharedPreferenceObjectArrayList =
         SharedPreferenceReader.getSharedPreferencesBaseOnFileName(this, fileName);
     getSharedPreference(sharedPreferenceObjectArrayList);
   }
@@ -151,7 +154,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     setActionBarTitle(null);
   }
 
-  private void getSharedPreference(List<SharedPreferenceObject> sharedPreferenceObjectArrayList) {
+  private void getSharedPreference(ArrayList sharedPreferenceObjectArrayList) {
     setActionBarTitle(sharedPreferenceObjectArrayList);
     if (Utils.isEmpty(sharedPreferenceObjectArrayList)) {
       handleError(ErrorType.NO_SHARED_PREFERENCES_FOUND);
@@ -160,7 +163,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     sharedPreferencesRecylerView.setVisibility(View.VISIBLE);
     errorHandlerLayout.setVisibility(View.GONE);
 
-
+    sharedPreferenceObjectArrayList.add(0, getSharedPreferenceHeadersInList());
     SharedPreferencesListAdapter
         adapter = new SharedPreferencesListAdapter(sharedPreferenceObjectArrayList, this,
         getRecyleViewWidthList());
@@ -168,6 +171,16 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     sharedPreferencesRecylerView.setAdapter(adapter);
   }
 
+  private ArrayList getSharedPreferenceHeadersInList() {
+    ArrayList arrayList = new ArrayList();
+    arrayList.add(getResources().getString(R.string
+        .com_awesomedroidapps_inappstoragereader_sharedPreference_key));
+    arrayList.add(getResources().getString(R.string
+        .com_awesomedroidapps_inappstoragereader_sharedPreference_value));
+    arrayList.add(getResources().getString(R.string
+        .com_awesomedroidapps_inappstoragereader_sharedPreference_type));
+    return arrayList;
+  }
 
   /**
    * Handle Errors .
@@ -198,12 +211,14 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     if (item.getItemId() == R.id.shared_preferences_all) {
       item.setChecked(item.isChecked());
       loadAllSharedPreferences();
+      isFileModeEnabled = false;
       return true;
     }
     //The view to show the user all the shared preferences files.
     else if (item.getItemId() == R.id.shared_preferences_file) {
       item.setChecked(item.isChecked());
       loadSharedPreferencesFiles();
+      isFileModeEnabled = true;
       return true;
     }
     return onMenuItemClick(item);
@@ -237,6 +252,9 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   @Override
   public void onItemClicked(AppDataStorageItem appDataStorageItem) {
     Intent intent = new Intent(this, SharedPreferencesActivity.class);
+    Bundle bundle = new Bundle();
+    bundle.putString(Constants.BUNDLE_FILE_NAME,appDataStorageItem.getStorageName());
+    intent.putExtras(bundle);
     startActivity(intent);
   }
 }

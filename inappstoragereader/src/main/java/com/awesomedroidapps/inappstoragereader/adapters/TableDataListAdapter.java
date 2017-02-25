@@ -42,15 +42,7 @@ public class TableDataListAdapter extends RecyclerView.Adapter {
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
     ((DataItemViewHolder) holder).updateTableDataItem(tableDataList.get
-        (position));
-  }
-
-  @Override
-  public int getItemViewType(int position) {
-    if (position == 0) {
-      return Constants.HEADER;
-    }
-    return Constants.ITEM;
+        (position), position == 0);
   }
 
   @Override

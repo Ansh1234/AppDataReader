@@ -21,7 +21,7 @@ import java.util.List;
 
 public class SharedPreferencesListAdapter extends RecyclerView.Adapter {
 
-  private List<SharedPreferenceObject> sharedPreferencesList;
+  private List<Object> sharedPreferencesList;
   private WeakReference<Activity> activityWeakReference;
   private final ArrayList<Integer> columnWidthList;
 
@@ -47,8 +47,13 @@ public class SharedPreferencesListAdapter extends RecyclerView.Adapter {
     if (!(holder instanceof DataItemViewHolder)) {
       return;
     }
-    SharedPreferenceObject sharedPreferenceObject = sharedPreferencesList.get(position);
-    ((DataItemViewHolder) holder).updateTableDataItem(sharedPreferenceObject.getAsList());
+    ArrayList arrayList = null;
+    if (sharedPreferencesList.get(position) instanceof SharedPreferenceObject) {
+      arrayList = ((SharedPreferenceObject) sharedPreferencesList.get(position)).getAsList();
+    } else if (sharedPreferencesList.get(position) instanceof List) {
+      arrayList = (ArrayList) sharedPreferencesList.get(position);
+    }
+    ((DataItemViewHolder) holder).updateTableDataItem(arrayList, position == 0);
   }
 
   @Override
