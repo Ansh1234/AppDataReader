@@ -13,18 +13,18 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/icon_database"
+            android:id="@+id/shared_preference_file_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/database_item_text_marginLeft"
-            android:src="@drawable/database" />
+            android:src="@drawable/sharedpreferences" />
 
         <TextView
-            android:id="@+id/text_database_name"
+            android:id="@+id/text_shared_preference_file_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/database_item_text_marginLeft"
-            android:layout_toRightOf="@+id/icon_database"
+            android:layout_toRightOf="@+id/shared_preference_file_icon"
             android:textSize="@dimen/database_item_text_size"/>
     </RelativeLayout>
 

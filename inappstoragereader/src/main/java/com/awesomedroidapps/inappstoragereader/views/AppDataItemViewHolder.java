@@ -32,7 +32,7 @@ public class AppDataItemViewHolder extends RecyclerView.ViewHolder
   public AppDataItemViewHolder(WeakReference<Activity> activity, View itemView) {
     super(itemView);
     this.activity = activity;
-    this.itemName = (TextView) itemView.findViewById(R.id.text_database_name);
+    this.itemName = (TextView) itemView.findViewById(R.id.text_shared_preference_file_name);
     this.itemDatabaseContainer = (CardView) itemView.findViewById(R.id.item_database_container);
     this.itemDatabaseContainer.setOnClickListener(this);
     this.itemIcon = (ImageView) itemView.findViewById(R.id.icon_database);

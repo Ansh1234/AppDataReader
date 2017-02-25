@@ -30,7 +30,7 @@ public class AppDataListAdapter extends RecyclerView.Adapter {
   @Override
   public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.view_database_item, parent, false);
+        .inflate(R.layout.view_data_item, parent, false);
     AppDataItemViewHolder viewHolder = new AppDataItemViewHolder(activityWeakReference, view);
     return viewHolder;
   }

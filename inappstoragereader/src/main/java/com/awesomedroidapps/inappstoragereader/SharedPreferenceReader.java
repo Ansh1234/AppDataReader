@@ -25,7 +25,7 @@ public class SharedPreferenceReader {
    * @param context - Context object.
    * @return - List of all the tags of the shared preferences.
    */
-  private static ArrayList<String> getSharedPreferencesTags(Context context) {
+  public static ArrayList<String> getSharedPreferencesTags(Context context) {
     ArrayList<String> sharedPreferences = new ArrayList<>();
     String rootPath = context.getApplicationInfo().dataDir + SqliteConstants
         .SHARED_PREFERENCES_PATH;

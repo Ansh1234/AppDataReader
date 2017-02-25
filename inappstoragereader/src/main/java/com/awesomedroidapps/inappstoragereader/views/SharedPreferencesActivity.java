@@ -16,6 +16,8 @@ import com.awesomedroidapps.inappstoragereader.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SharedPreferenceReader;
+import com.awesomedroidapps.inappstoragereader.SharedPreferencesFileListAdapter;
+import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.SharedPreferencesListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 
@@ -49,7 +51,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   @Override
   public void onStart() {
     super.onStart();
-    loadSharedPreferences();
+    loadAllSharedPreferences();
   }
 
   @Override
@@ -78,11 +80,10 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     popup.show();
   }
 
-  private void loadSharedPreferences() {
+  private void loadAllSharedPreferences() {
     List<SharedPreferenceObject> sharedPreferenceObjectArrayList =
-        SharedPreferenceReader.getAllSharedPreferences
-            (this);
-    if (sharedPreferenceObjectArrayList == null) {
+        SharedPreferenceReader.getAllSharedPreferences(this);
+    if (Utils.isEmpty(sharedPreferenceObjectArrayList)) {
       handleError(ErrorType.NO_SHARED_PREFERENCES_FOUND);
       return;
     }
@@ -91,6 +92,18 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
 
     SharedPreferencesListAdapter
         adapter = new SharedPreferencesListAdapter(sharedPreferenceObjectArrayList, this);
+    sharedPreferencesRecylerView.setLayoutManager(new LinearLayoutManager(this));
+    sharedPreferencesRecylerView.setAdapter(adapter);
+  }
+
+  private void loadSharedPreferencesFiles() {
+    List<String> sharedPreferencesFileList = SharedPreferenceReader.getSharedPreferencesTags(this);
+    if (Utils.isEmpty(sharedPreferencesFileList)) {
+      return;
+    }
+
+    SharedPreferencesFileListAdapter
+        adapter = new SharedPreferencesFileListAdapter(sharedPreferencesFileList, this);
     sharedPreferencesRecylerView.setLayoutManager(new LinearLayoutManager(this));
     sharedPreferencesRecylerView.setAdapter(adapter);
   }
@@ -107,9 +120,11 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   public boolean onMenuItemClick(MenuItem item) {
     if (item.getItemId() == R.id.shared_preferences_all) {
       item.setChecked(item.isChecked());
+      loadAllSharedPreferences();
       return true;
     } else if (item.getItemId() == R.id.shared_preferences_file) {
       item.setChecked(item.isChecked());
+      loadSharedPreferencesFiles();
       return true;
     }
     return onMenuItemClick(item);
