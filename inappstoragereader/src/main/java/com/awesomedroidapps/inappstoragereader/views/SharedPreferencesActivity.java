@@ -1,5 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.awesomedroidapps.inappstoragereader.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
+import com.awesomedroidapps.inappstoragereader.AppStorageItemClickListener;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageHandler;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageInterface;
@@ -30,7 +32,7 @@ import java.util.List;
  */
 
 public class SharedPreferencesActivity extends AppCompatActivity implements
-    ErrorMessageInterface, PopupMenu.OnMenuItemClickListener {
+    ErrorMessageInterface, PopupMenu.OnMenuItemClickListener, AppStorageItemClickListener {
 
   private AppStorageDataRecyclerView sharedPreferencesRecylerView;
   private RelativeLayout errorHandlerLayout;
@@ -219,5 +221,11 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     stringBuilder.append(size);
     stringBuilder.append(Constants.CLOSING_BRACKET);
     getSupportActionBar().setTitle(stringBuilder.toString());
+  }
+
+  @Override
+  public void onItemClicked(AppDataStorageItem appDataStorageItem) {
+    Intent intent = new Intent(this, SharedPreferencesActivity.class);
+    startActivity(intent);
   }
 }

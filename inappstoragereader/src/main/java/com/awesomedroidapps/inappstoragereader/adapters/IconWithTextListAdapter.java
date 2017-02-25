@@ -1,12 +1,12 @@
 package com.awesomedroidapps.inappstoragereader.adapters;
 
-import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.awesomedroidapps.inappstoragereader.AppDataStorageItem;
+import com.awesomedroidapps.inappstoragereader.AppStorageItemClickListener;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.views.IconWithTextViewHolder;
 
@@ -20,11 +20,11 @@ import java.util.List;
 public class IconWithTextListAdapter extends RecyclerView.Adapter {
 
   private List<AppDataStorageItem> databaseList;
-  private WeakReference<Activity> activityWeakReference;
+  private AppStorageItemClickListener appStorageItemClickListener;
 
-  public IconWithTextListAdapter(List databaseList, Activity activity) {
+  public IconWithTextListAdapter(List databaseList, AppStorageItemClickListener appStorageItemClickListener) {
     this.databaseList = databaseList;
-    this.activityWeakReference = new WeakReference<>(activity);
+    this.appStorageItemClickListener = appStorageItemClickListener;
   }
 
   @Override
@@ -32,7 +32,7 @@ public class IconWithTextListAdapter extends RecyclerView.Adapter {
     View view = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.com_awesomedroidapps_inappstoragereader_icon_with_text_item, parent,
             false);
-    IconWithTextViewHolder viewHolder = new IconWithTextViewHolder(activityWeakReference, view);
+    IconWithTextViewHolder viewHolder = new IconWithTextViewHolder(appStorageItemClickListener, view);
     return viewHolder;
   }
 

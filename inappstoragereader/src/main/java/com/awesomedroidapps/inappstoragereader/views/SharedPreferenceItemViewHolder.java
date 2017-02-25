@@ -31,7 +31,6 @@ public class SharedPreferenceItemViewHolder extends RecyclerView.ViewHolder {
   }
 
   public void updateTableItem(SharedPreferenceObject sharedPreferenceObject) {
-    this.tableName = tableName;
     sharedPreferenceKey.setText(sharedPreferenceObject.getKey());
     sharedPreferenceValue.setText(sharedPreferenceObject.getValue());
     sharedPreferenceDataType.setText(sharedPreferenceObject.getSharedPreferenceDataType().name());

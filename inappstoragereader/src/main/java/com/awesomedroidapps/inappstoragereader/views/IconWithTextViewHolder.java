@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.awesomedroidapps.inappstoragereader.AppDataStorageItem;
+import com.awesomedroidapps.inappstoragereader.AppStorageItemClickListener;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.StorageType;
@@ -25,13 +26,14 @@ public class IconWithTextViewHolder extends RecyclerView.ViewHolder
 
   private final TextView itemName;
   private final RelativeLayout itemDatabaseContainer;
-  private final WeakReference<Activity> activity;
+  private final AppStorageItemClickListener appStorageItemClickListener;
   private AppDataStorageItem appDataStorageItem;
   private final ImageView itemIcon;
 
-  public IconWithTextViewHolder(WeakReference<Activity> activity, View itemView) {
+  public IconWithTextViewHolder(AppStorageItemClickListener appStorageItemClickListener,
+                                View itemView) {
     super(itemView);
-    this.activity = activity;
+    this.appStorageItemClickListener = appStorageItemClickListener;
     this.itemName = (TextView) itemView.findViewById(R.id.text_item);
     this.itemDatabaseContainer = (RelativeLayout) itemView.findViewById(R.id.item_container);
     this.itemDatabaseContainer.setOnClickListener(this);
@@ -46,7 +48,8 @@ public class IconWithTextViewHolder extends RecyclerView.ViewHolder
     StorageType storageType = appDataStorageItem.getStorageType();
     switch (storageType) {
       case SHARED_PREFERENCE:
-        itemIcon.setImageResource(R.drawable.com_awesomedroidapps_inappstoragereader_sharedpreferences);
+        itemIcon.setImageResource(
+            R.drawable.com_awesomedroidapps_inappstoragereader_sharedpreferences);
         break;
       case DATABASE:
         itemIcon.setImageResource(R.drawable.com_awesomedroidapps_inappstoragereader_database);
@@ -58,19 +61,8 @@ public class IconWithTextViewHolder extends RecyclerView.ViewHolder
 
   @Override
   public void onClick(View v) {
-    if (activity == null) {
-      return;
-    }
-
-    if (appDataStorageItem.getStorageType() == StorageType.DATABASE) {
-      Intent intent = new Intent(activity.get(), TableListActivity.class);
-      Bundle bundle = new Bundle();
-      bundle.putString(Constants.BUNDLE_DATABASE_NAME, appDataStorageItem.getStorageName());
-      intent.putExtras(bundle);
-      activity.get().startActivity(intent);
-    } else if (appDataStorageItem.getStorageType() == StorageType.SHARED_PREFERENCE) {
-      Intent intent = new Intent(activity.get(), SharedPreferencesActivity.class);
-      activity.get().startActivity(intent);
+    if (appStorageItemClickListener != null) {
+      appStorageItemClickListener.onItemClicked(appDataStorageItem);
     }
   }
 }

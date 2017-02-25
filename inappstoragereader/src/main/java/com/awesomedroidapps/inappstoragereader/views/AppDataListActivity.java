@@ -1,5 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,11 +9,15 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.awesomedroidapps.inappstoragereader.AppDataReader;
+import com.awesomedroidapps.inappstoragereader.AppDataStorageItem;
+import com.awesomedroidapps.inappstoragereader.AppStorageItemClickListener;
+import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageHandler;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SharedPreferenceReader;
+import com.awesomedroidapps.inappstoragereader.StorageType;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
 
@@ -22,7 +27,8 @@ import java.util.List;
  * Created by anshul on 11/2/17.
  */
 
-public class AppDataListActivity extends AppCompatActivity implements ErrorMessageInterface {
+public class AppDataListActivity extends AppCompatActivity implements ErrorMessageInterface,
+    AppStorageItemClickListener {
 
   private RecyclerView appDataRecylerView;
   private RelativeLayout errorHandlerLayout;
@@ -36,7 +42,7 @@ public class AppDataListActivity extends AppCompatActivity implements ErrorMessa
   }
 
   @Override
-  public void onStart(){
+  public void onStart() {
     super.onStart();
     List appDataList = AppDataReader.readAppDataStorageList(this);
     if (Utils.isEmpty(appDataList)) {
@@ -59,4 +65,24 @@ public class AppDataListActivity extends AppCompatActivity implements ErrorMessa
     ErrorMessageHandler handler = new ErrorMessageHandler();
     handler.handleError(errorType, errorHandlerLayout);
   }
+
+  @Override
+  public void onItemClicked(AppDataStorageItem appDataStorageItem) {
+    StorageType storageType = appDataStorageItem.getStorageType();
+
+    switch (storageType) {
+      case DATABASE:
+        Intent intent = new Intent(this, TableListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.BUNDLE_DATABASE_NAME, appDataStorageItem.getStorageName());
+        intent.putExtras(bundle);
+        startActivity(intent);
+        break;
+      case SHARED_PREFERENCE:
+        Intent sharedPreferenceActivityIntent = new Intent(this, SharedPreferencesActivity.class);
+        startActivity(sharedPreferenceActivityIntent);
+        break;
+    }
+  }
+
 }

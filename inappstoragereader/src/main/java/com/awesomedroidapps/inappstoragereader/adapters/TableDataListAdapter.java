@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
-import com.awesomedroidapps.inappstoragereader.views.TableDataItemViewHolder;
+import com.awesomedroidapps.inappstoragereader.views.DataItemViewHolder;
 import com.awesomedroidapps.inappstoragereader.views.TableHeaderViewHolder;
 
 import java.lang.ref.WeakReference;
@@ -40,14 +40,14 @@ public class TableDataListAdapter extends RecyclerView.Adapter {
       case Constants.HEADER:
         view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.view_table_header_item, parent, false);
-        TableHeaderViewHolder tableHeaderViewHolder = new TableHeaderViewHolder(view, columnWidthList,
+        DataItemViewHolder tableHeaderViewHolder = new DataItemViewHolder(view, columnWidthList,
             view.getContext());
         return tableHeaderViewHolder;
       case Constants.ITEM:
         view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.view_table_data_item, parent, false);
-        TableDataItemViewHolder tableDataItemViewHolder =
-            new TableDataItemViewHolder(view, columnWidthList, view.getContext());
+        DataItemViewHolder tableDataItemViewHolder =
+            new DataItemViewHolder(view, columnWidthList, view.getContext());
         return tableDataItemViewHolder;
     }
     return null;
@@ -60,7 +60,7 @@ public class TableDataListAdapter extends RecyclerView.Adapter {
       ((TableHeaderViewHolder) holder).updateTableDataItem(position,
           tableDataList.get(position));
     } else {
-      ((TableDataItemViewHolder) holder).updateTableDataItem(position, tableDataList.get
+      ((DataItemViewHolder) holder).updateTableDataItem(position, tableDataList.get
           (position));
     }
   }

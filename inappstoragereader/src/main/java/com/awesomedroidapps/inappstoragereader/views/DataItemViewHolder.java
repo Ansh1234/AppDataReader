@@ -18,45 +18,35 @@ import java.util.ArrayList;
  * Created by anshul on 15/1/17.
  */
 
-public class TableDataItemViewHolder extends RecyclerView.ViewHolder
+public class DataItemViewHolder extends RecyclerView.ViewHolder
     implements View.OnClickListener {
 
-  private final TableLayout tableDataRowContainer;
+  private final LinearLayout rowDataContainer;
   private final ArrayList<Integer> columnWidthList;
 
 
-  public TableDataItemViewHolder(View itemView, ArrayList<Integer> columnWidth, Context context) {
+  public DataItemViewHolder(View itemView, ArrayList<Integer> columnWidth, Context context) {
     super(itemView);
-    this.tableDataRowContainer = (TableLayout) itemView.findViewById(R.id.table_data_row_container);
+    this.rowDataContainer = (LinearLayout) itemView.findViewById(R.id.table_data_row_container);
     this.columnWidthList = columnWidth;
-
-
-    TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(ViewGroup.LayoutParams
-        .MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    TableRow tableRow = new TableRow(context);
-    tableRow.setLayoutParams(layoutParams);
 
     for (int i = 0; i < columnWidthList.size(); i++) {
       LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context
           .LAYOUT_INFLATER_SERVICE);
-      LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.view_individual_database_item,
-          null);
+      LinearLayout view =
+          (LinearLayout) layoutInflater.inflate(R.layout.view_individual_database_item,
+              null);
       LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(columnWidthList.get
           (i), ViewGroup.LayoutParams.MATCH_PARENT);
       view.getChildAt(0).setLayoutParams(layoutParams1);
-      tableRow.addView(view);
+      rowDataContainer.addView(view);
     }
-    tableDataRowContainer.addView(tableRow);
 
   }
 
   public void updateTableDataItem(int position, ArrayList<String> rowData) {
-    TableRow tableRow = (TableRow) tableDataRowContainer.getChildAt(0);
     for (int i = 0; i < rowData.size(); i++) {
-      if (tableRow.getChildCount() == 0) {
-        continue;
-      }
-      LinearLayout linearLayout = (LinearLayout) tableRow.getChildAt(i);
+      LinearLayout linearLayout = (LinearLayout) rowDataContainer.getChildAt(i);
       TextView textView = (TextView) linearLayout.getChildAt(0);
       textView.setText(rowData.get(i));
     }
