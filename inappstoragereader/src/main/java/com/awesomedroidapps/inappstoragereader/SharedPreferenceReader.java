@@ -7,6 +7,7 @@ import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -139,5 +140,10 @@ public class SharedPreferenceReader {
       sharedPreferenceDataTypeArrayList.addAll(sharedPreferencesForTagList);
     }
     return sharedPreferenceDataTypeArrayList;
+  }
+
+  public static boolean isSharedPreferencesEmpty(Context context) {
+    List sharedPreferenceTags = getSharedPreferencesTags(context);
+    return Utils.isEmpty(sharedPreferenceTags);
   }
 }

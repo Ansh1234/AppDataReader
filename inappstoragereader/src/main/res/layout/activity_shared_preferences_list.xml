@@ -4,10 +4,16 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView
-        android:id="@+id/shared_preferences_recycler_view"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView>
+
+        <com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView
+            android:id="@+id/shared_preferences_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView>
+
+        <include layout="@layout/view_error_handler" />
+    </RelativeLayout>
 
 </HorizontalScrollView>

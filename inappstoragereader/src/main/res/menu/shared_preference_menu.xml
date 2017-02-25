@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/shared_preferences_filter"
+        android:icon="@drawable/filter"
+        android:title="Filter"
+        auto:showAsAction="always"></item>
+</menu>

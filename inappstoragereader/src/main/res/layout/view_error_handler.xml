@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/error_handler"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/error_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/item_not_found" />
+
+    <TextView
+        android:id="@+id/error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/error_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/error_text_marginLeftRight"
+        android:layout_marginRight="@dimen/error_text_marginLeftRight"
+        android:layout_marginTop="@dimen/error_text_marginTop"
+        android:gravity="center"
+        android:text="No SharedPreferences or Databases found."
+        android:textSize="@dimen/error_text_size"
+        android:textStyle="bold" />
+</RelativeLayout>

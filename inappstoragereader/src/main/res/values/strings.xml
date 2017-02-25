@@ -3,5 +3,9 @@
     <string name="sharedPreference_type">TYPE</string>
     <string name="sharedPreference_key">KEY</string>
     <string name="sharedPreference_value">VALUE</string>
+    <string name="app_data_list_activity">App Data</string>
+    <string name="shared_preferences_list_activity">SharedPreferences</string>
+    <string name="shared_preferences_filter_all">ALL</string>
+    <string name="shared_preferences_filter_file">BY FILE</string>
 
 </resources>

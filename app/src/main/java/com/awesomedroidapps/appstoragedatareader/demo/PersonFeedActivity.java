@@ -1,5 +1,6 @@
 package com.awesomedroidapps.appstoragedatareader.demo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PersonFeedActivity extends AppCompatActivity {
+public class PersonFeedActivity extends Activity {
 
   @BindView(R.id.name)
   EditText name;
@@ -55,7 +56,8 @@ public class PersonFeedActivity extends AppCompatActivity {
 
     sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_APPEND);
     editor = sharedPreferences.edit();
-    editor.putString("name1", "anshul FlowR is a wrapper class around the Fragment Manager. It’s mainly used to navigate between different fragments easily while providing a wide range of functionality. The following are the functionalities provided by the Flowr:");
+    editor.putString("name1",
+        "anshul FlowR is a wrapper class around the Fragment Manager. It’s mainly used to navigate between different fragments easily while providing a wide range of functionality. The following are the functionalities provided by the Flowr:");
     editor.putString("age2", "24");
     Set set = new HashSet<>();
     set.add("set1");

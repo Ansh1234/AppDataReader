@@ -16,40 +16,6 @@ import java.util.List;
 
 public class SqliteDatabaseReader {
 
-  /**
-   * This method will return a list of all the databases in the current application.
-   * It will remove all the database names which ends with .journal
-   *
-   * @param context
-   * @return
-   */
-  public static List<AppDataStorageItem> readAppDataStorageList(Context context) {
-    if (context == null) {
-      return null;
-    }
-
-    ArrayList appDataStorageList = new ArrayList();
-    AppDataStorageItem appDataStorageItem = new AppDataStorageItem();
-    appDataStorageItem.setStorageType(StorageType.SHARED_PREFERENCE);
-    appDataStorageItem.setStorageName(Constants.SHARED_PREFERENCES_NAME);
-    appDataStorageList.add(appDataStorageItem);
-
-    ArrayList databaseList = new ArrayList(Arrays.asList(context.databaseList()));
-    Iterator iterator = databaseList.iterator();
-    while (iterator.hasNext()) {
-      String databaseName = (String) iterator.next();
-      if (databaseName.endsWith(SqliteConstants.JOURNAL_SUFFIX)) {
-        continue;
-      }
-      appDataStorageItem = new AppDataStorageItem();
-      appDataStorageItem.setStorageType(StorageType.DATABASE);
-      appDataStorageItem.setStorageName(databaseName);
-      appDataStorageList.add(appDataStorageItem);
-    }
-
-
-    return appDataStorageList;
-  }
 
   public static List readTablesList(Context context, String databaseName) {
 

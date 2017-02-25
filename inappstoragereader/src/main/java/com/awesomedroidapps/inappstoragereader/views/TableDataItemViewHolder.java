@@ -64,6 +64,9 @@ public class TableDataItemViewHolder extends RecyclerView.ViewHolder
   public void updateTableDataItem(int position, ArrayList<String> rowData) {
     TableRow tableRow = (TableRow) tableDataRowContainer.getChildAt(0);
     for (int i = 0; i < rowData.size(); i++) {
+      if (tableRow.getChildCount() == 0) {
+        continue;
+      }
       LinearLayout linearLayout = (LinearLayout) tableRow.getChildAt(i);
       TextView textView = (TextView) linearLayout.getChildAt(0);
       textView.setText(rowData.get(i));

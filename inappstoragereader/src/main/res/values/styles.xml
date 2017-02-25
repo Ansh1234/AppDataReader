@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources  xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base application theme. -->
+    <style name="AppStorageReaderTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/appStorageColorPrimary</item>
+        <item name="colorPrimaryDark">@color/appStorageColorPrimaryDark</item>
+        <item name="colorAccent">@color/appStorageColorAccent</item>
+    </style>
     <style name="SharedPreferenceHeaderTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@color/sharedPreferenceTextViewColor</item>
         <item name="android:textStyle">bold</item>

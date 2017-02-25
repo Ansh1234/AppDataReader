@@ -39,8 +39,9 @@ public class TableHeaderViewHolder extends RecyclerView.ViewHolder
     for (int i = 0; i < columnWidthList.size(); i++) {
       LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context
           .LAYOUT_INFLATER_SERVICE);
-      LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.view_individual_database_item,
-          null);
+      LinearLayout view =
+          (LinearLayout) layoutInflater.inflate(R.layout.view_individual_database_item,
+              null);
       LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(columnWidthList.get
           (i), ViewGroup.LayoutParams.MATCH_PARENT);
       view.getChildAt(0).setLayoutParams(layoutParams1);
@@ -53,6 +54,9 @@ public class TableHeaderViewHolder extends RecyclerView.ViewHolder
   public void updateTableDataItem(int position, ArrayList<String> rowData) {
     TableRow tableRow = (TableRow) tableDataRowContainer.getChildAt(0);
     for (int i = 0; i < rowData.size(); i++) {
+      if (tableRow.getChildCount() == 0) {
+        continue;
+      }
       LinearLayout linearLayout = (LinearLayout) tableRow.getChildAt(i);
       TextView textView = (TextView) linearLayout.getChildAt(0);
       textView.setText(rowData.get(i));

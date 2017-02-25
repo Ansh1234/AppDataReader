@@ -15,6 +15,9 @@
     <dimen name="table_data_column_width">120dp</dimen>
     <dimen name="table_data_column_padding">10dp</dimen>
     <dimen name="table_data_text_size">6dp</dimen>
+    <dimen name="error_text_size">18dp</dimen>
+    <dimen name="error_text_marginLeftRight">30dp</dimen>
+    <dimen name="error_text_marginTop">10dp</dimen>
 
     <!-- Values for shared preferences-->
     <dimen name="sharedpreferences_textview_text_size">17dp</dimen>
