@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"></com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView>
 
-        <include layout="@layout/view_error_handler" />
+        <include layout="@layout/com_awesomedroidapps_inappstoragereader_view_error_handler" />
     </RelativeLayout>
 
 </HorizontalScrollView>

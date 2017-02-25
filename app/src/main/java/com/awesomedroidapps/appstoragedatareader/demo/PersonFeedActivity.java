@@ -3,13 +3,11 @@ package com.awesomedroidapps.appstoragedatareader.demo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.awesomedroidapps.appstoragedatareader.R;
-import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.appstoragedatareader.demo.entity.Person;
 
 import java.util.HashSet;
@@ -67,31 +65,31 @@ public class PersonFeedActivity extends Activity {
     editor.commit();
 
     sharedPreferences =
-        getSharedPreferences("MySharedPref3", Context.MODE_ENABLE_WRITE_AHEAD_LOGGING);
+        getSharedPreferences("MySharedPref3", Context.MODE_PRIVATE);
     editor = sharedPreferences.edit();
     editor.putString("name2", "anshul");
     editor.putString("age3", "24");
     editor.commit();
 
-    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_NO_LOCALIZED_COLLATORS);
+    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_PRIVATE);
     editor = sharedPreferences.edit();
     editor.putString("name3", "anshul");
     editor.putString("age4", "24");
     editor.commit();
 
-    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_MULTI_PROCESS);
+    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_PRIVATE);
     editor = sharedPreferences.edit();
     editor.putString("name4", "anshul");
     editor.putString("age5", "24");
     editor.commit();
 
-    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_WORLD_READABLE);
+    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_PRIVATE);
     editor = sharedPreferences.edit();
     editor.putString("name5", "anshul");
     editor.putString("age6", "24");
     editor.commit();
 
-    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_WORLD_WRITEABLE);
+    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_PRIVATE);
     editor = sharedPreferences.edit();
     editor.putString("name6", "anshul");
     editor.putString("age7", "24");

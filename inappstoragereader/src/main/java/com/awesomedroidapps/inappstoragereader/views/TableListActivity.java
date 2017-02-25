@@ -27,7 +27,7 @@ public class TableListActivity extends AppCompatActivity implements AppStorageIt
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_tables_list);
+    setContentView(R.layout.com_awesomedroidapps_inappstoragereader_activity_tables_list);
     tablesRecylerView = (RecyclerView) findViewById(R.id.tables_recycler_view);
     Bundle bundle = getIntent().getExtras();
      databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);

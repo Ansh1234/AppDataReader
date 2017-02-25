@@ -56,8 +56,8 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
       fileName = bundle.getString(Constants.BUNDLE_FILE_NAME);
       displayFilterMenu = bundle.getBoolean(Constants.BUNDLE_DISPLAY_FILTER);
     }
-
   }
+
 
   /**
    * To get the width of the recyclerView based on its individual column widths.

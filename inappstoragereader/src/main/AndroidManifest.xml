@@ -1,7 +1,7 @@
 <manifest package="com.awesomedroidapps.inappstoragereader"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <application android:label="@string/com_awesomedroidapps_inappstoragereader_app_name">
+    <application>
 
         <activity
             android:name=".views.AppDataListActivity"

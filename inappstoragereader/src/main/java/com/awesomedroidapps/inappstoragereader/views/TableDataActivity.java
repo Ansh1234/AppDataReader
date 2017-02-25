@@ -3,7 +3,6 @@ package com.awesomedroidapps.inappstoragereader.views;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
@@ -13,10 +12,8 @@ import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
-import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by anshul on 11/2/17.
@@ -30,7 +27,7 @@ public class TableDataActivity extends AppCompatActivity implements ErrorMessage
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_table_data);
+    setContentView(R.layout.com_awesomedroidapps_inappstoragereader_activity_table_data);
     tableDataRecyclerView =
         (AppStorageDataRecyclerView) findViewById(R.id.table_data_recycler_view);
 

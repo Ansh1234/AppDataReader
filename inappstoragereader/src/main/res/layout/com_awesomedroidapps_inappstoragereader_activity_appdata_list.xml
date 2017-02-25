@@ -8,6 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
-    <include layout="@layout/view_error_handler" />
+    <include layout="@layout/com_awesomedroidapps_inappstoragereader_view_error_handler" />
 </RelativeLayout>
 
