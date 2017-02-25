@@ -5,21 +5,27 @@ package com.awesomedroidapps.inappstoragereader;
  */
 
 public enum SharedPreferenceDataType {
-  STRING(200),
-  INT(100),
-  FLOAT(100),
-  LONG(150),
-  BOOLEAN(50),
-  STRING_SET(250);
+  STRING("STRING",200),
+  INT("INT",100),
+  FLOAT("FLOAT",100),
+  LONG("LONG",150),
+  BOOLEAN("BOOLEAN",50),
+  STRING_SET("STRING_SET",250);
 
   private int columnHeight;
+  private String type;
 
-  SharedPreferenceDataType(int columnHeight) {
+  SharedPreferenceDataType(String type, int columnHeight) {
+    this.type=type;
     this.columnHeight = columnHeight;
   }
 
   public int getColumnHeight() {
     return columnHeight;
+  }
+
+  public String getType() {
+    return type;
   }
 
   public void setColumnHeight(int columnHeight) {

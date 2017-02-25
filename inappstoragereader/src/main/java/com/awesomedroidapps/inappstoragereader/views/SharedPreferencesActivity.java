@@ -25,6 +25,7 @@ import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
 import com.awesomedroidapps.inappstoragereader.adapters.SharedPreferencesListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,6 +64,14 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     return (int) (getResources().getDimension(R.dimen.sharedpreferences_type_width) +
         getResources().getDimension(R.dimen.sharedpreferences_key_width) +
         getResources().getDimension(R.dimen.sharedpreferences_value_width));
+  }
+
+  private ArrayList<Integer> getRecyleViewWidthList() {
+    ArrayList<Integer> arrayList = new ArrayList<>();
+    arrayList.add(Utils.getDimensionInInteger(this, R.dimen.sharedpreferences_type_width));
+    arrayList.add(Utils.getDimensionInInteger(this, R.dimen.sharedpreferences_key_width));
+    arrayList.add(Utils.getDimensionInInteger(this, R.dimen.sharedpreferences_value_width));
+    return arrayList;
   }
 
   @Override
@@ -151,8 +160,10 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     sharedPreferencesRecylerView.setVisibility(View.VISIBLE);
     errorHandlerLayout.setVisibility(View.GONE);
 
+
     SharedPreferencesListAdapter
-        adapter = new SharedPreferencesListAdapter(sharedPreferenceObjectArrayList, this);
+        adapter = new SharedPreferencesListAdapter(sharedPreferenceObjectArrayList, this,
+        getRecyleViewWidthList());
     sharedPreferencesRecylerView.setLayoutManager(new LinearLayoutManager(this));
     sharedPreferencesRecylerView.setAdapter(adapter);
   }

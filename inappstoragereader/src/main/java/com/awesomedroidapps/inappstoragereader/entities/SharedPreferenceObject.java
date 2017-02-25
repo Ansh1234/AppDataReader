@@ -2,6 +2,8 @@ package com.awesomedroidapps.inappstoragereader.entities;
 
 import com.awesomedroidapps.inappstoragereader.SharedPreferenceDataType;
 
+import java.util.ArrayList;
+
 /**
  * Created by anshul on 12/2/17.
  */
@@ -35,5 +37,13 @@ public class SharedPreferenceObject {
   public void setSharedPreferenceDataType(
       SharedPreferenceDataType sharedPreferenceDataType) {
     this.sharedPreferenceDataType = sharedPreferenceDataType;
+  }
+
+  public ArrayList<String> getAsList(){
+    ArrayList arrayList = new ArrayList();
+    arrayList.add(key);
+    arrayList.add(value);
+    arrayList.add(sharedPreferenceDataType.getType());
+    return arrayList;
   }
 }

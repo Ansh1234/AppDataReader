@@ -6,8 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.awesomedroidapps.inappstoragereader.R;
@@ -33,20 +32,22 @@ public class DataItemViewHolder extends RecyclerView.ViewHolder
     for (int i = 0; i < columnWidthList.size(); i++) {
       LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context
           .LAYOUT_INFLATER_SERVICE);
-      LinearLayout view =
-          (LinearLayout) layoutInflater.inflate(R.layout.view_individual_database_item,
+      RelativeLayout view =
+          (RelativeLayout) layoutInflater.inflate(R.layout
+                  .com_awesomedroidapps_inappstoragereader_view_individual_data_item,
               null);
-      LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(columnWidthList.get
-          (i), ViewGroup.LayoutParams.MATCH_PARENT);
-      view.getChildAt(0).setLayoutParams(layoutParams1);
+      LinearLayout.LayoutParams layoutParams1 =
+          new LinearLayout.LayoutParams(columnWidthList.get
+              (i), ViewGroup.LayoutParams.MATCH_PARENT);
+      view.setLayoutParams(layoutParams1);
       rowDataContainer.addView(view);
     }
 
   }
 
-  public void updateTableDataItem(int position, ArrayList<String> rowData) {
+  public void updateTableDataItem(ArrayList<String> rowData) {
     for (int i = 0; i < rowData.size(); i++) {
-      LinearLayout linearLayout = (LinearLayout) rowDataContainer.getChildAt(i);
+      RelativeLayout linearLayout = (RelativeLayout) rowDataContainer.getChildAt(i);
       TextView textView = (TextView) linearLayout.getChildAt(0);
       textView.setText(rowData.get(i));
     }

@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.views.DataItemViewHolder;
-import com.awesomedroidapps.inappstoragereader.views.TableHeaderViewHolder;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -21,48 +19,30 @@ import java.util.ArrayList;
 public class TableDataListAdapter extends RecyclerView.Adapter {
 
   private ArrayList<ArrayList<String>> tableDataList;
-  private WeakReference<Activity> activityWeakReference;
   private final ArrayList<Integer> columnWidthList;
 
 
   public TableDataListAdapter(ArrayList<ArrayList<String>> tableDataList, Activity activity,
                               ArrayList<Integer> columnWidthList) {
     this.tableDataList = tableDataList;
-    this.activityWeakReference = new WeakReference<Activity>(activity);
     this.columnWidthList = columnWidthList;
   }
 
   @Override
   public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-    View view;
-    switch (viewType) {
-      case Constants.HEADER:
-        view = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.view_table_header_item, parent, false);
-        DataItemViewHolder tableHeaderViewHolder = new DataItemViewHolder(view, columnWidthList,
-            view.getContext());
-        return tableHeaderViewHolder;
-      case Constants.ITEM:
-        view = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.view_table_data_item, parent, false);
-        DataItemViewHolder tableDataItemViewHolder =
-            new DataItemViewHolder(view, columnWidthList, view.getContext());
-        return tableDataItemViewHolder;
-    }
-    return null;
+    View view = LayoutInflater.from(parent.getContext())
+        .inflate(R.layout.com_awesomedroidapps_inappstoragereadder_view_data_item, parent, false);
+    DataItemViewHolder tableHeaderViewHolder = new DataItemViewHolder(view, columnWidthList,
+        view.getContext());
+    return tableHeaderViewHolder;
   }
 
 
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-    if (position == 0) {
-      ((TableHeaderViewHolder) holder).updateTableDataItem(position,
-          tableDataList.get(position));
-    } else {
-      ((DataItemViewHolder) holder).updateTableDataItem(position, tableDataList.get
-          (position));
-    }
+    ((DataItemViewHolder) holder).updateTableDataItem(tableDataList.get
+        (position));
   }
 
   @Override

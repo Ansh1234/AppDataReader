@@ -45,6 +45,10 @@ public class PersonFeedActivity extends Activity {
     editor.putString("age", "24");
     editor.commit();
 
+    if (true) {
+      return;
+    }
+
     sharedPreferences = getSharedPreferences("MySharedPref2", Context
         .MODE_PRIVATE);
     editor = sharedPreferences.edit();

@@ -1,5 +1,7 @@
 package com.awesomedroidapps.inappstoragereader;
 
+import android.content.Context;
+
 import java.util.Collection;
 
 /**
@@ -28,5 +30,12 @@ public class Utils {
 
   public static boolean isEmpty(String string) {
     return string == null || string.equals("");
+  }
+
+  public static int getDimensionInInteger(Context context, int resourceId) {
+    if (context == null) {
+      return 0;
+    }
+    return (int) context.getResources().getDimension(resourceId);
   }
 }
