@@ -39,6 +39,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   private RelativeLayout errorHandlerLayout;
   private String fileName = null;
   private boolean isFileModeEnabled = false;
+  private boolean displayFilterMenu = true;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,9 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     Bundle bundle = getIntent().getExtras();
     if (bundle != null) {
       fileName = bundle.getString(Constants.BUNDLE_FILE_NAME);
+      displayFilterMenu = bundle.getBoolean(Constants.BUNDLE_DISPLAY_FILTER);
     }
+
   }
 
   /**
@@ -92,6 +95,8 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.shared_preference_menu, menu);
+    MenuItem item = menu.findItem(R.id.shared_preferences_filter);
+    item.setVisible(displayFilterMenu);
     return true;
   }
 
@@ -253,7 +258,8 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   public void onItemClicked(AppDataStorageItem appDataStorageItem) {
     Intent intent = new Intent(this, SharedPreferencesActivity.class);
     Bundle bundle = new Bundle();
-    bundle.putString(Constants.BUNDLE_FILE_NAME,appDataStorageItem.getStorageName());
+    bundle.putString(Constants.BUNDLE_FILE_NAME, appDataStorageItem.getStorageName());
+    bundle.putBoolean(Constants.BUNDLE_DISPLAY_FILTER, false);
     intent.putExtras(bundle);
     startActivity(intent);
   }

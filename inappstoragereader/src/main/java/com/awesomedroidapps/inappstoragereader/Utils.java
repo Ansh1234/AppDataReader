@@ -42,15 +42,13 @@ public class Utils {
   /**
    * Sets the title of the action bar with the number of shared preferences items.
    *
-   * @param sharedPreferenceObjectList - List containing the items.
    */
-  private void setActionBarTitle(List<SharedPreferenceObject> sharedPreferenceObjectList,
-                                 ActionBar actionBar, String title, int size) {
+  public static void setActionBarTitle(ActionBar actionBar, String title, int size) {
     if (actionBar == null) {
       return;
     }
 
-    if (Utils.isEmpty(sharedPreferenceObjectList)) {
+    if (size == 0) {
       actionBar.setTitle(title);
       return;
     }
