@@ -25,8 +25,8 @@ public class SharedPreferenceReader {
    * @param context - Context object.
    * @return - List of all the tags of the shared preferences.
    */
-  public static ArrayList<String> getSharedPreferencesTags(Context context) {
-    ArrayList<String> sharedPreferences = new ArrayList<>();
+  public static List getSharedPreferencesTags(Context context) {
+    List sharedPreferences = new ArrayList<>();
     String rootPath = context.getApplicationInfo().dataDir + SqliteConstants
         .SHARED_PREFERENCES_PATH;
     File sharedPreferenceDirectory = new File(rootPath);
@@ -37,15 +37,19 @@ public class SharedPreferenceReader {
       String fileName = file.getName();
       if (fileName != null && fileName.endsWith(SqliteConstants.XML_SUFFIX)) {
         fileName = fileName.substring(0, fileName.length() - SqliteConstants.XML_SUFFIX.length());
-        sharedPreferences.add(fileName);
+        AppDataStorageItem appDataStorageItem = new AppDataStorageItem();
+        appDataStorageItem.setStorageType(StorageType.SHARED_PREFERENCE);
+        appDataStorageItem.setStorageName(fileName);
+        sharedPreferences.add(appDataStorageItem);
       }
     }
     return sharedPreferences;
   }
 
 
-  public static ArrayList<SharedPreferenceObject> getSharedPreferencesBaseOnFileName(Context context,
-                                                                                     String tag) {
+  public static ArrayList<SharedPreferenceObject> getSharedPreferencesBaseOnFileName(
+      Context context,
+      String tag) {
 
     //This list will contain all the key-value-type of the shared preferences based on the tag.
     ArrayList<SharedPreferenceObject> sharedPreferenceListForTag = new ArrayList<>();
@@ -129,14 +133,14 @@ public class SharedPreferenceReader {
    * @return - List of all the shared preferences stored in the application.
    */
   public static ArrayList<SharedPreferenceObject> getAllSharedPreferences(Context context) {
-    ArrayList<String> sharedPreferencesTagList = getSharedPreferencesTags(context);
+    List<AppDataStorageItem> sharedPreferencesTagList = getSharedPreferencesTags(context);
     if (sharedPreferencesTagList == null || sharedPreferencesTagList.isEmpty()) {
       return null;
     }
 
     ArrayList<SharedPreferenceObject> sharedPreferenceDataTypeArrayList = new ArrayList<>();
-    for (String tag : sharedPreferencesTagList) {
-      ArrayList sharedPreferencesForTagList = getSharedPreferencesBaseOnFileName(context, tag);
+    for (AppDataStorageItem appDataStorageItem : sharedPreferencesTagList) {
+      ArrayList sharedPreferencesForTagList = getSharedPreferencesBaseOnFileName(context, appDataStorageItem.getStorageName());
       sharedPreferenceDataTypeArrayList.addAll(sharedPreferencesForTagList);
     }
     return sharedPreferenceDataTypeArrayList;

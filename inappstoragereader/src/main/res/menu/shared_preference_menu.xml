@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/shared_preferences_filter"
-        android:icon="@drawable/filter"
+        android:icon="@drawable/com_awesomedroidapps_inappstoragereader_filter"
         android:title="Filter"
         auto:showAsAction="always"></item>
 </menu>

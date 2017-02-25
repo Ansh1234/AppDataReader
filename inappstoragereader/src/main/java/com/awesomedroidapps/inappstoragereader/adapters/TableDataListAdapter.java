@@ -10,11 +10,9 @@ import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.views.TableDataItemViewHolder;
 import com.awesomedroidapps.inappstoragereader.views.TableHeaderViewHolder;
-import com.awesomedroidapps.inappstoragereader.views.TableItemViewHolder;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by anshul on 15/1/17.

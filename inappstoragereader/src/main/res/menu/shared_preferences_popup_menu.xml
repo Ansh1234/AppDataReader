@@ -3,9 +3,9 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/shared_preferences_all"
-            android:title="@string/shared_preferences_filter_all" />
+            android:title="@string/com_awesomedroidapps_inappstoragereader_shared_preferences_filter_all" />
         <item
             android:id="@+id/shared_preferences_file"
-            android:title="@string/shared_preferences_filter_file" />
+            android:title="@string/com_awesomedroidapps_inappstoragereader_shared_preferences_filter_file" />
     </group>
 </menu>

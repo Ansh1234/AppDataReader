@@ -11,9 +11,6 @@ import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 import com.awesomedroidapps.inappstoragereader.views.SharedPreferenceHeaderViewHolder;
 import com.awesomedroidapps.inappstoragereader.views.SharedPreferenceItemViewHolder;
-import com.awesomedroidapps.inappstoragereader.views.TableDataItemViewHolder;
-import com.awesomedroidapps.inappstoragereader.views.TableHeaderViewHolder;
-import com.awesomedroidapps.inappstoragereader.views.TableItemViewHolder;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -29,7 +26,7 @@ public class SharedPreferencesListAdapter extends RecyclerView.Adapter {
 
   public SharedPreferencesListAdapter(List sharedPreferencesList, Activity activity) {
     this.sharedPreferencesList = sharedPreferencesList;
-    this.activityWeakReference = new WeakReference<Activity>(activity);
+    this.activityWeakReference = new WeakReference<>(activity);
   }
 
   @Override
@@ -37,17 +34,19 @@ public class SharedPreferencesListAdapter extends RecyclerView.Adapter {
 
     View view;
     switch (viewType) {
+
       case Constants.ITEM:
-         view = LayoutInflater.from(parent.getContext())
+        view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.view_shared_preference_item, parent, false);
         SharedPreferenceItemViewHolder viewHolder =
             new SharedPreferenceItemViewHolder(activityWeakReference, view);
         return viewHolder;
+
       case Constants.HEADER:
         view = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.view_shared_preference_header, parent, false);
         SharedPreferenceHeaderViewHolder sharedPreferenceHeaderViewHolder = new
-            SharedPreferenceHeaderViewHolder(activityWeakReference,view);
+            SharedPreferenceHeaderViewHolder(activityWeakReference, view);
         return sharedPreferenceHeaderViewHolder;
     }
     return null;
@@ -58,13 +57,13 @@ public class SharedPreferencesListAdapter extends RecyclerView.Adapter {
     if (!(holder instanceof SharedPreferenceItemViewHolder)) {
       return;
     }
+    SharedPreferenceObject sharedPreferenceObject = sharedPreferencesList.get(position);
     if (position == 0) {
-      ((SharedPreferenceHeaderViewHolder) holder).updateTableItem(sharedPreferencesList.get(position));
-
-    } else {
-      ((SharedPreferenceItemViewHolder) holder).updateTableItem(sharedPreferencesList.get(position));
-
+      ((SharedPreferenceHeaderViewHolder) holder).updateTableItem(sharedPreferenceObject);
+      return;
     }
+    ((SharedPreferenceItemViewHolder) holder).updateTableItem(
+        sharedPreferencesList.get(position));
   }
 
   @Override

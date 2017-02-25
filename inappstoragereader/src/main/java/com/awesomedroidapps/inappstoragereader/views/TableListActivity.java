@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
-import com.awesomedroidapps.inappstoragereader.adapters.TablesListAdapter;
+import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class TableListActivity extends AppCompatActivity {
     if (tablesList == null) {
       return;
     }
-    TablesListAdapter adapter = new TablesListAdapter(tablesList,this,databaseName);
+    IconWithTextListAdapter adapter = new IconWithTextListAdapter(tablesList, this);
     tablesRecylerView.setLayoutManager(new LinearLayoutManager(this));
     tablesRecylerView.setAdapter(adapter);
 

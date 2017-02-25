@@ -8,8 +8,8 @@
         <item name="colorPrimaryDark">@color/appStorageColorPrimaryDark</item>
         <item name="colorAccent">@color/appStorageColorAccent</item>
     </style>
-    <style name="SharedPreferenceHeaderTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:textColor">@color/sharedPreferenceTextViewColor</item>
+    <style name="AppItemHeaderTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/appStorageSharedPreferenceTextViewColor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/sharedpreferences_textview_text_size</item>
         <item name="android:gravity">center</item>
@@ -18,8 +18,8 @@
         <item name="android:minHeight">@dimen/shared_preference_item_min_height</item>
         <item name="android:padding">@dimen/sharedpreference_item_padding</item>
     </style>
-    <style name="SharedPreferenceItemTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:textColor">@color/sharedPreferenceTextViewColor</item>
+    <style name="AppItemTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/appStorageSharedPreferenceTextViewColor</item>
         <item name="android:textSize">@dimen/sharedpreferences_textview_text_size</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLines">4</item>

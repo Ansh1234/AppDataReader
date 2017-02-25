@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.awesomedroidapps.inappstoragereader.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.R;
-import com.awesomedroidapps.inappstoragereader.views.AppDataItemViewHolder;
+import com.awesomedroidapps.inappstoragereader.views.IconWithTextViewHolder;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -17,12 +17,12 @@ import java.util.List;
  * Created by anshul on 15/1/17.
  */
 
-public class AppDataListAdapter extends RecyclerView.Adapter {
+public class IconWithTextListAdapter extends RecyclerView.Adapter {
 
   private List<AppDataStorageItem> databaseList;
   private WeakReference<Activity> activityWeakReference;
 
-  public AppDataListAdapter(List databaseList, Activity activity) {
+  public IconWithTextListAdapter(List databaseList, Activity activity) {
     this.databaseList = databaseList;
     this.activityWeakReference = new WeakReference<>(activity);
   }
@@ -30,17 +30,18 @@ public class AppDataListAdapter extends RecyclerView.Adapter {
   @Override
   public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.view_data_item, parent, false);
-    AppDataItemViewHolder viewHolder = new AppDataItemViewHolder(activityWeakReference, view);
+        .inflate(R.layout.com_awesomedroidapps_inappstoragereader_icon_with_text_item, parent,
+            false);
+    IconWithTextViewHolder viewHolder = new IconWithTextViewHolder(activityWeakReference, view);
     return viewHolder;
   }
 
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-    if (!(holder instanceof AppDataItemViewHolder)) {
+    if (!(holder instanceof IconWithTextViewHolder)) {
       return;
     }
-    ((AppDataItemViewHolder) holder).updateDatabaseItem(databaseList.get(position));
+    ((IconWithTextViewHolder) holder).updateDatabaseItem(databaseList.get(position));
   }
 
   @Override

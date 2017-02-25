@@ -13,11 +13,9 @@ import com.awesomedroidapps.inappstoragereader.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SharedPreferenceReader;
-import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
 import com.awesomedroidapps.inappstoragereader.Utils;
-import com.awesomedroidapps.inappstoragereader.adapters.AppDataListAdapter;
+import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,7 +46,7 @@ public class AppDataListActivity extends AppCompatActivity implements ErrorMessa
     appDataRecylerView.setVisibility(View.VISIBLE);
     errorHandlerLayout.setVisibility(View.GONE);
 
-    AppDataListAdapter adapter = new AppDataListAdapter(appDataList, this);
+    IconWithTextListAdapter adapter = new IconWithTextListAdapter(appDataList, this);
     appDataRecylerView.setLayoutManager(new LinearLayoutManager(this));
     appDataRecylerView.setAdapter(adapter);
     SharedPreferenceReader.getAllSharedPreferences(this);

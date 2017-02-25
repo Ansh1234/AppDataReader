@@ -17,7 +17,7 @@ public class ErrorMessageHandler {
     textView.setText(errorType.getErrorMessage());
     switch (errorType){
       case NO_ITEM_FOUND:
-        imageView.setImageResource(R.drawable.item_not_found);
+        imageView.setImageResource(R.drawable.com_awesomedroidapps_inappstoragereader_item_not_found);
         break;
     }
   }

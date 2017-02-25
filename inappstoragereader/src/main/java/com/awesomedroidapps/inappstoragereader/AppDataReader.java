@@ -18,7 +18,7 @@ public class AppDataReader {
 
   /**
    * This method will return a list of all the databases in the current application.
-   * It will remove all the database names which ends with .journal
+   * It will remove all the com_awesomedroidapps_inappstoragereader_database names which ends with .journal
    *
    * @param context
    * @return
@@ -39,13 +39,13 @@ public class AppDataReader {
     if (!Utils.isEmpty(appDatabaseItemsList)) {
       appDataStorageList.add(appDataStorageItem);
     } else if (!SharedPreferenceReader.isSharedPreferencesEmpty(context)) {
-      appDatabaseItemsList.add(appDataStorageItem);
+      appDataStorageList.add(appDataStorageItem);
     }
     return appDataStorageList;
   }
 
   /**
-   * Get all the database names
+   * Get all the com_awesomedroidapps_inappstoragereader_database names
    *
    * @param context
    * @return

@@ -12,10 +12,10 @@
 
 
         <TextView
-            style="@style/SharedPreferenceHeaderTextViewStyle"
+            style="@style/AppItemHeaderTextViewStyle"
             android:layout_height="wrap_content"
             android:layout_width="@dimen/sharedpreferences_key_width"
-            android:text="@string/sharedPreference_key" />
+            android:text="@string/com_awesomedroidapps_inappstoragereader_sharedPreference_key" />
 
 
         <View
@@ -24,10 +24,10 @@
             android:background="#323232" />
 
         <TextView
-            style="@style/SharedPreferenceHeaderTextViewStyle"
+            style="@style/AppItemHeaderTextViewStyle"
             android:layout_height="wrap_content"
             android:layout_width="@dimen/sharedpreferences_value_width"
-            android:text="@string/sharedPreference_value" />
+            android:text="@string/com_awesomedroidapps_inappstoragereader_sharedPreference_value" />
 
         <View
             android:layout_width="1dp"
@@ -35,9 +35,9 @@
             android:background="#323232" />
 
         <TextView
-            style="@style/SharedPreferenceHeaderTextViewStyle"
+            style="@style/AppItemHeaderTextViewStyle"
             android:layout_width="@dimen/sharedpreferences_type_width"
-            android:text="@string/sharedPreference_type"
+            android:text="@string/com_awesomedroidapps_inappstoragereader_sharedPreference_type"
             android:layout_height="wrap_content" />
 
 

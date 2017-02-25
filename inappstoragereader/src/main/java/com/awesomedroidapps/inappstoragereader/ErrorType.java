@@ -6,7 +6,7 @@ package com.awesomedroidapps.inappstoragereader;
 
 public enum ErrorType {
   NO_ITEM_FOUND("No SharedPreferences or Databases found."),
-  NO_TABLES_FOUND("No tables found in the database."),
+  NO_TABLES_FOUND("No tables found in the com_awesomedroidapps_inappstoragereader_database."),
   NO_SHARED_PREFERENCES_FOUND("No SharedPreferences found."),
   NO_DATABASES_FOUND("No databases found.");
 

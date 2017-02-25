@@ -18,6 +18,7 @@
     <dimen name="error_text_size">18dp</dimen>
     <dimen name="error_text_marginLeftRight">30dp</dimen>
     <dimen name="error_text_marginTop">10dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
 
     <!-- Values for shared preferences-->
     <dimen name="sharedpreferences_textview_text_size">17dp</dimen>
@@ -26,7 +27,7 @@
     <dimen name="sharedpreferences_value_width">250dp</dimen>
     <dimen name="sharedpreference_item_padding">5dp</dimen>
 
-    <!-- Values for database items -->
+    <!-- Values for com_awesomedroidapps_inappstoragereader_database items -->
     <dimen name="database_item_string_width">250dp</dimen>
     <dimen name="database_item_int_width">100dp</dimen>
     <dimen name="database_item_float_width">100dp</dimen>

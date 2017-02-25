@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/database_item_text_marginLeft"
-            android:src="@drawable/sharedpreferences" />
+            android:src="@drawable/com_awesomedroidapps_inappstoragereader_sharedpreferences" />
 
         <TextView
             android:id="@+id/text_shared_preference_file_name"

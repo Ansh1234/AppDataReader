@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="sharedPreferenceTextViewColor">#323232</color>
+    <color name="appStorageSharedPreferenceTextViewColor">#666666</color>
     <color name="appStorageColorPrimary">#00838F</color>
     <color name="appStorageColorPrimaryDark">#006064</color>
     <color name="appStorageColorAccent">#FF4081</color>
+    <color name="appStorageDividerColor">#000000</color>
 </resources>

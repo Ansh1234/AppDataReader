@@ -3,16 +3,16 @@ package com.awesomedroidapps.inappstoragereader.views;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.awesomedroidapps.inappstoragereader.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.Constants;
-import com.awesomedroidapps.inappstoragereader.StorageType;
 import com.awesomedroidapps.inappstoragereader.R;
+import com.awesomedroidapps.inappstoragereader.StorageType;
 
 import java.lang.ref.WeakReference;
 
@@ -20,22 +20,22 @@ import java.lang.ref.WeakReference;
  * Created by anshul on 15/1/17.
  */
 
-public class AppDataItemViewHolder extends RecyclerView.ViewHolder
+public class IconWithTextViewHolder extends RecyclerView.ViewHolder
     implements View.OnClickListener {
 
   private final TextView itemName;
-  private final CardView itemDatabaseContainer;
+  private final RelativeLayout itemDatabaseContainer;
   private final WeakReference<Activity> activity;
   private AppDataStorageItem appDataStorageItem;
   private final ImageView itemIcon;
 
-  public AppDataItemViewHolder(WeakReference<Activity> activity, View itemView) {
+  public IconWithTextViewHolder(WeakReference<Activity> activity, View itemView) {
     super(itemView);
     this.activity = activity;
-    this.itemName = (TextView) itemView.findViewById(R.id.text_database_name);
-    this.itemDatabaseContainer = (CardView) itemView.findViewById(R.id.item_database_container);
+    this.itemName = (TextView) itemView.findViewById(R.id.text_item);
+    this.itemDatabaseContainer = (RelativeLayout) itemView.findViewById(R.id.item_container);
     this.itemDatabaseContainer.setOnClickListener(this);
-    this.itemIcon = (ImageView) itemView.findViewById(R.id.icon_database);
+    this.itemIcon = (ImageView) itemView.findViewById(R.id.icon_item);
   }
 
   public void updateDatabaseItem(AppDataStorageItem appDataStorageItem) {
@@ -46,11 +46,13 @@ public class AppDataItemViewHolder extends RecyclerView.ViewHolder
     StorageType storageType = appDataStorageItem.getStorageType();
     switch (storageType) {
       case SHARED_PREFERENCE:
-        itemIcon.setImageResource(R.drawable.sharedpreferences);
+        itemIcon.setImageResource(R.drawable.com_awesomedroidapps_inappstoragereader_sharedpreferences);
         break;
       case DATABASE:
-        itemIcon.setImageResource(R.drawable.database);
+        itemIcon.setImageResource(R.drawable.com_awesomedroidapps_inappstoragereader_database);
         break;
+      case TABLE:
+        itemIcon.setImageResource(R.drawable.com_awesomedroidapps_inappstoragereader_tables);
     }
   }
 
