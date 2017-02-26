@@ -3,6 +3,7 @@ package com.awesomedroidapps.inappstoragereader.views;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.Toast;
 
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
@@ -21,7 +22,8 @@ import java.util.ArrayList;
  * Created by anshul on 11/2/17.
  */
 
-public class TableDataActivity extends AppCompatActivity implements ErrorMessageInterface,DataItemClickListener {
+public class TableDataActivity extends AppCompatActivity
+    implements ErrorMessageInterface, DataItemClickListener {
 
   private AppStorageDataRecyclerView tableDataRecyclerView;
   private String databaseName, tableName;
@@ -60,7 +62,7 @@ public class TableDataActivity extends AppCompatActivity implements ErrorMessage
     }
 
     TableDataListAdapter adapter =
-        new TableDataListAdapter(tableData, this, tableDataColumnWidthList,this);
+        new TableDataListAdapter(tableData, this, tableDataColumnWidthList, this);
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager
         .VERTICAL, false);
     Utils.setActionBarTitle(getSupportActionBar(), tableName, tableData.size() - 1);
@@ -75,6 +77,12 @@ public class TableDataActivity extends AppCompatActivity implements ErrorMessage
 
   @Override
   public void onDataItemClicked(String data) {
+    if (Utils.isEmpty(data)) {
+      String toastMessage =
+          getResources().getString(R.string.com_awesomedroidapps_inappstoragereader_item_empty);
+      Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
+      return;
+    }
     DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data);
     dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
   }
