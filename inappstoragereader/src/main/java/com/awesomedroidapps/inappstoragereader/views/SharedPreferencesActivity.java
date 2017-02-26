@@ -13,10 +13,12 @@ import android.widget.RelativeLayout;
 
 import com.awesomedroidapps.inappstoragereader.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
-import com.awesomedroidapps.inappstoragereader.AppStorageItemClickListener;
+import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
+import com.awesomedroidapps.inappstoragereader.interfaces.AppStorageItemClickListener;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageHandler;
-import com.awesomedroidapps.inappstoragereader.ErrorMessageInterface;
+import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
+import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SharedPreferenceReader;
@@ -33,7 +35,8 @@ import java.util.List;
  */
 
 public class SharedPreferencesActivity extends AppCompatActivity implements
-    ErrorMessageInterface, PopupMenu.OnMenuItemClickListener, AppStorageItemClickListener {
+    ErrorMessageInterface, PopupMenu.OnMenuItemClickListener, AppStorageItemClickListener,
+    DataItemClickListener {
 
   private AppStorageDataRecyclerView sharedPreferencesRecylerView;
   private RelativeLayout errorHandlerLayout;
@@ -171,7 +174,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     sharedPreferenceObjectArrayList.add(0, getSharedPreferenceHeadersInList());
     SharedPreferencesListAdapter
         adapter = new SharedPreferencesListAdapter(sharedPreferenceObjectArrayList, this,
-        getRecyleViewWidthList());
+        getRecyleViewWidthList(), this);
     sharedPreferencesRecylerView.setLayoutManager(new LinearLayoutManager(this));
     sharedPreferencesRecylerView.setAdapter(adapter);
   }
@@ -255,5 +258,11 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     bundle.putBoolean(Constants.BUNDLE_DISPLAY_FILTER, false);
     intent.putExtras(bundle);
     startActivity(intent);
+  }
+
+  @Override
+  public void onDataItemClicked(String data) {
+    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data);
+    dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
   }
 }

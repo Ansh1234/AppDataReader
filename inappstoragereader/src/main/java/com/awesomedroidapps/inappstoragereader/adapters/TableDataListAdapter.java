@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.awesomedroidapps.inappstoragereader.R;
+import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.views.DataItemViewHolder;
 
 import java.util.ArrayList;
@@ -19,21 +20,25 @@ public class TableDataListAdapter extends RecyclerView.Adapter {
 
   private ArrayList<ArrayList<String>> tableDataList;
   private final ArrayList<Integer> columnWidthList;
+  private final DataItemClickListener dataItemClickListener;
 
 
   public TableDataListAdapter(ArrayList<ArrayList<String>> tableDataList, Activity activity,
-                              ArrayList<Integer> columnWidthList) {
+                              ArrayList<Integer> columnWidthList,
+                              DataItemClickListener dataItemClickListener) {
     this.tableDataList = tableDataList;
     this.columnWidthList = columnWidthList;
+    this.dataItemClickListener = dataItemClickListener;
   }
 
   @Override
   public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
     View view = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.com_awesomedroidapps_inappstoragereadder_view_item_row_container, parent, false);
+        .inflate(R.layout.com_awesomedroidapps_inappstoragereadder_view_item_row_container, parent,
+            false);
     DataItemViewHolder tableHeaderViewHolder = new DataItemViewHolder(view, columnWidthList,
-        view.getContext());
+        view.getContext(), dataItemClickListener);
     return tableHeaderViewHolder;
   }
 
@@ -48,4 +53,6 @@ public class TableDataListAdapter extends RecyclerView.Adapter {
   public int getItemCount() {
     return tableDataList.size();
   }
+
+
 }

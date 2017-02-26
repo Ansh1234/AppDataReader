@@ -10,10 +10,10 @@ import android.widget.RelativeLayout;
 
 import com.awesomedroidapps.inappstoragereader.AppDataReader;
 import com.awesomedroidapps.inappstoragereader.AppDataStorageItem;
-import com.awesomedroidapps.inappstoragereader.AppStorageItemClickListener;
+import com.awesomedroidapps.inappstoragereader.interfaces.AppStorageItemClickListener;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageHandler;
-import com.awesomedroidapps.inappstoragereader.ErrorMessageInterface;
+import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SharedPreferenceReader;

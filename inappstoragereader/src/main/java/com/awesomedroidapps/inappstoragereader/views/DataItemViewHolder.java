@@ -1,7 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.Utils;
+import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 
 import java.util.ArrayList;
 
@@ -24,19 +24,22 @@ public class DataItemViewHolder extends RecyclerView.ViewHolder
 
   private final LinearLayout rowDataContainer;
   private final ArrayList<Integer> columnWidthList;
+  private final DataItemClickListener dataItemClickListener;
 
 
-  public DataItemViewHolder(View itemView, ArrayList<Integer> columnWidth, Context context) {
+  public DataItemViewHolder(View itemView, ArrayList<Integer> columnWidth, Context context,
+                            DataItemClickListener dataItemClickListener) {
     super(itemView);
     this.rowDataContainer = (LinearLayout) itemView.findViewById(R.id.table_data_row_container);
     this.columnWidthList = columnWidth;
+    this.dataItemClickListener = dataItemClickListener;
 
     for (int i = 0; i < columnWidthList.size(); i++) {
       LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context
           .LAYOUT_INFLATER_SERVICE);
       RelativeLayout view =
           (RelativeLayout) layoutInflater.inflate(R.layout
-                  .com_awesomedroidapps_inappstoragereader_view_individual_data_item, null);
+              .com_awesomedroidapps_inappstoragereader_view_individual_data_item, null);
       view.setOnClickListener(this);
       LinearLayout.LayoutParams layoutParams1 =
           new LinearLayout.LayoutParams(columnWidthList.get
@@ -64,8 +67,9 @@ public class DataItemViewHolder extends RecyclerView.ViewHolder
     if (v.getId() == R.id.column_data) {
       RelativeLayout relativeLayout = (RelativeLayout) v;
       TextView textView = (TextView) relativeLayout.getChildAt(0);
-      System.out.println(textView.getText().toString());
-
+      if (dataItemClickListener != null && textView.getText() != null) {
+        dataItemClickListener.onDataItemClicked(textView.getText().toString());
+      }
     }
   }
 }

@@ -6,7 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
-import com.awesomedroidapps.inappstoragereader.ErrorMessageInterface;
+import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
+import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
+import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
  * Created by anshul on 11/2/17.
  */
 
-public class TableDataActivity extends AppCompatActivity implements ErrorMessageInterface {
+public class TableDataActivity extends AppCompatActivity implements ErrorMessageInterface,DataItemClickListener {
 
   private AppStorageDataRecyclerView tableDataRecyclerView;
   private String databaseName, tableName;
@@ -58,7 +60,7 @@ public class TableDataActivity extends AppCompatActivity implements ErrorMessage
     }
 
     TableDataListAdapter adapter =
-        new TableDataListAdapter(tableData, this, tableDataColumnWidthList);
+        new TableDataListAdapter(tableData, this, tableDataColumnWidthList,this);
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager
         .VERTICAL, false);
     Utils.setActionBarTitle(getSupportActionBar(), tableName, tableData.size() - 1);
@@ -69,6 +71,12 @@ public class TableDataActivity extends AppCompatActivity implements ErrorMessage
   @Override
   public void handleError(ErrorType errorType) {
 
+  }
+
+  @Override
+  public void onDataItemClicked(String data) {
+    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data);
+    dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
   }
 
 }

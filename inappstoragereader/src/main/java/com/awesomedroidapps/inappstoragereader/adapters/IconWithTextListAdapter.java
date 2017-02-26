@@ -6,11 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.awesomedroidapps.inappstoragereader.AppDataStorageItem;
-import com.awesomedroidapps.inappstoragereader.AppStorageItemClickListener;
+import com.awesomedroidapps.inappstoragereader.interfaces.AppStorageItemClickListener;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.views.IconWithTextViewHolder;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
