@@ -1,6 +1,9 @@
 package com.awesomedroidapps.inappstoragereader;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -41,5 +44,9 @@ public class DataItemDialogFragment extends DialogFragment
   @Override
   public void onClick(DialogInterface dialogInterface, int i) {
 
+    ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context
+        .CLIPBOARD_SERVICE);
+    ClipData clip = ClipData.newPlainText("data", data);
+    clipboard.setPrimaryClip(clip);
   }
 }

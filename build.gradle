@@ -17,11 +17,11 @@ allprojects {
     jcenter()
   }
   project.ext {
-    rvv = '25.1.0'
-    slv = '25.1.0'
-    csv = 25
-    tsv = 25
-    btv = '25.0.2'
+    rvv = '23.1.0'
+    slv = '23.1.0'
+    csv = 23
+    tsv = 23
+    btv = '23.0.2'
   }
 }
 

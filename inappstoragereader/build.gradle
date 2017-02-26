@@ -6,7 +6,7 @@ android {
 
   defaultConfig {
     minSdkVersion 11
-    targetSdkVersion  project.tsv != null ? project.tsv : 25
+    targetSdkVersion project.tsv != null ? project.tsv : 25
     versionCode 1
     versionName "1.0"
 
@@ -21,7 +21,10 @@ android {
   }
 }
 
+def slv = project.slv != null ? project.slv : '25.2.0'
+def rvv = project.rvv != null ? project.rvv : '25.2.0'
+
 dependencies {
-  compile 'com.android.support:appcompat-v7:25.2.0'
-  compile 'com.android.support:recyclerview-v7:25.2.0'
+  compile 'com.android.support:appcompat-v7:' + slv
+  compile 'com.android.support:recyclerview-v7:' + rvv
 }
