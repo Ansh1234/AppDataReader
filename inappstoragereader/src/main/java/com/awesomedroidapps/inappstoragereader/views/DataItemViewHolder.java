@@ -36,8 +36,8 @@ public class DataItemViewHolder extends RecyclerView.ViewHolder
           .LAYOUT_INFLATER_SERVICE);
       RelativeLayout view =
           (RelativeLayout) layoutInflater.inflate(R.layout
-                  .com_awesomedroidapps_inappstoragereader_view_individual_data_item,
-              null);
+                  .com_awesomedroidapps_inappstoragereader_view_individual_data_item, null);
+      view.setOnClickListener(this);
       LinearLayout.LayoutParams layoutParams1 =
           new LinearLayout.LayoutParams(columnWidthList.get
               (i), ViewGroup.LayoutParams.MATCH_PARENT);
@@ -48,18 +48,24 @@ public class DataItemViewHolder extends RecyclerView.ViewHolder
 
   public void updateTableDataItem(ArrayList<String> rowData, boolean isHeader) {
     for (int i = 0; i < rowData.size(); i++) {
-      RelativeLayout linearLayout = (RelativeLayout) rowDataContainer.getChildAt(i);
-      TextView textView = (TextView) linearLayout.getChildAt(0);
+      RelativeLayout relativeLayout = (RelativeLayout) rowDataContainer.getChildAt(i);
+      TextView textView = (TextView) relativeLayout.getChildAt(0);
       textView.setText(rowData.get(i));
-      if(isHeader){
-        Utils.setTextAppearance(textView,R.style.AppItemHeaderTextViewStyle);
-      }else{
-        Utils.setTextAppearance(textView,R.style.AppItemTextViewStyle);
+      if (isHeader) {
+        Utils.setTextAppearance(textView, R.style.AppItemHeaderTextViewStyle);
+      } else {
+        Utils.setTextAppearance(textView, R.style.AppItemTextViewStyle);
       }
     }
   }
 
   @Override
   public void onClick(View v) {
+    if (v.getId() == R.id.column_data) {
+      RelativeLayout relativeLayout = (RelativeLayout) v;
+      TextView textView = (TextView) relativeLayout.getChildAt(0);
+      System.out.println(textView.getText().toString());
+
+    }
   }
 }

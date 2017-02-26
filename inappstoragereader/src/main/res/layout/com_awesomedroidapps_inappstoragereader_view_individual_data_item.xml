@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout android:id="@+id/column_data"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="50dp"
+    android:minHeight="@dimen/shared_preference_item_min_height"
+    android:layout_height="wrap_content"
     android:gravity="center">
 
     <TextView
@@ -15,13 +17,13 @@
     <View
         android:layout_width="@dimen/divider_height"
         android:layout_height="match_parent"
-        android:background="@color/appStorageDividerColor"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:background="@color/appStorageDividerColor" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:background="@color/appStorageDividerColor"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:background="@color/appStorageDividerColor" />
 </RelativeLayout>
 
