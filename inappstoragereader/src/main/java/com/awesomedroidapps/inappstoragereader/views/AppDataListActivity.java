@@ -37,7 +37,7 @@ public class AppDataListActivity extends AppCompatActivity implements ErrorMessa
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.com_awesomedroidapps_inappstoragereader_activity_appdata_list);
-    appDataRecylerView = (RecyclerView) findViewById(R.id.storage_data_recycler_view);
+    appDataRecylerView = (RecyclerView) findViewById(R.id.app_data_recycler_view);
     errorHandlerLayout = (RelativeLayout) findViewById(R.id.error_handler);
   }
 

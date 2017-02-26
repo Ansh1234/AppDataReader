@@ -240,18 +240,11 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     }
     String sharedPreferenceTitle = getResources().getString(R.string
         .com_awesomedroidapps_inappstoragereader_shared_preferences_list_activity);
-    if (Utils.isEmpty(sharedPreferenceObjectList)) {
-      getSupportActionBar().setTitle(sharedPreferenceTitle);
-      return;
+    int size = 0;
+    if (!Utils.isEmpty(sharedPreferenceObjectList)) {
+      size = sharedPreferenceObjectList.size();
     }
-
-    int size = sharedPreferenceObjectList.size();
-    StringBuilder stringBuilder = new StringBuilder(sharedPreferenceTitle);
-    stringBuilder.append(Constants.SPACE);
-    stringBuilder.append(Constants.OPENING_BRACKET);
-    stringBuilder.append(size);
-    stringBuilder.append(Constants.CLOSING_BRACKET);
-    getSupportActionBar().setTitle(stringBuilder.toString());
+    Utils.setActionBarTitle(getSupportActionBar(), sharedPreferenceTitle, size);
   }
 
   @Override

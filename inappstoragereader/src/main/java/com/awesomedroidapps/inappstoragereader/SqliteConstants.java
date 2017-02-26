@@ -6,9 +6,10 @@ package com.awesomedroidapps.inappstoragereader;
 
 public class SqliteConstants {
 
-  public static String JOURNAL_SUFFIX = "-journal";
-  public static String RETRIEVE_ALL_TABLES_QUERY = "SELECT name FROM sqlite_master WHERE " +
+  public static final String JOURNAL_SUFFIX = "-journal";
+  public static final String RETRIEVE_ALL_TABLES_QUERY = "SELECT name FROM sqlite_master WHERE " +
       "type='table'";
-  public static String SHARED_PREFERENCES_PATH  = "/shared_prefs";
-  public static String XML_SUFFIX = ".xml";
+  public static final String SHARED_PREFERENCES_PATH  = "/shared_prefs";
+  public static final String XML_SUFFIX = ".xml";
+  public static final String BLOB = "blob";
 }

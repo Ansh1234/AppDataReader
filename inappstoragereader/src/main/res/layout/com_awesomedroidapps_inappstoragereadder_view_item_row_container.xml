@@ -1,11 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8"?><!-- This is the container for holding any row item of database or Shared Preference
+      We specify a minimum height here. -->
 <LinearLayout android:id="@+id/table_data_row_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/database_item_margin"
-    android:layout_marginRight="@dimen/database_item_margin"
-    android:layout_marginTop="@dimen/database_item_margin"
     android:minHeight="@dimen/shared_preference_item_min_height"
     android:orientation="horizontal"></LinearLayout>

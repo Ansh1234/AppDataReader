@@ -82,7 +82,7 @@ public class SqliteDatabaseReader {
           rowData.add(Integer.toString(cursor.getInt(i)));
           break;
         case Cursor.FIELD_TYPE_BLOB:
-          rowData.add("blob");
+          rowData.add(SqliteConstants.BLOB);
           break;
         case Cursor.FIELD_TYPE_FLOAT:
           rowData.add(Float.toString(cursor.getFloat(i)));

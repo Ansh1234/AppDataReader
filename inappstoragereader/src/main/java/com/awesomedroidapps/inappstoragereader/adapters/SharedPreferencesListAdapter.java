@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 import com.awesomedroidapps.inappstoragereader.views.DataItemViewHolder;
@@ -36,7 +35,7 @@ public class SharedPreferencesListAdapter extends RecyclerView.Adapter {
   public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
     View view = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.com_awesomedroidapps_inappstoragereadder_view_data_item, parent, false);
+        .inflate(R.layout.com_awesomedroidapps_inappstoragereadder_view_item_row_container, parent, false);
     DataItemViewHolder viewHolder =
         new DataItemViewHolder(view, columnWidthList, activityWeakReference.get());
     return viewHolder;

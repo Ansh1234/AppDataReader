@@ -41,7 +41,6 @@ public class Utils {
 
   /**
    * Sets the title of the action bar with the number of shared preferences items.
-   *
    */
   public static void setActionBarTitle(ActionBar actionBar, String title, int size) {
     if (actionBar == null) {
