@@ -33,4 +33,6 @@
     <dimen name="database_item_float_width">100dp</dimen>
     <dimen name="database_item_blob_width">50dp</dimen>
 
+    <dimen name="com_awesomedroidapps_inappstoragereader_submit_button_textSize">20dp</dimen>
+    <dimen name="com_awesomedroidapps_inappstoragereader_submit_button_padding">15dp</dimen>
 </resources>

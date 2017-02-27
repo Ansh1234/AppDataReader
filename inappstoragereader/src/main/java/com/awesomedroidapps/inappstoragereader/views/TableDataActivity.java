@@ -1,8 +1,13 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
@@ -47,6 +52,24 @@ public class TableDataActivity extends AppCompatActivity
   public void onStart() {
     super.onStart();
     loadTableData();
+  }
+
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.com_awesomedroidapps_inappstoragereader_query_database, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle item selection
+    if (item.getItemId() == R.id.database_edit) {
+      Intent intent = new Intent(this, QueryDatabaseActivity.class);
+      startActivity(intent);
+    }
+    return super.onOptionsItemSelected(item);
   }
 
   private void loadTableData() {

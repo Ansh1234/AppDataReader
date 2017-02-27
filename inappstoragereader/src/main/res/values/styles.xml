@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<resources  xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Base application theme. -->
     <style name="AppStorageReaderTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/appStorageColorPrimary</item>
         <item name="colorPrimaryDark">@color/appStorageColorPrimaryDark</item>
         <item name="colorAccent">@color/appStorageColorAccent</item>
+        <item name="android:editTextStyle">@style/EditTextTheme</item>
     </style>
+
+    <style name="EditTextTheme">
+        <item name="colorAccent">#000000</item>
+    </style>
+
     <style name="AppItemHeaderTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@color/appStorageSharedPreferenceTextViewColor</item>
         <item name="android:textStyle">bold</item>
@@ -18,6 +24,7 @@
         <item name="android:minHeight">@dimen/shared_preference_item_min_height</item>
         <item name="android:padding">@dimen/sharedpreference_item_padding</item>
     </style>
+
     <style name="AppItemTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@color/appStorageSharedPreferenceTextViewColor</item>
         <item name="android:textSize">@dimen/sharedpreferences_textview_text_size</item>

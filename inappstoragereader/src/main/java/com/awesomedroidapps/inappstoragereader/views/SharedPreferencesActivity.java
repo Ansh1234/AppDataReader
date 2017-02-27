@@ -98,7 +98,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.shared_preference_menu, menu);
+    inflater.inflate(R.menu.com_awesomedroidapps_inappstoragereader_shared_preference_menu, menu);
     MenuItem item = menu.findItem(R.id.shared_preferences_filter);
     item.setVisible(displayFilterMenu);
     return true;

@@ -39,7 +39,6 @@ public class SqliteDatabaseReader {
     return tablesList;
   }
 
-
   public static ArrayList<ArrayList<String>> getAllTableData(Context context, String databaseName,
                                                              String tableName) {
     if (context == null) {
