@@ -21,10 +21,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/name" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/com_awesomedroidapps_inappstoragereader_tables"
+        android:layout_below="@id/surname"/>
+
     <Button
+        android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/submit"
-        android:text="Submit" />
+        android:text="@string/submit" />
 </RelativeLayout>

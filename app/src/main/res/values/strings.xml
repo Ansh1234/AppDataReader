@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AppStorageDataReader</string>
+    <string name="submit">Submit In Main App</string>
 </resources>

@@ -19,7 +19,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:padding="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_padding"
-        android:text="@string/com_awesomedroidapps_inappstoragereader_submit"
+        android:text="@string/submit"
         android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_textSize" />
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView
+            android:id="@+id/table_data_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView>
+    </HorizontalScrollView>
 </RelativeLayout>
