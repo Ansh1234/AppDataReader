@@ -66,10 +66,17 @@ public class TableDataActivity extends AppCompatActivity
   public boolean onOptionsItemSelected(MenuItem item) {
     // Handle item selection
     if (item.getItemId() == R.id.database_edit) {
-      Intent intent = new Intent(this, QueryDatabaseActivity.class);
-      startActivity(intent);
+      openQueryActivity();
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  private void openQueryActivity() {
+    Intent intent = new Intent(this, QueryDatabaseActivity.class);
+    Bundle bundle = new Bundle();
+    bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
+    intent.putExtras(bundle);
+    startActivity(intent);
   }
 
   private void loadTableData() {

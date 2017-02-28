@@ -6,21 +6,20 @@
 
     <EditText
         android:id="@+id/com_awesomedroidapps_inappstoragereader_query_editText"
+        style="@style/EditTextTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:hint="@string/com_awesomedroidapps_inappstoragereader_query"
-        style="@style/EditTextTheme"/>
+        android:hint="@string/com_awesomedroidapps_inappstoragereader_query" />
 
     <Button
         android:id="@+id/com_awesomedroidapps_inappstoragereader_submit"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:padding="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_padding"
         android:text="@string/com_awesomedroidapps_inappstoragereader_submit"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_margin="0dp"
         android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_textSize" />
 
 </RelativeLayout>

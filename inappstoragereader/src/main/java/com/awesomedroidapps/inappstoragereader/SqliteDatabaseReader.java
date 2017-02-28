@@ -39,7 +39,19 @@ public class SqliteDatabaseReader {
     return tablesList;
   }
 
-  public static ArrayList<ArrayList<String>> getAllTableData(Context context, String databaseName,
+  public static void queryDatabase(Context context, String databaseName, String query) {
+    SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+    if(!cursor.moveToFirst()){
+
+    }
+    while (cursor.moveToNext()) {
+
+    }
+  }
+
+  public static ArrayList<ArrayList<String>> getAllTableData(Context context, String
+      databaseName,
                                                              String tableName) {
     if (context == null) {
       return null;
