@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
-import com.awesomedroidapps.appstoragedatareader.R;
 import com.awesomedroidapps.appstoragedatareader.demo.entity.Person;
 
 import java.util.HashSet;
@@ -32,6 +32,7 @@ public class PersonFeedActivity extends Activity {
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
     saveInSharedPreferences();
+    ImageView imageView = (ImageView) findViewById(R.id.test);
   }
 
   private void saveInSharedPreferences() {

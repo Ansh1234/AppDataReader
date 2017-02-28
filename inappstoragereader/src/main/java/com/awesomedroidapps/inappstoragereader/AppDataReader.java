@@ -35,6 +35,9 @@ public class AppDataReader {
 
     //Get names of all the Databases
     List<AppDataStorageItem> appDatabaseItemsList = getDatabaseItemList(context);
+    if (Utils.isEmpty(appDatabaseItemsList)) {
+      return null;
+    }
     appDataStorageList.addAll(appDatabaseItemsList);
 
     //Get SharedPreference Object

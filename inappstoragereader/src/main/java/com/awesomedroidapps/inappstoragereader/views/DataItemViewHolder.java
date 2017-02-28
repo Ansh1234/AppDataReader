@@ -55,9 +55,9 @@ public class DataItemViewHolder extends RecyclerView.ViewHolder
       TextView textView = (TextView) relativeLayout.getChildAt(0);
       textView.setText(rowData.get(i));
       if (isHeader) {
-        Utils.setTextAppearance(textView, R.style.AppItemHeaderTextViewStyle);
+        Utils.setTextAppearance(textView, R.style.ComAwesomeDroidAppsDataItemHeaderTextView);
       } else {
-        Utils.setTextAppearance(textView, R.style.AppItemTextViewStyle);
+        Utils.setTextAppearance(textView, R.style.ComAwesomeDroidAppsDataItemTextView);
       }
     }
   }

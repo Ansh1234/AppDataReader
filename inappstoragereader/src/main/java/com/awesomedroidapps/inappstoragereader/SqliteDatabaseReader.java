@@ -36,7 +36,7 @@ public class SqliteDatabaseReader {
     ArrayList tablesList = new ArrayList();
     SQLiteDatabase sqLiteDatabase = null;
     try {
-      context.openOrCreateDatabase(databaseName, 0, null);
+      sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
     } catch (Exception e) {
       e.printStackTrace();
       return null;
@@ -80,7 +80,7 @@ public class SqliteDatabaseReader {
 
     SQLiteDatabase sqLiteDatabase = null;
     try {
-      context.openOrCreateDatabase(databaseName, 0, null);
+      sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
     } catch (Exception e) {
       e.printStackTrace();
       return null;
@@ -95,7 +95,10 @@ public class SqliteDatabaseReader {
 
     //Get the column names
     String[] columnNames = cursor.getColumnNames();
-    ArrayList columnData = (ArrayList) Arrays.asList(columnNames);
+    if (columnNames == null || columnNames.length == 0) {
+      return null;
+    }
+    ArrayList columnData = new ArrayList(Arrays.asList(columnNames));
     tableData.add(columnData);
 
     int columnCount = cursor.getColumnCount();
@@ -184,7 +187,7 @@ public class SqliteDatabaseReader {
 
     SQLiteDatabase sqLiteDatabase = null;
     try {
-      context.openOrCreateDatabase(databaseName, 0, null);
+      sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
     } catch (Exception e) {
       e.printStackTrace();
       return null;
@@ -201,7 +204,7 @@ public class SqliteDatabaseReader {
     //If no data is present, then give default width to show all the column names.
     if (!cursor.moveToFirst()) {
       int defaultWidth = (int) context.getResources().getDimension(R.dimen
-          .database_item_string_width);
+          .com_awesomedroidapps_inappstoragereader_database_item_string_width);
       for (int i = 0; i < cursor.getColumnCount(); i++) {
         tableDataColumnWidth.add(defaultWidth);
       }
@@ -213,16 +216,20 @@ public class SqliteDatabaseReader {
       int columnType = cursor.getType(i);
       switch (columnType) {
         case Cursor.FIELD_TYPE_STRING:
-          width = Utils.getDimensionInInteger(context, R.dimen.database_item_string_width);
+          width = Utils.getDimensionInInteger(context,
+              R.dimen.com_awesomedroidapps_inappstoragereader_database_item_string_width);
           break;
         case Cursor.FIELD_TYPE_INTEGER:
-          width = Utils.getDimensionInInteger(context, R.dimen.database_item_int_width);
+          width = Utils.getDimensionInInteger(context,
+              R.dimen.com_awesomedroidapps_inappstoragereader_database_item_int_width);
           break;
         case Cursor.FIELD_TYPE_BLOB:
-          width = Utils.getDimensionInInteger(context, R.dimen.database_item_blob_width);
+          width = Utils.getDimensionInInteger(context,
+              R.dimen.com_awesomedroidapps_inappstoragereader_database_item_blob_width);
           break;
         case Cursor.FIELD_TYPE_FLOAT:
-          width = Utils.getDimensionInInteger(context, R.dimen.database_item_float_width);
+          width = Utils.getDimensionInInteger(context,
+              R.dimen.com_awesomedroidapps_inappstoragereader_database_item_float_width);
           break;
       }
       tableDataColumnWidth.add(width);

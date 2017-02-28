@@ -4,7 +4,7 @@ android {
   compileSdkVersion project.csv
   buildToolsVersion project.btv
   defaultConfig {
-    applicationId "com.awesomedroidapps.appstoragedatareader"
+    applicationId "com.awesomedroidapps.appstoragedatareader.demo"
     minSdkVersion 15
     targetSdkVersion project.tsv
     versionCode 1
@@ -17,6 +17,10 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  lintOptions {
+    abortOnError false
+  }
+
 }
 
 dependencies {
@@ -29,7 +33,9 @@ dependencies {
   compile 'com.android.support:appcompat-v7:'+project.slv
   debugCompile project(':inappstoragereader')
   testCompile 'junit:junit:4.12'
-  compile 'com.jakewharton:butterknife:8.5.1'
+  compile ('com.jakewharton:butterknife:8.5.1'){
+    exclude group: 'com.android.support', module: 'support-compat'
+  }
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
   compile 'com.android.support:recyclerview-v7:'+project.rvv
   debugCompile 'com.amitshekhar.android:debug-db:1.0.0'

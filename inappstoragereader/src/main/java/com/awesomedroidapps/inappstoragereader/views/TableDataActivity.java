@@ -54,15 +54,6 @@ public class TableDataActivity extends AppCompatActivity
     loadTableData();
   }
 
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.com_awesomedroidapps_inappstoragereader_query_database, menu);
-    return true;
-  }
-
-
   private void loadTableData() {
     ArrayList<Integer> tableDataColumnWidthList = SqliteDatabaseReader.getTableDataColumnWidth(this,
         databaseName, tableName);
