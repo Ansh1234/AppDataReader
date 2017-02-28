@@ -1,6 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.interfaces;
 
-import com.awesomedroidapps.inappstoragereader.AppDataStorageItem;
+import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 
 /**
  * Created by anshul on 25/2/17.

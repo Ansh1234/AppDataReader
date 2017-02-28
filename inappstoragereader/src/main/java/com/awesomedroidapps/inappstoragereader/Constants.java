@@ -1,6 +1,6 @@
 package com.awesomedroidapps.inappstoragereader;
 
-/**
+/** A file for storing all the Constants.
  * Created by anshul on 11/2/17.
  */
 

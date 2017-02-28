@@ -3,6 +3,7 @@ package com.awesomedroidapps.inappstoragereader;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 
 import java.io.File;

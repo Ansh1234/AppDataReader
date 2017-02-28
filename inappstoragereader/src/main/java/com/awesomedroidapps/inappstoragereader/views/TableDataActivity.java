@@ -62,22 +62,6 @@ public class TableDataActivity extends AppCompatActivity
     return true;
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle item selection
-    if (item.getItemId() == R.id.database_edit) {
-      openQueryActivity();
-    }
-    return super.onOptionsItemSelected(item);
-  }
-
-  private void openQueryActivity() {
-    Intent intent = new Intent(this, QueryDatabaseActivity.class);
-    Bundle bundle = new Bundle();
-    bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
-    intent.putExtras(bundle);
-    startActivity(intent);
-  }
 
   private void loadTableData() {
     ArrayList<Integer> tableDataColumnWidthList = SqliteDatabaseReader.getTableDataColumnWidth(this,
