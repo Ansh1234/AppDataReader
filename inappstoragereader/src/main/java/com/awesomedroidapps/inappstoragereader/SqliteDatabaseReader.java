@@ -11,12 +11,21 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * A helper class which reads all the data from the database.
  * Created by anshul on 11/2/17.
  */
 
 public class SqliteDatabaseReader {
 
+  private final String TAG = SqliteDatabaseReader.class.getSimpleName();
 
+  /**
+   * This method returns all the table names of a particular database.
+   *
+   * @param context
+   * @param databaseName
+   * @return
+   */
   public static List<AppDataStorageItem> readTablesList(Context context, String databaseName) {
 
     if (context == null) {
@@ -24,92 +33,171 @@ public class SqliteDatabaseReader {
     }
 
     ArrayList tablesList = new ArrayList();
-    SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    SQLiteDatabase sqLiteDatabase = null;
+    try {
+      context.openOrCreateDatabase(databaseName, 0, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
     Cursor cursor =
         sqLiteDatabase.rawQuery(SqliteConstants.RETRIEVE_ALL_TABLES_QUERY, null);
-    if (cursor.moveToFirst()) {
-      while (!cursor.isAfterLast()) {
-        AppDataStorageItem appDataStorageItem = new AppDataStorageItem();
-        appDataStorageItem.setStorageType(StorageType.TABLE);
-        appDataStorageItem.setStorageName(cursor.getString(0));
-        tablesList.add(appDataStorageItem);
-        cursor.moveToNext();
-      }
-    }
-    return tablesList;
-  }
-
-  public static void queryDatabase(Context context, String databaseName, String query) {
-    SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
-    Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-    if(!cursor.moveToFirst()){
-
-    }
-    while (cursor.moveToNext()) {
-
-    }
-  }
-
-  public static ArrayList<ArrayList<String>> getAllTableData(Context context, String
-      databaseName,
-                                                             String tableName) {
-    if (context == null) {
+    if (cursor == null || !cursor.moveToFirst()) {
       return null;
     }
 
-    SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
-    Cursor cursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
-    ArrayList<ArrayList<String>> tableData = new ArrayList();
-    String[] columnNames = cursor.getColumnNames();
-    ArrayList columnData = new ArrayList();
-    for (int i = 0; i < columnNames.length; i++) {
-      columnData.add(columnNames[i]);
+    do {
+      AppDataStorageItem appDataStorageItem = new AppDataStorageItem();
+      appDataStorageItem.setStorageType(StorageType.TABLE);
+      try {
+        appDataStorageItem.setStorageName(cursor.getString(Constants.ZERO_INDEX));
+      } catch (Exception e) {
+        e.printStackTrace();
+        continue;
+      }
+      tablesList.add(appDataStorageItem);
+    } while (cursor.moveToNext());
+    cursor.close();
+    return tablesList;
+  }
+
+
+  /**
+   * This method is used to return all the data of a particular table including the column names.
+   *
+   * @param context      - Context
+   * @param databaseName - The name of the database.
+   * @param tableName    - The name of the table.
+   * @return
+   */
+  public static ArrayList<ArrayList<String>> getAllTableData(Context context, String
+      databaseName, String tableName) {
+
+    if (context == null || Utils.isEmpty(databaseName) || Utils.isEmpty(tableName)) {
+      return null;
     }
+
+    SQLiteDatabase sqLiteDatabase = null;
+    try {
+      context.openOrCreateDatabase(databaseName, 0, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+    Cursor cursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
+
+    if (cursor == null || !cursor.moveToFirst()) {
+      return null;
+    }
+
+    ArrayList<ArrayList<String>> tableData = new ArrayList();
+
+    //Get the column names
+    String[] columnNames = cursor.getColumnNames();
+    ArrayList columnData = (ArrayList) Arrays.asList(columnNames);
     tableData.add(columnData);
 
     int columnCount = cursor.getColumnCount();
-    if (cursor.moveToFirst()) {
-      //Beginning of the row
-      do {
-        ArrayList rowData = getRowData(cursor, columnCount);
-        tableData.add(rowData);
-      } while (cursor.moveToNext());
-      //End of the row.
-    }
+
+    do {
+      ArrayList rowData = getRowData(cursor, columnCount);
+      tableData.add(rowData);
+    } while (cursor.moveToNext());
+
     cursor.close();
     return tableData;
   }
 
+  /**
+   * This method is used to return the data of an individual row.
+   *
+   * @param cursor
+   * @param columnCount
+   * @return
+   */
   @NonNull
   private static ArrayList getRowData(Cursor cursor, int columnCount) {
+
+    if (cursor == null || columnCount == 0) {
+      return null;
+    }
+
     ArrayList rowData = new ArrayList();
+
     for (int i = 0; i < columnCount; i++) {
+
       int columnType = cursor.getType(i);
       switch (columnType) {
         case Cursor.FIELD_TYPE_STRING:
-          rowData.add(cursor.getString(i));
+          try {
+            rowData.add(cursor.getString(i));
+          } catch (Exception e) {
+            e.printStackTrace();
+            continue;
+          }
           break;
         case Cursor.FIELD_TYPE_INTEGER:
-          rowData.add(Integer.toString(cursor.getInt(i)));
+          try {
+            rowData.add(Integer.toString(cursor.getInt(i)));
+          } catch (Exception e) {
+            e.printStackTrace();
+            continue;
+          }
           break;
         case Cursor.FIELD_TYPE_BLOB:
-          rowData.add(SqliteConstants.BLOB);
+          try {
+            rowData.add(SqliteConstants.BLOB);
+          } catch (Exception e) {
+            e.printStackTrace();
+            continue;
+          }
           break;
         case Cursor.FIELD_TYPE_FLOAT:
-          rowData.add(Float.toString(cursor.getFloat(i)));
+          try {
+            rowData.add(Float.toString(cursor.getFloat(i)));
+          } catch (Exception e) {
+            e.printStackTrace();
+            continue;
+          }
       }
     }
     return rowData;
   }
 
+  /**
+   * This method is used to return an arraylist of widths of various columns. Based on the column
+   * type the width will be different. e.g the width of a String column will be greater than the
+   * width of an int column.
+   *
+   * @param context
+   * @param databaseName
+   * @param tableName
+   * @return
+   */
   @NonNull
   public static ArrayList<Integer> getTableDataColumnWidth(Context context, String databaseName,
-                                                           String
-                                                               tableName) {
-    SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+                                                           String tableName) {
+    if (context == null || Utils.isEmpty(databaseName) || Utils.isEmpty(tableName)) {
+      return null;
+    }
+
+    SQLiteDatabase sqLiteDatabase = null;
+    try {
+      context.openOrCreateDatabase(databaseName, 0, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+
     Cursor cursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
+
+    if (cursor == null) {
+      return null;
+    }
+
     ArrayList<Integer> tableDataColumnWidth = new ArrayList<>();
 
+    //If no data is present, then give default width to show all the column names.
     if (!cursor.moveToFirst()) {
       int defaultWidth = (int) context.getResources().getDimension(R.dimen
           .database_item_string_width);
@@ -124,33 +212,35 @@ public class SqliteDatabaseReader {
       int columnType = cursor.getType(i);
       switch (columnType) {
         case Cursor.FIELD_TYPE_STRING:
-          width = (int) context.getResources().getDimension(R.dimen
-              .database_item_string_width);
+          width = Utils.getDimensionInInteger(context, R.dimen.database_item_string_width);
           break;
         case Cursor.FIELD_TYPE_INTEGER:
-          width = width + (int) context.getResources().getDimension(R.dimen
-              .database_item_int_width);
+          width = Utils.getDimensionInInteger(context, R.dimen.database_item_int_width);
           break;
         case Cursor.FIELD_TYPE_BLOB:
-          width = width + (int) context.getResources().getDimension(R.dimen
-              .database_item_blob_width);
+          width = Utils.getDimensionInInteger(context, R.dimen.database_item_blob_width);
           break;
         case Cursor.FIELD_TYPE_FLOAT:
-          width = width + (int) context.getResources().getDimension(R.dimen
-              .database_item_float_width);
+          width = Utils.getDimensionInInteger(context, R.dimen.database_item_float_width);
+          break;
       }
       tableDataColumnWidth.add(width);
     }
     return tableDataColumnWidth;
   }
 
-  public static int getTableWidth(ArrayList<Integer> tableDataColumnWidth) {
+  /**
+   * This method is used to return the width of the recyclerview based on individual column's width.
+   *
+   * @param tableDataColumnWidthList
+   * @return
+   */
+  public static int getTableWidth(ArrayList<Integer> tableDataColumnWidthList) {
     int width = 0;
-    if (tableDataColumnWidth == null) {
+    if (Utils.isEmpty(tableDataColumnWidthList)) {
       return width;
     }
-
-    for (Integer i : tableDataColumnWidth) {
+    for (Integer i : tableDataColumnWidthList) {
       width = width + i;
     }
     return width;
