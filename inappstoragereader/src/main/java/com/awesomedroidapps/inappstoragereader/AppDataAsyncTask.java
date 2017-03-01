@@ -32,6 +32,8 @@ public class AppDataAsyncTask extends AsyncTask<String, Void, List<AppDataStorag
       switch (storageType) {
         case ALL:
           return AppDataReader.readAppDataStorageList(activtyWeakReference.get());
+        case SHARED_PREFERENCE:
+          return SharedPreferenceReader.getSharedPreferencesTags(activtyWeakReference.get());
         case TABLE:
           if (params == null) {
             return null;

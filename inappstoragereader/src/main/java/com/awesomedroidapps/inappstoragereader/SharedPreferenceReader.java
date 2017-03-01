@@ -26,7 +26,7 @@ public class SharedPreferenceReader {
    * @param context - Context object.
    * @return - List of all the tags of the shared preferences.
    */
-  public static ArrayList<AppDataStorageItem> getSharedPreferencesTags(Context context) {
+  public static List<AppDataStorageItem> getSharedPreferencesTags(Context context) {
 
     if (context == null || context.getApplicationInfo() == null) {
       return null;
@@ -63,7 +63,7 @@ public class SharedPreferenceReader {
    * @param tag
    * @return
    */
-  public static ArrayList<SharedPreferenceObject> getSharedPreferencesBaseOnFileName(
+  public static List<SharedPreferenceObject> getSharedPreferencesBaseOnFileName(
       Context context, String tag) {
 
     if (context == null || Utils.isEmpty(tag)) {
@@ -147,7 +147,7 @@ public class SharedPreferenceReader {
    * @param context - Context object.
    * @return - List of all the shared preferences stored in the application.
    */
-  public static ArrayList<SharedPreferenceObject> getAllSharedPreferences(Context context) {
+  public static List<SharedPreferenceObject> getAllSharedPreferences(Context context) {
     if (context == null) {
       return null;
     }
@@ -161,7 +161,7 @@ public class SharedPreferenceReader {
     ArrayList<SharedPreferenceObject> sharedPreferenceDataTypeArrayList = new ArrayList<>();
 
     for (AppDataStorageItem appDataStorageItem : sharedPreferencesTagList) {
-      ArrayList sharedPreferencesForTagList =
+      List sharedPreferencesForTagList =
           getSharedPreferencesBaseOnFileName(context, appDataStorageItem.getStorageName());
       sharedPreferenceDataTypeArrayList.addAll(sharedPreferencesForTagList);
     }
