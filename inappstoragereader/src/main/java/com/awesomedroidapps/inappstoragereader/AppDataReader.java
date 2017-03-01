@@ -47,6 +47,11 @@ public class AppDataReader {
     } else if (!SharedPreferenceReader.isSharedPreferencesEmpty(context)) {
       appDataStorageList.add(Constants.ZERO_INDEX, sharedPreferenceItem);
     }
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     return appDataStorageList;
   }
 

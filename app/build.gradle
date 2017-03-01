@@ -9,7 +9,6 @@ android {
     targetSdkVersion project.tsv
     versionCode 1
     versionName "1.0"
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
     release {
@@ -24,20 +23,11 @@ android {
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
-//  compile 'com.android.support:appcompat-v7:25.2.0'
-//  compile 'com.android.support:recyclerview-v7:25.2.0'
   compile 'com.android.support:appcompat-v7:'+project.slv
   debugCompile project(':inappstoragereader')
-  testCompile 'junit:junit:4.12'
   compile ('com.jakewharton:butterknife:8.5.1'){
     exclude group: 'com.android.support', module: 'support-compat'
   }
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
   compile 'com.android.support:recyclerview-v7:'+project.rvv
-  debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
-  compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 }

@@ -9,8 +9,7 @@
         android:id="@+id/error_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/com_awesomedroidapps_inappstoragereader_item_not_found" />
+        android:layout_centerInParent="true" />
 
     <TextView
         android:id="@+id/error_text"

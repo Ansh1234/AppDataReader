@@ -18,8 +18,6 @@ import java.util.List;
 
 public class SqliteDatabaseReader {
 
-  private final String TAG = SqliteDatabaseReader.class.getSimpleName();
-
   /**
    * This method returns all the table names of a particular database.
    *
@@ -34,7 +32,7 @@ public class SqliteDatabaseReader {
     }
 
     ArrayList tablesList = new ArrayList();
-    SQLiteDatabase sqLiteDatabase = null;
+    SQLiteDatabase sqLiteDatabase;
     try {
       sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
     } catch (Exception e) {

@@ -5,8 +5,7 @@
     <string name="com_awesomedroidapps_inappstoragereader_sharedPreference_value">VALUE</string>
     <string name="com_awesomedroidapps_inappstoragereader_app_data_list_activity">App Data</string>
     <string name="com_awesomedroidapps_inappstoragereader_shared_preferences_list_activity">SharedPreferences</string>
-    <string
-        name="com_awesomedroidapps_inappstoragereader_query_database_list_activity">Query Database
+    <string name="com_awesomedroidapps_inappstoragereader_query_database_list_activity">Query Database
     </string>
     <string name="com_awesomedroidapps_inappstoragereader_tables_list_activity">Database Tables</string>
     <string name="com_awesomedroidapps_inappstoragereader_shared_preferences_filter_all">ALL</string>
@@ -16,5 +15,6 @@
     <string name="com_awesomedroidapps_inappstoragereader_submit">SUBMIT</string>
     <string name="com_awesomedroidapps_inappstoragereader_query">Enter the Database Query
         here.</string>
-
+    <string name="com_awesomedroidapps_inappstoragereader_progressBar_message">Fetching
+        Data...</string>
 </resources>

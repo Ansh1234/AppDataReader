@@ -1,12 +1,18 @@
 apply plugin: 'com.android.library'
 
+def recyclerViewVersion = '25.2.0'
+def supportLibraryVersion = '25.2.0'
+def buildToolVersion = '25.0.2'
+def int compileVersion = 23;
+def int targetVersion = 23;
+
 android {
-  compileSdkVersion project.csv != null ? project.csv : 25
-  buildToolsVersion project.btv != null ? project.btv : "25.0.2"
+  compileSdkVersion project.csv != null ? project.csv : compileVersion
+  buildToolsVersion project.btv != null ? project.btv : buildToolVersion
 
   defaultConfig {
     minSdkVersion 11
-    targetSdkVersion project.tsv != null ? project.tsv : 25
+    targetSdkVersion project.tsv != null ? project.tsv : targetVersion
     versionCode 1
     versionName "1.0"
 
@@ -21,8 +27,8 @@ android {
   }
 }
 
-def slv = project.slv != null ? project.slv : '25.2.0'
-def rvv = project.rvv != null ? project.rvv : '25.2.0'
+def slv = project.slv != null ? project.slv : supportLibraryVersion
+def rvv = project.rvv != null ? project.rvv : recyclerViewVersion
 
 dependencies {
   compile 'com.android.support:appcompat-v7:' + slv

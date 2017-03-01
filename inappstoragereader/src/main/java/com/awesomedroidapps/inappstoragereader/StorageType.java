@@ -8,5 +8,6 @@ package com.awesomedroidapps.inappstoragereader;
 public enum StorageType {
   SHARED_PREFERENCE,
   DATABASE,
-  TABLE;
+  TABLE,
+  ALL;
 }

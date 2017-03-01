@@ -1,5 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.awesomedroidapps.inappstoragereader.AppDataAsyncTask;
+import com.awesomedroidapps.inappstoragereader.StorageType;
 import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageHandler;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
@@ -19,6 +22,7 @@ import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
 import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -27,12 +31,12 @@ import java.util.List;
  */
 
 public class TableListActivity extends AppCompatActivity implements AppStorageItemClickListener,
-    ErrorMessageInterface {
+    ErrorMessageInterface, AppDataListView {
 
   RecyclerView tablesRecylerView;
   private String databaseName;
   private RelativeLayout errorHandlerLayout;
-
+  private ProgressDialog progressDialog;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,19 +47,24 @@ public class TableListActivity extends AppCompatActivity implements AppStorageIt
 
     Bundle bundle = getIntent().getExtras();
     databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);
+    progressDialog.setMessage(
+        getString(R.string.com_awesomedroidapps_inappstoragereader_progressBar_message));
+    progressDialog.setIndeterminate(false);
   }
 
   @Override
   public void onStart() {
     super.onStart();
-    List tablesList = SqliteDatabaseReader.readTablesList(this, databaseName);
-    if (Utils.isEmpty(tablesList)) {
-      handleError(ErrorType.NO_TABLES_FOUND);
-    }
-    IconWithTextListAdapter adapter = new IconWithTextListAdapter(tablesList, this);
-    tablesRecylerView.setLayoutManager(new LinearLayoutManager(this));
-    tablesRecylerView.setAdapter(adapter);
+    initUI();
+    new AppDataAsyncTask(new WeakReference(this), this, StorageType.TABLE).execute(databaseName);
   }
+
+  private void initUI() {
+    tablesRecylerView.setVisibility(View.GONE);
+    errorHandlerLayout.setVisibility(View.GONE);
+    progressDialog.show();
+  }
+
 
   @Override
   public void onItemClicked(AppDataStorageItem appDataStorageItem) {
@@ -76,5 +85,18 @@ public class TableListActivity extends AppCompatActivity implements AppStorageIt
     errorHandlerLayout.setVisibility(View.VISIBLE);
     ErrorMessageHandler handler = new ErrorMessageHandler();
     handler.handleError(errorType, errorHandlerLayout);
+  }
+
+  @Override
+  public void onDataFetched(List<AppDataStorageItem> tablesList) {
+    progressDialog.dismiss();
+    if (Utils.isEmpty(tablesList)) {
+      handleError(ErrorType.NO_TABLES_FOUND);
+    }
+
+    tablesRecylerView.setVisibility(View.VISIBLE);
+    IconWithTextListAdapter adapter = new IconWithTextListAdapter(tablesList, this);
+    tablesRecylerView.setLayoutManager(new LinearLayoutManager(this));
+    tablesRecylerView.setAdapter(adapter);
   }
 }
