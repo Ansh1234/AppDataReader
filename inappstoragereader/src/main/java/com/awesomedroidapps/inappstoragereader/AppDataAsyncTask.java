@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
-import com.awesomedroidapps.inappstoragereader.views.AppDataListActivity;
-import com.awesomedroidapps.inappstoragereader.views.AppDataListView;
+import com.awesomedroidapps.inappstoragereader.views.ListDataView;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -17,13 +16,13 @@ import java.util.List;
 public class AppDataAsyncTask extends AsyncTask<String, Void, List<AppDataStorageItem>> {
 
   private final WeakReference<Activity> activtyWeakReference;
-  private final AppDataListView appDataListView;
+  private final ListDataView listDataView;
   private final StorageType storageType;
 
   public AppDataAsyncTask(WeakReference activtyWeakReference,
-                          AppDataListView appDataListView, StorageType storageType) {
+                          ListDataView listDataView, StorageType storageType) {
     this.activtyWeakReference = activtyWeakReference;
-    this.appDataListView = appDataListView;
+    this.listDataView = listDataView;
     this.storageType = storageType;
   }
 
@@ -49,8 +48,8 @@ public class AppDataAsyncTask extends AsyncTask<String, Void, List<AppDataStorag
 
 
   protected void onPostExecute(List<AppDataStorageItem> appDataList) {
-    if (appDataListView != null && activtyWeakReference.get() != null) {
-      appDataListView.onDataFetched(appDataList);
+    if (listDataView != null && activtyWeakReference.get() != null) {
+      listDataView.onDataFetched(appDataList);
     }
   }
 }

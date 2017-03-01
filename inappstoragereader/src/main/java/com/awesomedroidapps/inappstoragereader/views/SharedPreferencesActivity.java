@@ -69,16 +69,22 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
    * @return - The width of the RecyclerView.
    */
   private int getRecyclerViewWidth() {
-    return (int) (getResources().getDimension(R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_type_width) +
-        getResources().getDimension(R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_key_width) +
-        getResources().getDimension(R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_value_width));
+    return (int) (getResources().getDimension(
+        R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_type_width) +
+        getResources().getDimension(
+            R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_key_width) +
+        getResources().getDimension(
+            R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_value_width));
   }
 
   private ArrayList<Integer> getRecyleViewWidthList() {
     ArrayList<Integer> arrayList = new ArrayList<>();
-    arrayList.add(Utils.getDimensionInInteger(this, R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_key_width));
-    arrayList.add(Utils.getDimensionInInteger(this, R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_value_width));
-    arrayList.add(Utils.getDimensionInInteger(this, R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_type_width));
+    arrayList.add(Utils.getDimensionInInteger(this,
+        R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_key_width));
+    arrayList.add(Utils.getDimensionInInteger(this,
+        R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_value_width));
+    arrayList.add(Utils.getDimensionInInteger(this,
+        R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_type_width));
     return arrayList;
   }
 
@@ -123,7 +129,8 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   private void showPopup(View v) {
     PopupMenu popup = new PopupMenu(this, v);
     MenuInflater inflater = popup.getMenuInflater();
-    inflater.inflate(R.menu.com_awesomedroidapps_inappstoragereader_shared_preferences_popup_menu, popup.getMenu());
+    inflater.inflate(R.menu.com_awesomedroidapps_inappstoragereader_shared_preferences_popup_menu,
+        popup.getMenu());
     popup.setOnMenuItemClickListener(this);
     popup.show();
   }
@@ -244,7 +251,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     }
     String sharedPreferenceTitle = getResources().getString(R.string
         .com_awesomedroidapps_inappstoragereader_shared_preferences_list_activity);
-    int size = 0;
+    int size = Constants.ZERO_INDEX;
     if (!Utils.isEmpty(sharedPreferenceObjectList)) {
       size = sharedPreferenceObjectList.size();
     }

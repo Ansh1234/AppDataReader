@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -84,5 +85,22 @@ public class Utils {
     stringBuilder.append(size);
     stringBuilder.append(Constants.CLOSING_BRACKET);
     actionBar.setTitle(stringBuilder.toString());
+  }
+
+  /**
+   * This method is used to return the width of the recyclerview based on individual column's width.
+   *
+   * @param tableDataColumnWidthList
+   * @return
+   */
+  public static int getTableWidth(List<Integer> tableDataColumnWidthList) {
+    int width = 0;
+    if (Utils.isEmpty(tableDataColumnWidthList)) {
+      return width;
+    }
+    for (Integer i : tableDataColumnWidthList) {
+      width = width + i;
+    }
+    return width;
   }
 }

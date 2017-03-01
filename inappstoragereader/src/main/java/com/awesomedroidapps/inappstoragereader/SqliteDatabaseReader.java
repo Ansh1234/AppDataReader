@@ -69,7 +69,7 @@ public class SqliteDatabaseReader {
    * @param tableName    - The name of the table.
    * @return
    */
-  public static ArrayList<ArrayList<String>> getAllTableData(Context context, String
+  public static List<List<String>> getAllTableData(Context context, String
       databaseName, String tableName) {
 
     if (context == null || Utils.isEmpty(databaseName) || Utils.isEmpty(tableName)) {
@@ -89,7 +89,7 @@ public class SqliteDatabaseReader {
       return null;
     }
 
-    ArrayList<ArrayList<String>> tableData = new ArrayList();
+    List<List<String>> tableData = new ArrayList();
 
     //Get the column names
     String[] columnNames = cursor.getColumnNames();
@@ -235,20 +235,4 @@ public class SqliteDatabaseReader {
     return tableDataColumnWidth;
   }
 
-  /**
-   * This method is used to return the width of the recyclerview based on individual column's width.
-   *
-   * @param tableDataColumnWidthList
-   * @return
-   */
-  public static int getTableWidth(ArrayList<Integer> tableDataColumnWidthList) {
-    int width = 0;
-    if (Utils.isEmpty(tableDataColumnWidthList)) {
-      return width;
-    }
-    for (Integer i : tableDataColumnWidthList) {
-      width = width + i;
-    }
-    return width;
-  }
 }

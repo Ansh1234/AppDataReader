@@ -1,5 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,11 +9,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.awesomedroidapps.inappstoragereader.AppDataAsyncTask;
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
+import com.awesomedroidapps.inappstoragereader.StorageType;
+import com.awesomedroidapps.inappstoragereader.TableDataAsyncTask;
+import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
 import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
@@ -21,17 +27,21 @@ import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by anshul on 11/2/17.
  */
 
 public class TableDataActivity extends AppCompatActivity
-    implements ErrorMessageInterface, DataItemClickListener {
+    implements ErrorMessageInterface, DataItemClickListener, TableDataView {
 
   private AppStorageDataRecyclerView tableDataRecyclerView;
   private String databaseName, tableName;
+  private ProgressDialog progressDialog;
+  private RelativeLayout errorHandlerLayout;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +49,8 @@ public class TableDataActivity extends AppCompatActivity
     setContentView(R.layout.com_awesomedroidapps_inappstoragereader_activity_table_data);
     tableDataRecyclerView =
         (AppStorageDataRecyclerView) findViewById(R.id.table_data_recycler_view);
+    errorHandlerLayout = (RelativeLayout) findViewById(R.id.error_handler);
+    progressDialog = new ProgressDialog(this);
 
     //Read the bundle
     Bundle bundle = getIntent().getExtras();
@@ -51,30 +63,20 @@ public class TableDataActivity extends AppCompatActivity
   @Override
   public void onStart() {
     super.onStart();
-    loadTableData();
+    initUI();
+    new TableDataAsyncTask(new WeakReference(this), this).execute(
+        new String[]{databaseName, tableName});
   }
 
-  private void loadTableData() {
-    ArrayList<Integer> tableDataColumnWidthList = SqliteDatabaseReader.getTableDataColumnWidth(this,
-        databaseName, tableName);
-    int recyclerViewWidth = SqliteDatabaseReader.getTableWidth(tableDataColumnWidthList);
-    tableDataRecyclerView.setRecyclerViewWidth(recyclerViewWidth);
-    ArrayList<ArrayList<String>> tableData = SqliteDatabaseReader.getAllTableData(this,
-        databaseName, tableName);
-
-    if (Utils.isEmpty(tableData)) {
-      handleError(ErrorType.NO_TABLE_DATA_FOUND);
-      return;
-    }
-
-    TableDataListAdapter adapter =
-        new TableDataListAdapter(tableData, this, tableDataColumnWidthList, this);
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager
-        .VERTICAL, false);
-    Utils.setActionBarTitle(getSupportActionBar(), tableName, tableData.size() - 1);
-    tableDataRecyclerView.setLayoutManager(linearLayoutManager);
-    tableDataRecyclerView.setAdapter(adapter);
+  private void initUI() {
+    tableDataRecyclerView.setVisibility(View.GONE);
+    errorHandlerLayout.setVisibility(View.GONE);
+    progressDialog.setMessage(
+        getString(R.string.com_awesomedroidapps_inappstoragereader_progressBar_message));
+    progressDialog.setIndeterminate(false);
+    progressDialog.show();
   }
+
 
   @Override
   public void handleError(ErrorType errorType) {
@@ -93,4 +95,28 @@ public class TableDataActivity extends AppCompatActivity
     dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
   }
 
+  @Override
+  public void onDataFetched(TableDataResponse tableDataResponse) {
+
+    progressDialog.dismiss();
+
+    if (tableDataResponse == null || Utils.isEmpty(tableDataResponse.getTableData())) {
+      handleError(ErrorType.NO_TABLE_DATA_FOUND);
+      return;
+    }
+
+    tableDataRecyclerView.setVisibility(View.VISIBLE);
+    tableDataRecyclerView.setRecyclerViewWidth(tableDataResponse.getRecyclerViewWidth());
+
+
+    TableDataListAdapter adapter =
+        new TableDataListAdapter(tableDataResponse.getTableData(), this,
+            tableDataResponse.getRecyclerViewColumnsWidth(), this);
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager
+        .VERTICAL, false);
+    Utils.setActionBarTitle(getSupportActionBar(), tableName,
+        tableDataResponse.getTableData().size() - 1);
+    tableDataRecyclerView.setLayoutManager(linearLayoutManager);
+    tableDataRecyclerView.setAdapter(adapter);
+  }
 }

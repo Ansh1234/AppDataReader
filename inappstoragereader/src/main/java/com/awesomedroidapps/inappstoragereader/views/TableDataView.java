@@ -1,6 +1,7 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
 import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
+import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * Created by anshul on 1/3/17.
  */
 
-public interface AppDataListView {
+public interface TableDataView {
 
-  void onDataFetched(List<AppDataStorageItem> appDataList);
+  void onDataFetched(TableDataResponse tableDataResponse);
 }

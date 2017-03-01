@@ -30,7 +30,7 @@ import java.util.List;
  */
 
 public class AppDataListActivity extends AppCompatActivity implements ErrorMessageInterface,
-    AppStorageItemClickListener, AppDataListView {
+    AppStorageItemClickListener, ListDataView {
 
   private RecyclerView appDataRecylerView;
   private RelativeLayout errorHandlerLayout;
@@ -44,9 +44,6 @@ public class AppDataListActivity extends AppCompatActivity implements ErrorMessa
     appDataRecylerView = (RecyclerView) findViewById(R.id.app_data_recycler_view);
     errorHandlerLayout = (RelativeLayout) findViewById(R.id.error_handler);
     progressDialog = new ProgressDialog(this);
-    progressDialog.setMessage(
-        getString(R.string.com_awesomedroidapps_inappstoragereader_progressBar_message));
-    progressDialog.setIndeterminate(false);
   }
 
   @Override
@@ -59,6 +56,9 @@ public class AppDataListActivity extends AppCompatActivity implements ErrorMessa
   private void initUI() {
     appDataRecylerView.setVisibility(View.GONE);
     errorHandlerLayout.setVisibility(View.GONE);
+    progressDialog.setMessage(
+        getString(R.string.com_awesomedroidapps_inappstoragereader_progressBar_message));
+    progressDialog.setIndeterminate(false);
     progressDialog.show();
   }
 

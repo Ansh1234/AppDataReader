@@ -11,6 +11,7 @@ import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.views.DataItemViewHolder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by anshul on 15/1/17.
@@ -18,13 +19,13 @@ import java.util.ArrayList;
 
 public class TableDataListAdapter extends RecyclerView.Adapter {
 
-  private ArrayList<ArrayList<String>> tableDataList;
-  private final ArrayList<Integer> columnWidthList;
+  private List<List<String>> tableDataList;
+  private final List<Integer> columnWidthList;
   private final DataItemClickListener dataItemClickListener;
 
 
-  public TableDataListAdapter(ArrayList<ArrayList<String>> tableDataList, Activity activity,
-                              ArrayList<Integer> columnWidthList,
+  public TableDataListAdapter(List<List<String>> tableDataList, Activity activity,
+                              List<Integer> columnWidthList,
                               DataItemClickListener dataItemClickListener) {
     this.tableDataList = tableDataList;
     this.columnWidthList = columnWidthList;

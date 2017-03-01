@@ -14,6 +14,7 @@ import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by anshul on 15/1/17.
@@ -23,11 +24,11 @@ public class DataItemViewHolder extends RecyclerView.ViewHolder
     implements View.OnClickListener {
 
   private final LinearLayout rowDataContainer;
-  private final ArrayList<Integer> columnWidthList;
+  private final List<Integer> columnWidthList;
   private final DataItemClickListener dataItemClickListener;
 
 
-  public DataItemViewHolder(View itemView, ArrayList<Integer> columnWidth, Context context,
+  public DataItemViewHolder(View itemView, List<Integer> columnWidth, Context context,
                             DataItemClickListener dataItemClickListener) {
     super(itemView);
     this.rowDataContainer = (LinearLayout) itemView.findViewById(R.id.table_data_row_container);
@@ -49,7 +50,7 @@ public class DataItemViewHolder extends RecyclerView.ViewHolder
     }
   }
 
-  public void updateTableDataItem(ArrayList<String> rowData, boolean isHeader) {
+  public void updateTableDataItem(List<String> rowData, boolean isHeader) {
     for (int i = 0; i < rowData.size(); i++) {
       RelativeLayout relativeLayout = (RelativeLayout) rowDataContainer.getChildAt(i);
       TextView textView = (TextView) relativeLayout.getChildAt(0);

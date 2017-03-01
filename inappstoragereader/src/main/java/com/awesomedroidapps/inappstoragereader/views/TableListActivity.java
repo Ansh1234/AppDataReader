@@ -18,7 +18,6 @@ import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.interfaces.AppStorageItemClickListener;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
-import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
 import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 
@@ -31,7 +30,7 @@ import java.util.List;
  */
 
 public class TableListActivity extends AppCompatActivity implements AppStorageItemClickListener,
-    ErrorMessageInterface, AppDataListView {
+    ErrorMessageInterface, ListDataView {
 
   RecyclerView tablesRecylerView;
   private String databaseName;
@@ -47,9 +46,7 @@ public class TableListActivity extends AppCompatActivity implements AppStorageIt
 
     Bundle bundle = getIntent().getExtras();
     databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);
-    progressDialog.setMessage(
-        getString(R.string.com_awesomedroidapps_inappstoragereader_progressBar_message));
-    progressDialog.setIndeterminate(false);
+    progressDialog = new ProgressDialog(this);
   }
 
   @Override
@@ -62,6 +59,9 @@ public class TableListActivity extends AppCompatActivity implements AppStorageIt
   private void initUI() {
     tablesRecylerView.setVisibility(View.GONE);
     errorHandlerLayout.setVisibility(View.GONE);
+    progressDialog.setMessage(
+        getString(R.string.com_awesomedroidapps_inappstoragereader_progressBar_message));
+    progressDialog.setIndeterminate(false);
     progressDialog.show();
   }
 
