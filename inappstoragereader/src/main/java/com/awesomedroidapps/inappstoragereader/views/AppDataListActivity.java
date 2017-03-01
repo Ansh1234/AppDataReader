@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.awesomedroidapps.inappstoragereader.AppDataAsyncTask;
+import com.awesomedroidapps.inappstoragereader.AppStorageItemListAsyncTask;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageHandler;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
@@ -20,6 +20,7 @@ import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.interfaces.AppStorageItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
+import com.awesomedroidapps.inappstoragereader.interfaces.ListDataView;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -50,7 +51,7 @@ public class AppDataListActivity extends AppCompatActivity implements ErrorMessa
   public void onStart() {
     super.onStart();
     initUI();
-    new AppDataAsyncTask(new WeakReference(this), this, StorageType.ALL).execute();
+    new AppStorageItemListAsyncTask(new WeakReference(this), this, StorageType.ALL).execute();
   }
 
   private void initUI() {

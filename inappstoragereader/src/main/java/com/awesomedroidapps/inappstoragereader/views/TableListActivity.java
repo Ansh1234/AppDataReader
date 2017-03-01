@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.awesomedroidapps.inappstoragereader.AppDataAsyncTask;
+import com.awesomedroidapps.inappstoragereader.AppStorageItemListAsyncTask;
 import com.awesomedroidapps.inappstoragereader.StorageType;
 import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageHandler;
@@ -20,6 +20,7 @@ import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
+import com.awesomedroidapps.inappstoragereader.interfaces.ListDataView;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -53,7 +54,7 @@ public class TableListActivity extends AppCompatActivity implements AppStorageIt
   public void onStart() {
     super.onStart();
     initUI();
-    new AppDataAsyncTask(new WeakReference(this), this, StorageType.TABLE).execute(databaseName);
+    new AppStorageItemListAsyncTask(new WeakReference(this), this, StorageType.TABLE).execute(databaseName);
   }
 
   private void initUI() {

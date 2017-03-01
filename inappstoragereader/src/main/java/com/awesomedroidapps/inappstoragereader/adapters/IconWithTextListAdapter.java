@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.awesomedroidapps.inappstoragereader.Constants;
+import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.interfaces.AppStorageItemClickListener;
 import com.awesomedroidapps.inappstoragereader.R;
@@ -13,6 +15,7 @@ import com.awesomedroidapps.inappstoragereader.views.IconWithTextViewHolder;
 import java.util.List;
 
 /**
+ * A simple adapter for showing any type of list which has text and a icon.
  * Created by anshul on 15/1/17.
  */
 
@@ -21,7 +24,8 @@ public class IconWithTextListAdapter extends RecyclerView.Adapter {
   private List<AppDataStorageItem> databaseList;
   private AppStorageItemClickListener appStorageItemClickListener;
 
-  public IconWithTextListAdapter(List databaseList, AppStorageItemClickListener appStorageItemClickListener) {
+  public IconWithTextListAdapter(List databaseList,
+                                 AppStorageItemClickListener appStorageItemClickListener) {
     this.databaseList = databaseList;
     this.appStorageItemClickListener = appStorageItemClickListener;
   }
@@ -31,7 +35,8 @@ public class IconWithTextListAdapter extends RecyclerView.Adapter {
     View view = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.com_awesomedroidapps_inappstoragereader_icon_with_text_item, parent,
             false);
-    IconWithTextViewHolder viewHolder = new IconWithTextViewHolder(appStorageItemClickListener, view);
+    IconWithTextViewHolder viewHolder =
+        new IconWithTextViewHolder(appStorageItemClickListener, view);
     return viewHolder;
   }
 
@@ -40,11 +45,17 @@ public class IconWithTextListAdapter extends RecyclerView.Adapter {
     if (!(holder instanceof IconWithTextViewHolder)) {
       return;
     }
+    if (Utils.isEmpty(databaseList)) {
+      return;
+    }
     ((IconWithTextViewHolder) holder).updateDatabaseItem(databaseList.get(position));
   }
 
   @Override
   public int getItemCount() {
+    if (Utils.isEmpty(databaseList)) {
+      return Constants.ZERO_INDEX;
+    }
     return databaseList.size();
   }
 }

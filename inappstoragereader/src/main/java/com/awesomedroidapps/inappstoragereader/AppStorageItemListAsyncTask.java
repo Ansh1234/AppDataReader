@@ -4,23 +4,26 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
-import com.awesomedroidapps.inappstoragereader.views.ListDataView;
+import com.awesomedroidapps.inappstoragereader.interfaces.ListDataView;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
  * Created by anshul on 1/3/17.
+ *
+ * A async task for fetching AppStorageItem.
+ *
  */
 
-public class AppDataAsyncTask extends AsyncTask<String, Void, List<AppDataStorageItem>> {
+public class AppStorageItemListAsyncTask extends AsyncTask<String, Void, List<AppDataStorageItem>> {
 
   private final WeakReference<Activity> activtyWeakReference;
   private final ListDataView listDataView;
   private final StorageType storageType;
 
-  public AppDataAsyncTask(WeakReference activtyWeakReference,
-                          ListDataView listDataView, StorageType storageType) {
+  public AppStorageItemListAsyncTask(WeakReference activtyWeakReference,
+                                     ListDataView listDataView, StorageType storageType) {
     this.activtyWeakReference = activtyWeakReference;
     this.listDataView = listDataView;
     this.storageType = storageType;
@@ -38,7 +41,7 @@ public class AppDataAsyncTask extends AsyncTask<String, Void, List<AppDataStorag
           if (params == null) {
             return null;
           }
-          String databaseName = params[0];
+          String databaseName = params[Constants.ZERO_INDEX];
           if (Utils.isEmpty(databaseName)) {
             return null;
           }

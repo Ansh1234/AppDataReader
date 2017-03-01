@@ -10,10 +10,9 @@ import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.views.DataItemViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
+/** An adapter for showing table like data.
  * Created by anshul on 15/1/17.
  */
 

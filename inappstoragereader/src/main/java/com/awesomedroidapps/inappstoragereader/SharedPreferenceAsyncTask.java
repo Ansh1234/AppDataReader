@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
-import com.awesomedroidapps.inappstoragereader.views.TableDataView;
+import com.awesomedroidapps.inappstoragereader.interfaces.SharedPreferenceView;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -31,9 +31,9 @@ public class SharedPreferenceAsyncTask
       return null;
     }
 
-    if (params != null && !Utils.isEmpty(params[0])) {
+    if (params != null && !Utils.isEmpty(params[Constants.ZERO_INDEX])) {
       return SharedPreferenceReader.getSharedPreferencesBaseOnFileName(activtyWeakReference.get(),
-          params[0]);
+          params[Constants.ZERO_INDEX]);
     }
     return SharedPreferenceReader.getAllSharedPreferences(activtyWeakReference.get());
 

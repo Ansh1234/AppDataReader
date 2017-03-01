@@ -13,9 +13,9 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.awesomedroidapps.inappstoragereader.AppDataAsyncTask;
+import com.awesomedroidapps.inappstoragereader.AppStorageItemListAsyncTask;
 import com.awesomedroidapps.inappstoragereader.SharedPreferenceAsyncTask;
-import com.awesomedroidapps.inappstoragereader.SharedPreferenceView;
+import com.awesomedroidapps.inappstoragereader.interfaces.SharedPreferenceView;
 import com.awesomedroidapps.inappstoragereader.StorageType;
 import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
@@ -27,11 +27,11 @@ import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
-import com.awesomedroidapps.inappstoragereader.SharedPreferenceReader;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
 import com.awesomedroidapps.inappstoragereader.adapters.SharedPreferencesListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
+import com.awesomedroidapps.inappstoragereader.interfaces.ListDataView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -146,7 +146,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
    * This function is used for loading all the shared preferences files.
    */
   private void loadSharedPreferencesFiles() {
-    new AppDataAsyncTask(new WeakReference(this), this, StorageType.SHARED_PREFERENCE).execute();
+    new AppStorageItemListAsyncTask(new WeakReference(this), this, StorageType.SHARED_PREFERENCE).execute();
   }
 
   private void setSharedPreferenceList(List sharedPreferenceObjectArrayList) {
