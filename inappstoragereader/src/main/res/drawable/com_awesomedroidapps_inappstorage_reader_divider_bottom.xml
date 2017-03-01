@@ -3,6 +3,6 @@
     android:shape="rectangle">
     <size
         android:width="500dp"
-        android:height="0.5dp" />
+        android:height="1dp" />
     <solid android:color="@color/com_awesomedroidapps_inappstoragereader_dividerColor" />
 </shape>
