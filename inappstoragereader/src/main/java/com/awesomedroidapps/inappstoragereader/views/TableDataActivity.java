@@ -64,6 +64,7 @@ public class TableDataActivity extends AppCompatActivity
 
     if (Utils.isEmpty(tableData)) {
       handleError(ErrorType.NO_TABLE_DATA_FOUND);
+      return;
     }
 
     TableDataListAdapter adapter =

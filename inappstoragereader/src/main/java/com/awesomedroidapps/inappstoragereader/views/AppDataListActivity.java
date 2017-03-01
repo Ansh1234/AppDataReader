@@ -27,7 +27,7 @@ import java.util.List;
  * Created by anshul on 11/2/17.
  */
 
-public class AppDataListActivity extends AppCompatActivity implements ErrorMessageInterface,
+public class AppDataListActivity extends  AppCompatActivity implements ErrorMessageInterface,
     AppStorageItemClickListener {
 
   private RecyclerView appDataRecylerView;

@@ -39,4 +39,5 @@ dependencies {
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
   compile 'com.android.support:recyclerview-v7:'+project.rvv
   debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
+  compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 }
