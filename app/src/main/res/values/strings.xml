@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AppStorageDataReader</string>
     <string name="menu_table">Table</string>
+    <string name="menu_refresh">Refresh</string>
     <string name="menu_shared_preference">Shared Preference</string>
     <string name="table_first_name">Enter First Name</string>
     <string name="table_last_name">Enter Last Name</string>
@@ -15,6 +16,9 @@
         Shared Preferences</string>
     <string name="shared_preference_datatype_error">Please select a Data type from the
         Dropdown.</string>
+    <string name="shared_preferences_insert_success">The values in the Shared Preferences
+        have been saved succesfully</string>
+    <string name="shared_preferences_error_integer">The value entered for Integer is wrong</string>
 
     <string-array name="defaultFirstNames">
         <item>Anshul</item>
@@ -38,5 +42,21 @@
         <item>BTM Layout</item>
         <item>Spice Garden</item>
         <item>Domlur Bridge</item>
+    </string-array>
+
+    <string-array name="defaultKeys">
+        <item>First Name</item>
+        <item>Last Name</item>
+        <item>Occupation</item>
+        <item>Gender</item>
+        <item>Address</item>
+    </string-array>
+
+    <string-array name="defaultValues">
+        <item>Naman</item>
+        <item>Ojha</item>
+        <item>Software Engineer</item>
+        <item>Male</item>
+        <item>India</item>
     </string-array>
 </resources>

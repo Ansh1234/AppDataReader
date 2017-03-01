@@ -1,14 +1,14 @@
 package com.awesomedroidapps.appstoragedatareader.demo;
 
 /**
- * Shared Preference data type with it's column width.
+ * Shared Preference data type.
  * Created by anshul on 12/2/17.
  */
 
 public enum SharedPreferenceDataType {
+  UNKNOWN("SELECT DATA TYPE"),
   STRING("STRING"),
-  INT("INT"),
-  UNKNOWN("SELECT DATA TYPE");
+  INT("INT");
 
   private String type;
 

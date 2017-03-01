@@ -1,6 +1,7 @@
 package com.awesomedroidapps.appstoragedatareader.demo.entity;
 
 /**
+ * A class representing the information of a Person.
  * Created by anshul on 11/2/17.
  */
 

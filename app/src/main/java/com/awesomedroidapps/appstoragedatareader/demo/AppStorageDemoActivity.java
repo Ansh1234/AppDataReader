@@ -17,19 +17,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.awesomedroidapps.appstoragedatareader.demo.entity.PersonInfo;
-import com.awesomedroidapps.inappstoragereader.*;
+import com.awesomedroidapps.inappstoragereader.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AppStorageDemoActivity extends AppCompatActivity implements
-    AdapterView.OnItemClickListener {
+public class AppStorageDemoActivity extends AppCompatActivity {
 
   //Views in the database
   @BindView(R.id.database_container)
@@ -60,9 +56,12 @@ public class AppStorageDemoActivity extends AppCompatActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_appstorage_demo);
     ButterKnife.bind(this);
-    showSharedPreferences();
-    preFillDatabase();
-    saveInSharedPreferences();
+
+    //Initially show Table View.
+    showTableView();
+
+    fillDefaultValuesInTable();
+    fillDefaultValuesInSharedPreferences();
 
     ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
         getSpinnerArray());
@@ -80,95 +79,51 @@ public class AppStorageDemoActivity extends AppCompatActivity implements
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     // Handle item selection
-    if (item.getItemId() == R.id.menu_table) {
-      currentView = Constants.DATABASE_VIEW;
-      showTable();
-      return true;
-    } else if (item.getItemId() == R.id.menu_shared_preference) {
-      currentView = Constants.SHARED_PREFERENCE_VIEW;
-      showSharedPreferences();
-      return true;
+    switch (item.getItemId()) {
+      case R.id.menu_table:
+        showTableView();
+        break;
+
+      case R.id.menu_shared_preference:
+        showSharedPreferencesView();
+        break;
+
+      case R.id.menu_refresh:
+        refreshUI();
+        break;
     }
     return super.onOptionsItemSelected(item);
   }
 
-  private void showTable() {
+  private void showTableView() {
+    currentView = Constants.DATABASE_VIEW;
     databaseContainer.setVisibility(View.VISIBLE);
     sharedPreferenceContainer.setVisibility(View.GONE);
   }
 
-  private void showSharedPreferences() {
+  private void showSharedPreferencesView() {
+    currentView = Constants.SHARED_PREFERENCE_VIEW;
     sharedPreferenceContainer.setVisibility(View.VISIBLE);
     databaseContainer.setVisibility(View.GONE);
   }
 
-  private void saveInSharedPreferences() {
-
-    SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context
-        .MODE_PRIVATE);
-    SharedPreferences.Editor editor = sharedPreferences.edit();
-    editor.putString("name", "anshul");
-    editor.putString("age", "24");
-    editor.commit();
-
-    sharedPreferences = getSharedPreferences("MySharedPref2", Context
-        .MODE_PRIVATE);
-    editor = sharedPreferences.edit();
-    editor.putString("name", "anshul");
-    editor.putString("age", "24");
-    editor.putString("NULL", null);
-    editor.putStringSet("NULL SET", null);
-    editor.commit();
-
-    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_APPEND);
-    editor = sharedPreferences.edit();
-    editor.putString("name1",
-        "anshul FlowR is a wrapper class around the Fragment Manager. It’s mainly used to navigate between different fragments easily while providing a wide range of functionality. The following are the functionalities provided by the Flowr:");
-    editor.putString("age2", "24");
-    Set set = new HashSet<>();
-    set.add("set1");
-    set.add("set2");
-    set.add("set3");
-    editor.putStringSet("SET", set);
-    editor.commit();
-
-    sharedPreferences =
-        getSharedPreferences("MySharedPref3", Context.MODE_PRIVATE);
-    editor = sharedPreferences.edit();
-    editor.putString("name2", "anshul");
-    editor.putString("age3", "24");
-    editor.commit();
-
-    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_PRIVATE);
-    editor = sharedPreferences.edit();
-    editor.putString("name3", "anshul");
-    editor.putString("age4", "24");
-    editor.commit();
-
-    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_PRIVATE);
-    editor = sharedPreferences.edit();
-    editor.putString("name4", "anshul");
-    editor.putString("age5", "24");
-    editor.commit();
-
-    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_PRIVATE);
-    editor = sharedPreferences.edit();
-    editor.putString("name5", "anshul");
-    editor.putString("age6", "24");
-    editor.commit();
-
-    sharedPreferences = getSharedPreferences("MySharedPref3", Context.MODE_PRIVATE);
-    editor = sharedPreferences.edit();
-    editor.putString("name6", "anshul");
-    editor.putString("age7", "24");
-    editor.commit();
-
-
+  private void refreshUI() {
+    switch (currentView) {
+      case Constants.DATABASE_VIEW:
+        firstName.setText(Constants.EMPTY_STRING);
+        lastName.setText(Constants.EMPTY_STRING);
+        address.setText(Constants.EMPTY_STRING);
+        break;
+      case Constants.SHARED_PREFERENCE_VIEW:
+        sharedPreferenceKey.setText(Constants.EMPTY_STRING);
+        sharedPreferenceValue.setText(Constants.EMPTY_STRING);
+        sharedPreferenceSpinner.setSelection(Constants.ZERO_INDEX);
+        break;
+    }
   }
 
   @OnClick(R.id.submit)
   public void submit() {
-
     switch (currentView) {
       case Constants.DATABASE_VIEW:
         enterValuesIntoDB();
@@ -202,6 +157,19 @@ public class AppStorageDemoActivity extends AppCompatActivity implements
   }
 
   private void enterValuesIntoSharedPreferences() {
+
+    if (!(sharedPreferenceSpinner.getSelectedItem() instanceof String)) {
+      return;
+    }
+
+    SharedPreferenceDataType selectedDataType = SharedPreferenceDataType.getDataType((String)
+        sharedPreferenceSpinner.getSelectedItem());
+
+    if (selectedDataType == SharedPreferenceDataType.UNKNOWN) {
+      showToast(getString(R.string.shared_preference_datatype_error));
+      return;
+    }
+
     String keyStr = sharedPreferenceKey.getText().toString();
     String valueStr = sharedPreferenceValue.getText().toString();
 
@@ -209,25 +177,10 @@ public class AppStorageDemoActivity extends AppCompatActivity implements
       showToast(getString(R.string.shared_preference_key_value_error));
       return;
     }
-
-    Object selectSpinnerObject = sharedPreferenceSpinner.getSelectedItem();
-
-    if (!(selectSpinnerObject instanceof String)) {
-      return;
-    }
-
-    SharedPreferenceDataType selectedDataType = SharedPreferenceDataType.getDataType((String)
-        selectSpinnerObject);
-
-    if (selectedDataType == SharedPreferenceDataType.UNKNOWN) {
-      showToast(getString(R.string.shared_preference_datatype_error));
-      return;
-    }
     insertIntoSharedPreference(keyStr, valueStr, selectedDataType);
-
   }
 
-  private void preFillDatabase() {
+  private void fillDefaultValuesInTable() {
     String[] defaultFirstNames = getResources().getStringArray(R.array.defaultFirstNames);
     String[] defaultLastNames = getResources().getStringArray(R.array.defaultLastNames);
     String[] defaultAddresses = getResources().getStringArray(R.array.defaultAddresses);
@@ -238,6 +191,15 @@ public class AppStorageDemoActivity extends AppCompatActivity implements
       personInfo.setLastName(defaultLastNames[i]);
       personInfo.setAddress(defaultAddresses[i]);
       insertIntoDatabase(personInfo);
+    }
+  }
+
+  private void fillDefaultValuesInSharedPreferences() {
+    String[] defaultKeys = getResources().getStringArray(R.array.defaultKeys);
+    String[] defaultValues = getResources().getStringArray(R.array.defaultValues);
+
+    for (int i = 0; i < defaultKeys.length; i++) {
+      insertIntoSharedPreference(defaultKeys[i], defaultValues[i], SharedPreferenceDataType.STRING);
     }
   }
 
@@ -260,7 +222,13 @@ public class AppStorageDemoActivity extends AppCompatActivity implements
         editor.putString(key, value);
         break;
       case INT:
-        editor.putInt(key, Integer.parseInt(value));
+        try {
+          int intVal = Integer.parseInt(value);
+          editor.putInt(key, intVal);
+        } catch (Exception e) {
+          showToast(getString(R.string.shared_preferences_error_integer));
+          return;
+        }
         break;
     }
     editor.commit();
@@ -290,10 +258,5 @@ public class AppStorageDemoActivity extends AppCompatActivity implements
       spinnerArrayList.add(sharedPreferenceDataType.getType());
     }
     return spinnerArrayList;
-  }
-
-  @Override
-  public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
   }
 }

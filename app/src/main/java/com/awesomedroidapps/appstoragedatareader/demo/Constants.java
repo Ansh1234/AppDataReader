@@ -9,4 +9,6 @@ public class Constants {
   public static final int DATABASE_VIEW = 1;
   public static final int SHARED_PREFERENCE_VIEW = 2;
   public static final String SHARED_PREFERENCES_FILE = "demoSharedPreferences";
+  public static final String EMPTY_STRING = "";
+  public static final int ZERO_INDEX =0;
 }
