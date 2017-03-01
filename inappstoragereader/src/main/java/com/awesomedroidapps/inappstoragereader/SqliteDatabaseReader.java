@@ -76,7 +76,7 @@ public class SqliteDatabaseReader {
       return null;
     }
 
-    SQLiteDatabase sqLiteDatabase = null;
+    SQLiteDatabase sqLiteDatabase;
     try {
       sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
     } catch (Exception e) {
@@ -85,7 +85,7 @@ public class SqliteDatabaseReader {
     }
     Cursor cursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
 
-    if (cursor == null || !cursor.moveToFirst()) {
+    if (cursor == null) {
       return null;
     }
 
@@ -101,6 +101,9 @@ public class SqliteDatabaseReader {
 
     int columnCount = cursor.getColumnCount();
 
+    if (!cursor.moveToFirst()) {
+      return tableData;
+    }
     do {
       ArrayList rowData = getRowData(cursor, columnCount);
       tableData.add(rowData);
