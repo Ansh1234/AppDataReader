@@ -12,9 +12,13 @@
         style="@style/ComAwesomeDroidAppsDataItemTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:drawableBottom="@drawable/com_awesomedroidapps_inappstorage_reader_divider_bottom" />
+        android:layout_centerInParent="true" />
 
+    <View
+        android:layout_height="@dimen/com_awesomedroidapps_inappstoragereader_divider_height"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="@color/com_awesomedroidapps_inappstoragereader_dividerColor" />
     <View
         android:layout_width="@dimen/com_awesomedroidapps_inappstoragereader_divider_height"
         android:layout_height="match_parent"

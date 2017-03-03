@@ -138,31 +138,40 @@ public class SqliteDatabaseReader {
             rowData.add(cursor.getString(i));
           } catch (Exception e) {
             e.printStackTrace();
-            continue;
           }
           break;
         case Cursor.FIELD_TYPE_INTEGER:
           try {
-            rowData.add(Integer.toString(cursor.getInt(i)));
+            rowData.add(Long.toString(cursor.getLong(i)));
           } catch (Exception e) {
             e.printStackTrace();
-            continue;
           }
           break;
         case Cursor.FIELD_TYPE_BLOB:
+          String data;
           try {
-            rowData.add(SqliteConstants.BLOB);
+            byte[] bdata = cursor.getBlob(i);
+            data = new String(bdata);
           } catch (Exception e) {
+            data = SqliteConstants.BLOB;
             e.printStackTrace();
-            continue;
           }
+          rowData.add(data);
           break;
         case Cursor.FIELD_TYPE_FLOAT:
           try {
-            rowData.add(Float.toString(cursor.getFloat(i)));
+            rowData.add(Double.toString(cursor.getDouble(i)));
           } catch (Exception e) {
             e.printStackTrace();
-            continue;
+          }
+          break;
+
+        case Cursor.FIELD_TYPE_NULL:
+          try {
+            rowData.add(Constants.EMPTY_STRING);
+          } catch (Exception e) {
+            e.printStackTrace();
+            break;
           }
       }
     }

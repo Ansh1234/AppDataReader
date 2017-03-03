@@ -13,6 +13,7 @@ public class ErrorMessageHandler {
 
   /**
    * A helper method for handling the errors.
+   *
    * @param errorType
    * @param view
    */
@@ -28,6 +29,9 @@ public class ErrorMessageHandler {
 
     switch (errorType) {
       case NO_ITEM_FOUND:
+      case NO_SHARED_PREFERENCES_FOUND:
+      case NO_DATABASES_FOUND:
+      case NO_TABLES_FOUND:
         imageView.setImageResource(
             R.drawable.com_awesomedroidapps_inappstoragereader_item_not_found);
         break;

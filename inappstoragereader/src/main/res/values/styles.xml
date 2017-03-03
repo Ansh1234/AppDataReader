@@ -25,7 +25,7 @@
         </item>
         <item name="android:textSize">@dimen/com_awesomedroidapps_inappstoragereader_sharedpreferences_textview_text_size</item>
         <item name="android:gravity">center</item>
-        <item name="android:maxLines">4</item>
+        <item name="android:maxLines">5</item>
         <item name="android:ellipsize">end</item>
         <item name="android:minHeight">
             @dimen/com_awesomedroidapps_inappstoragereader_shared_preference_item_min_height
