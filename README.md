@@ -33,3 +33,13 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; ![](demo_images/TableListActivity.jpeg)&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;![](demo_images/TableDataActivity.jpeg)
 
+
+***
+
+## Tentative features for the next release
+
+* Query the database and change the values within the application.
+* Copy an entire row to Clipboard.
+* Export an entire table in csv format.
+
+
