@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -177,7 +176,8 @@ public class AppStorageDemoActivity extends AppCompatActivity {
       showToast(getString(R.string.shared_preference_key_value_error));
       return;
     }
-    insertIntoSharedPreference(keyStr, valueStr, selectedDataType);
+    insertIntoSharedPreference(keyStr, valueStr, selectedDataType,
+        Constants.PERSON_INFO_SHARED_PREFERENCES1);
   }
 
   private void fillDefaultValuesInTable() {
@@ -195,11 +195,20 @@ public class AppStorageDemoActivity extends AppCompatActivity {
   }
 
   private void fillDefaultValuesInSharedPreferences() {
-    String[] defaultKeys = getResources().getStringArray(R.array.defaultKeys);
-    String[] defaultValues = getResources().getStringArray(R.array.defaultValues);
+    String[] defaultKeys = getResources().getStringArray(R.array.defaultPersonInfoKeys1);
+    String[] defaultValues = getResources().getStringArray(R.array.defaultPersonInfoValues1);
 
     for (int i = 0; i < defaultKeys.length; i++) {
-      insertIntoSharedPreference(defaultKeys[i], defaultValues[i], SharedPreferenceDataType.STRING);
+      insertIntoSharedPreference(defaultKeys[i], defaultValues[i], SharedPreferenceDataType
+          .STRING, Constants.PERSON_INFO_SHARED_PREFERENCES1);
+    }
+
+    defaultKeys = getResources().getStringArray(R.array.defaultPersonInfoKeys2);
+    defaultValues = getResources().getStringArray(R.array.defaultPersonInfoValues2);
+
+    for (int i = 0; i < defaultKeys.length; i++) {
+      insertIntoSharedPreference(defaultKeys[i], defaultValues[i], SharedPreferenceDataType
+          .STRING, Constants.PERSON_INFO_SHARED_PREFERENCES2);
     }
   }
 
@@ -209,12 +218,12 @@ public class AppStorageDemoActivity extends AppCompatActivity {
   }
 
   private void insertIntoSharedPreference(String key, String value, SharedPreferenceDataType
-      dataType) {
+      dataType, String fileName) {
     if (Utils.isEmpty(key) || value == null) {
       return;
     }
     SharedPreferences sharedPreferences =
-        getSharedPreferences(Constants.SHARED_PREFERENCES_FILE, Context
+        getSharedPreferences(fileName, Context
             .MODE_PRIVATE);
     SharedPreferences.Editor editor = sharedPreferences.edit();
     switch (dataType) {

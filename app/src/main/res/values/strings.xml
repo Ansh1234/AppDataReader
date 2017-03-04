@@ -44,17 +44,23 @@
         <item>Domlur Bridge</item>
     </string-array>
 
-    <string-array name="defaultKeys">
+    <string-array name="defaultPersonInfoKeys1">
         <item>First Name</item>
         <item>Last Name</item>
+    </string-array>
+
+    <string-array name="defaultPersonInfoValues1">
+        <item>Naman</item>
+        <item>Ojha</item>
+    </string-array>
+
+    <string-array name="defaultPersonInfoKeys2">
         <item>Occupation</item>
         <item>Gender</item>
         <item>Address</item>
     </string-array>
 
-    <string-array name="defaultValues">
-        <item>Naman</item>
-        <item>Ojha</item>
+    <string-array name="defaultPersonInfoValues2">
         <item>Software Engineer</item>
         <item>Male</item>
         <item>India</item>

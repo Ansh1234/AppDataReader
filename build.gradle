@@ -6,6 +6,8 @@ buildscript {
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:2.2.3'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
 
     // NOTE: Do not place your application dependencies here; they belong
     // in the individual module build.gradle files
@@ -17,11 +19,11 @@ allprojects {
     jcenter()
   }
   project.ext {
-    rvv = '23.1.0'
-    slv = '23.1.0'
-    csv = 23
-    tsv = 23
-    btv = '23.0.2'
+    rvv = '23.1.0' //RecyclerView  version
+    slv = '23.1.0' // Support AppCompat v7 library version.
+    csv = 23 // compile Sdk version
+    tsv = 23 //Target Sdk version
+    btv = '23.0.2' // Build tools version.
   }
 }
 
