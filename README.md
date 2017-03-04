@@ -1,7 +1,18 @@
 # AppDataReader
 
-A library for reading Shared Preferences and Database within the application. 
+A library for reading Shared Preferences and Database values within the application. 
 
+
+## Description
+
+Similar to this library, there are existing libraries like Facebook's Stetho, which does the exact thing of reading the application's database and Shared Preferences. But the values are shown in the browser. With the help of this library, the  developer does not need to connect the application to the browser. Within the phone itself, the developer can see the values. 
+
+## Advantages of using this library
+* No Java Code. Only gradle dependency.
+* Read all the app data within the phone without the need of a browser.
+* See all the Shared Preferences at once or file by file.
+* Copy the value of an individual column of Shared Preference and Database tables to Clipboard.
+* With the help of some additional gradle code, this library will pick up the compileSdk Version, targetSdk Version and  Build Tools Version from the main project.
 
 ## Install the library
 ```
@@ -32,4 +43,14 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; ![](demo_images/AppDataActivity.jpeg)&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;![](demo_images/SharedPreferenceActivity.jpeg)
 
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; ![](demo_images/TableListActivity.jpeg)&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;![](demo_images/TableDataActivity.jpeg)
+
+
+***
+
+## Tentative features for the next release
+
+* Query the database and change the values within the application.
+* Copy an entire row to Clipboard.
+* Export an entire table in csv format.
+
 
