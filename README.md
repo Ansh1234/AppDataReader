@@ -40,10 +40,7 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 ## Demo 
 
-&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; ![](demo_images/AppDataActivity.jpeg)&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;![](demo_images/SharedPreferenceActivity.jpeg)
-
-&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; ![](demo_images/TableListActivity.jpeg)&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;![](demo_images/TableDataActivity.jpeg)
-
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; ![](demo.gif)
 
 ***
 
