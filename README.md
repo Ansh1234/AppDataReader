@@ -27,4 +27,4 @@ project.ext {
 
 The library declares an activity `AppDataListActivity` with action `android.intent.action.MAIN` in the `AndroidManifest.xml`. So as soon as your application is installed, this activity will also be placed in the launcher of the phone. Search for **App Data** on the launcher.  
 
-![](AppDataListActivity.jpeg)
+![](demo_images/AppDataListActivity.jpeg)
