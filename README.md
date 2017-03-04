@@ -12,6 +12,7 @@ Similar to this library, there are existing libraries like Facebook's Stetho, wh
 * Read all the app data within the phone without the need of a browser.
 * See all the Shared Preferences at once or file by file.
 * Copy the value of an individual column of Shared Preference and Database tables to Clipboard.
+* Shows the count of the Shared Preferences in a file and  rows in a table.
 * With the help of some additional gradle code, this library will pick up the compileSdk Version, targetSdk Version and  Build Tools Version from the main project.
 
 ## Install the library
@@ -40,7 +41,7 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 ## Demo 
 
-&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; ![](demo.gif)
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; ![](appstoragereader.gif)
 
 ***
 
