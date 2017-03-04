@@ -8,7 +8,8 @@
             android:label="@string/com_awesomedroidapps_inappstoragereader_app_data_list_activity"
             android:launchMode="singleTask"
             android:taskAffinity=".views.AppDataListActivity"
-            android:theme="@style/ComAwesomeDroidAppStorageReaderTheme">
+            android:theme="@style/ComAwesomeDroidAppStorageReaderTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -18,15 +19,18 @@
             android:name=".views.TableListActivity"
             android:label="@string/com_awesomedroidapps_inappstoragereader_tables_list_activity"
             android:taskAffinity=".views.AppDataListActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ComAwesomeDroidAppStorageReaderTheme" />
         <activity
             android:name=".views.TableDataActivity"
             android:taskAffinity=".views.AppDataListActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ComAwesomeDroidAppStorageReaderTheme" />
         <activity
             android:name=".views.SharedPreferencesActivity"
             android:label="@string/com_awesomedroidapps_inappstoragereader_shared_preferences_list_activity"
             android:taskAffinity=".views.AppDataListActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ComAwesomeDroidAppStorageReaderTheme" />
     </application>
 </manifest>
