@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A adapter for showing Shared Preferences.
  * Created by anshul on 15/1/17.
  */
 

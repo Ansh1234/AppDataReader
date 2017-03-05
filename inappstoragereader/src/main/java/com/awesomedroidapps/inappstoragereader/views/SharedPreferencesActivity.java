@@ -1,5 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.awesomedroidapps.inappstoragereader.AppDataStorageItem;
+import com.awesomedroidapps.inappstoragereader.AppStorageItemListAsyncTask;
+import com.awesomedroidapps.inappstoragereader.SharedPreferenceAsyncTask;
+import com.awesomedroidapps.inappstoragereader.interfaces.SharedPreferenceView;
+import com.awesomedroidapps.inappstoragereader.StorageType;
+import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
 import com.awesomedroidapps.inappstoragereader.interfaces.AppStorageItemClickListener;
@@ -22,12 +27,13 @@ import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
-import com.awesomedroidapps.inappstoragereader.SharedPreferenceReader;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
 import com.awesomedroidapps.inappstoragereader.adapters.SharedPreferencesListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
+import com.awesomedroidapps.inappstoragereader.interfaces.ListDataView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,13 +43,14 @@ import java.util.List;
 
 public class SharedPreferencesActivity extends AppCompatActivity implements
     ErrorMessageInterface, PopupMenu.OnMenuItemClickListener, AppStorageItemClickListener,
-    DataItemClickListener {
+    DataItemClickListener, ListDataView, SharedPreferenceView {
 
   private AppStorageDataRecyclerView sharedPreferencesRecylerView;
   private RelativeLayout errorHandlerLayout;
   private String fileName = null;
   private boolean isFileModeEnabled = false;
   private boolean displayFilterMenu = true;
+  private ProgressDialog progressDialog;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -60,31 +67,13 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
       fileName = bundle.getString(Constants.BUNDLE_FILE_NAME);
       displayFilterMenu = bundle.getBoolean(Constants.BUNDLE_DISPLAY_FILTER);
     }
-  }
-
-
-  /**
-   * To get the width of the recyclerView based on its individual column widths.
-   *
-   * @return - The width of the RecyclerView.
-   */
-  private int getRecyclerViewWidth() {
-    return (int) (getResources().getDimension(R.dimen.sharedpreferences_type_width) +
-        getResources().getDimension(R.dimen.sharedpreferences_key_width) +
-        getResources().getDimension(R.dimen.sharedpreferences_value_width));
-  }
-
-  private ArrayList<Integer> getRecyleViewWidthList() {
-    ArrayList<Integer> arrayList = new ArrayList<>();
-    arrayList.add(Utils.getDimensionInInteger(this, R.dimen.sharedpreferences_key_width));
-    arrayList.add(Utils.getDimensionInInteger(this, R.dimen.sharedpreferences_value_width));
-    arrayList.add(Utils.getDimensionInInteger(this, R.dimen.sharedpreferences_type_width));
-    return arrayList;
+    progressDialog = new ProgressDialog(this);
   }
 
   @Override
   public void onStart() {
     super.onStart();
+    initUI();
     if (isFileModeEnabled) {
       loadSharedPreferencesFiles();
     } else if (Utils.isEmpty(fileName)) {
@@ -92,7 +81,15 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     } else {
       loadSharedPreferencesFromFile(fileName);
     }
+  }
 
+  private void initUI() {
+    sharedPreferencesRecylerView.setVisibility(View.GONE);
+    errorHandlerLayout.setVisibility(View.GONE);
+    progressDialog.setMessage(
+        getString(R.string.com_awesomedroidapps_inappstoragereader_progressBar_message));
+    progressDialog.setIndeterminate(false);
+    progressDialog.show();
   }
 
   @Override
@@ -123,7 +120,8 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   private void showPopup(View v) {
     PopupMenu popup = new PopupMenu(this, v);
     MenuInflater inflater = popup.getMenuInflater();
-    inflater.inflate(R.menu.shared_preferences_popup_menu, popup.getMenu());
+    inflater.inflate(R.menu.com_awesomedroidapps_inappstoragereader_shared_preferences_popup_menu,
+        popup.getMenu());
     popup.setOnMenuItemClickListener(this);
     popup.show();
   }
@@ -132,9 +130,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
    * This function is for loading all the shared preferences.
    */
   private void loadAllSharedPreferences() {
-    ArrayList<SharedPreferenceObject> sharedPreferenceObjectArrayList =
-        SharedPreferenceReader.getAllSharedPreferences(this);
-    getSharedPreference(sharedPreferenceObjectArrayList);
+    new SharedPreferenceAsyncTask(new WeakReference(this), this).execute(fileName);
   }
 
   /**
@@ -143,27 +139,17 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
    * @param fileName
    */
   private void loadSharedPreferencesFromFile(String fileName) {
-    ArrayList<SharedPreferenceObject> sharedPreferenceObjectArrayList =
-        SharedPreferenceReader.getSharedPreferencesBaseOnFileName(this, fileName);
-    getSharedPreference(sharedPreferenceObjectArrayList);
+    new SharedPreferenceAsyncTask(new WeakReference(this), this).execute(fileName);
   }
 
   /**
    * This function is used for loading all the shared preferences files.
    */
   private void loadSharedPreferencesFiles() {
-    List sharedPreferencesFileList = SharedPreferenceReader.getSharedPreferencesTags(this);
-    if (Utils.isEmpty(sharedPreferencesFileList)) {
-      return;
-    }
-    IconWithTextListAdapter
-        adapter = new IconWithTextListAdapter(sharedPreferencesFileList, this);
-    sharedPreferencesRecylerView.setLayoutManager(new LinearLayoutManager(this));
-    sharedPreferencesRecylerView.setAdapter(adapter);
-    setActionBarTitle(null);
+    new AppStorageItemListAsyncTask(new WeakReference(this), this, StorageType.SHARED_PREFERENCE).execute();
   }
 
-  private void getSharedPreference(ArrayList sharedPreferenceObjectArrayList) {
+  private void setSharedPreferenceList(List sharedPreferenceObjectArrayList) {
     setActionBarTitle(sharedPreferenceObjectArrayList);
     if (Utils.isEmpty(sharedPreferenceObjectArrayList)) {
       handleError(ErrorType.NO_SHARED_PREFERENCES_FOUND);
@@ -172,23 +158,12 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     sharedPreferencesRecylerView.setVisibility(View.VISIBLE);
     errorHandlerLayout.setVisibility(View.GONE);
 
-    sharedPreferenceObjectArrayList.add(0, getSharedPreferenceHeadersInList());
+    sharedPreferenceObjectArrayList.add(Constants.ZERO_INDEX, getSharedPreferenceHeadersInList());
     SharedPreferencesListAdapter
         adapter = new SharedPreferencesListAdapter(sharedPreferenceObjectArrayList, this,
         getRecyleViewWidthList(), this);
     sharedPreferencesRecylerView.setLayoutManager(new LinearLayoutManager(this));
     sharedPreferencesRecylerView.setAdapter(adapter);
-  }
-
-  private ArrayList getSharedPreferenceHeadersInList() {
-    ArrayList arrayList = new ArrayList();
-    arrayList.add(getResources().getString(R.string
-        .com_awesomedroidapps_inappstoragereader_sharedPreference_key));
-    arrayList.add(getResources().getString(R.string
-        .com_awesomedroidapps_inappstoragereader_sharedPreference_value));
-    arrayList.add(getResources().getString(R.string
-        .com_awesomedroidapps_inappstoragereader_sharedPreference_type));
-    return arrayList;
   }
 
   /**
@@ -244,7 +219,7 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     }
     String sharedPreferenceTitle = getResources().getString(R.string
         .com_awesomedroidapps_inappstoragereader_shared_preferences_list_activity);
-    int size = 0;
+    int size = Constants.ZERO_INDEX;
     if (!Utils.isEmpty(sharedPreferenceObjectList)) {
       size = sharedPreferenceObjectList.size();
     }
@@ -271,5 +246,63 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     }
     DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data);
     dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
+  }
+
+
+  /**
+   * To get the width of the recyclerView based on its individual column widths.
+   *
+   * @return - The width of the RecyclerView.
+   */
+  private int getRecyclerViewWidth() {
+    return (int) (getResources().getDimension(
+        R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_type_width) +
+        getResources().getDimension(
+            R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_key_width) +
+        getResources().getDimension(
+            R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_value_width));
+  }
+
+  private ArrayList<Integer> getRecyleViewWidthList() {
+    ArrayList<Integer> arrayList = new ArrayList<>();
+    arrayList.add(Utils.getDimensionInInteger(this,
+        R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_key_width));
+    arrayList.add(Utils.getDimensionInInteger(this,
+        R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_value_width));
+    arrayList.add(Utils.getDimensionInInteger(this,
+        R.dimen.com_awesomedroidapps_inappstoragereader_sharedpreferences_type_width));
+    return arrayList;
+  }
+
+  private ArrayList getSharedPreferenceHeadersInList() {
+    ArrayList arrayList = new ArrayList();
+    arrayList.add(getResources().getString(R.string
+        .com_awesomedroidapps_inappstoragereader_sharedPreference_key));
+    arrayList.add(getResources().getString(R.string
+        .com_awesomedroidapps_inappstoragereader_sharedPreference_value));
+    arrayList.add(getResources().getString(R.string
+        .com_awesomedroidapps_inappstoragereader_sharedPreference_type));
+    return arrayList;
+  }
+
+  @Override
+  public void onDataFetched(List<AppDataStorageItem> sharedPreferencesFileList) {
+    progressDialog.dismiss();
+    if (Utils.isEmpty(sharedPreferencesFileList)) {
+      return;
+    }
+
+    sharedPreferencesRecylerView.setVisibility(View.VISIBLE);
+    IconWithTextListAdapter
+        adapter = new IconWithTextListAdapter(sharedPreferencesFileList, this);
+    sharedPreferencesRecylerView.setLayoutManager(new LinearLayoutManager(this));
+    sharedPreferencesRecylerView.setAdapter(adapter);
+    setActionBarTitle(null);
+  }
+
+  @Override
+  public void onSharedPreferencesFetched(List<SharedPreferenceObject> appDataList) {
+    progressDialog.dismiss();
+    setSharedPreferenceList(appDataList);
   }
 }

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 /**
+ * A class which extends RecyclerView for dynamically changing the width.
  * Created by anshul on 12/2/17.
  */
 

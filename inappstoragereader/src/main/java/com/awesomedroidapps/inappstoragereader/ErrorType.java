@@ -1,6 +1,7 @@
 package com.awesomedroidapps.inappstoragereader;
 
 /**
+ * Types of error for displaying on various screens.
  * Created by anshul on 25/2/17.
  */
 

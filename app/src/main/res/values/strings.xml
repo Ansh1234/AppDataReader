@@ -1,4 +1,68 @@
 <resources>
     <string name="app_name">AppStorageDataReader</string>
-    <string name="submit">Submit In Main App</string>
+    <string name="menu_table">Table</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_shared_preference">Shared Preference</string>
+    <string name="table_first_name">Enter First Name</string>
+    <string name="table_last_name">Enter Last Name</string>
+    <string name="table_address">Enter Address</string>
+    <string name="shared_preference_key">Enter Shared Preference Key</string>
+    <string name="shared_preference_value">Enter Shared Preference Value</string>
+    <string name="table_empty_values_error_msg">Please Enter at least one of the values.</string>
+    <string name="table_insert_success">The values in the database have been inserted
+        sucessful</string>
+    <string name="table_insert_failure">The values in the databse could not be inserted</string>
+    <string name="shared_preference_key_value_error">Both Key and Value are required for
+        Shared Preferences</string>
+    <string name="shared_preference_datatype_error">Please select a Data type from the
+        Dropdown.</string>
+    <string name="shared_preferences_insert_success">The values in the Shared Preferences
+        have been saved succesfully</string>
+    <string name="shared_preferences_error_integer">The value entered for Integer is wrong</string>
+
+    <string-array name="defaultFirstNames">
+        <item>Anshul</item>
+        <item>Hemant</item>
+        <item>Siddharth</item>
+        <item>Surya</item>
+        <item>Agni</item>
+    </string-array>
+
+    <string-array name="defaultLastNames">
+        <item>Jain</item>
+        <item>Malhotra</item>
+        <item>Dhavan</item>
+        <item>Raheja</item>
+        <item>Varma</item>
+    </string-array>
+
+    <string-array name="defaultAddresses">
+        <item>IndiraNagar</item>
+        <item>Koramangala</item>
+        <item>BTM Layout</item>
+        <item>Spice Garden</item>
+        <item>Domlur Bridge</item>
+    </string-array>
+
+    <string-array name="defaultPersonInfoKeys1">
+        <item>First Name</item>
+        <item>Last Name</item>
+    </string-array>
+
+    <string-array name="defaultPersonInfoValues1">
+        <item>Naman</item>
+        <item>Ojha</item>
+    </string-array>
+
+    <string-array name="defaultPersonInfoKeys2">
+        <item>Occupation</item>
+        <item>Gender</item>
+        <item>Address</item>
+    </string-array>
+
+    <string-array name="defaultPersonInfoValues2">
+        <item>Software Engineer</item>
+        <item>Male</item>
+        <item>India</item>
+    </string-array>
 </resources>

@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 /**
+ * A dialog fragment for copying the data of an individual data column.
  * Created by anshul on 26/2/17.
  */
 

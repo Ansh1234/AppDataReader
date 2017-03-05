@@ -1,6 +1,6 @@
 package com.awesomedroidapps.inappstoragereader;
 
-/**
+/** A file for storing all the Constants.
  * Created by anshul on 11/2/17.
  */
 
@@ -15,4 +15,5 @@ public class Constants {
   public static final String CLOSING_BRACKET = ")";
   public static final String SPACE = " ";
   public static final int ZERO_INDEX  =0;
+  public static final String EMPTY_STRING="";
 }

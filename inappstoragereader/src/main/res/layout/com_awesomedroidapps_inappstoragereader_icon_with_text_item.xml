@@ -3,28 +3,28 @@
 <RelativeLayout android:id="@+id/item_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/database_item_height">
+    android:layout_height="@dimen/com_awesomedroidapps_inappstoragereader_database_item_height">
 
     <ImageView
         android:id="@+id/icon_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/database_item_text_marginLeft" />
+        android:layout_marginLeft="@dimen/com_awesomedroidapps_inappstoragereader_database_item_text_marginLeft" />
 
     <TextView
         android:id="@+id/text_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/database_item_text_marginLeft"
+        android:layout_marginLeft="@dimen/com_awesomedroidapps_inappstoragereader_database_item_text_marginLeft"
         android:layout_toRightOf="@+id/icon_item"
-        android:textSize="@dimen/database_item_text_size" />
+        android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_database_item_text_size" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
+        android:layout_height="@dimen/com_awesomedroidapps_inappstoragereader_divider_height"
         android:layout_alignParentBottom="true"
-        android:background="@color/appStorageDividerColor" />
+        android:background="@color/com_awesomedroidapps_inappstoragereader_dividerColor" />
 </RelativeLayout>
 

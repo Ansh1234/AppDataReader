@@ -4,5 +4,5 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/shared_preference_item_min_height"
+    android:minHeight="@dimen/com_awesomedroidapps_inappstoragereader_shared_preference_item_min_height"
     android:orientation="horizontal"></LinearLayout>

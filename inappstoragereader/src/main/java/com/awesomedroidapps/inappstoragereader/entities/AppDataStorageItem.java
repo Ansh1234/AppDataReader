@@ -1,6 +1,9 @@
-package com.awesomedroidapps.inappstoragereader;
+package com.awesomedroidapps.inappstoragereader.entities;
+
+import com.awesomedroidapps.inappstoragereader.StorageType;
 
 /**
+ * A class for specifying the storage type and name.
  * Created by anshul on 12/2/17.
  */
 

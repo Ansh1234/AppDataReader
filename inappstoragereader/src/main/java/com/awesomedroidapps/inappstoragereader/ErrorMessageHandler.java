@@ -5,19 +5,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
+ * A helper class for displaying errors based on the error type.
  * Created by anshul on 25/2/17.
  */
 
 public class ErrorMessageHandler {
 
-  public void handleError(ErrorType errorType, View view){
-    TextView textView  = (TextView) view.findViewById(R.id.error_text);
+  /**
+   * A helper method for handling the errors.
+   *
+   * @param errorType
+   * @param view
+   */
+  public void handleError(ErrorType errorType, View view) {
+    if (errorType == null || view == null) {
+      return;
+    }
+
+    TextView textView = (TextView) view.findViewById(R.id.error_text);
     ImageView imageView = (ImageView) view.findViewById(R.id.error_icon);
 
     textView.setText(errorType.getErrorMessage());
-    switch (errorType){
+
+    switch (errorType) {
       case NO_ITEM_FOUND:
-        imageView.setImageResource(R.drawable.com_awesomedroidapps_inappstoragereader_item_not_found);
+      case NO_SHARED_PREFERENCES_FOUND:
+      case NO_DATABASES_FOUND:
+      case NO_TABLES_FOUND:
+        imageView.setImageResource(
+            R.drawable.com_awesomedroidapps_inappstoragereader_item_not_found);
         break;
     }
   }

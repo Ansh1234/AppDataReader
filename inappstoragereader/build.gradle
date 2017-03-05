@@ -1,23 +1,49 @@
 apply plugin: 'com.android.library'
 
+
+ext {
+  bintrayRepo = 'AppDataReader'
+  bintrayName = 'com.awesomedroidapps.inappstoragereader'
+
+  publishedGroupId = 'com.awesomedroidapps'
+  libraryName = 'AppDataReader'
+  artifact = 'inappstoragereader'
+
+  libraryDescription = 'A library for reading Shared Preferences and Database within the application.'
+
+  siteUrl = 'https://github.com/Ansh1234/AppDataReader'
+  gitUrl = 'https://github.com/Ansh1234/AppDataReader.git'
+
+  libraryVersion = '1.0.0-beta'
+
+  developerId = 'ansh1234'
+  developerName = 'Anshul Jain'
+  developerEmail = 'anshul.jain010@gmail.com'
+
+  licenseName = 'The Apache Software License, Version 2.0'
+  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+  allLicenses = ["Apache-2.0"]
+}
+
+def recyclerViewVersion = '23.2.0'
+def supportLibraryVersion = '23.2.0'
+def buildToolVersion = '23.0.2'
+def int compileVersion = 23;
+def int targetVersion = 23;
+
 android {
-  compileSdkVersion project.csv != null ? project.csv : 25
-  buildToolsVersion project.btv != null ? project.btv : "25.0.2"
+  compileSdkVersion project.csv != null ? project.csv : compileVersion
+  buildToolsVersion project.btv != null ? project.btv : buildToolVersion
 
   defaultConfig {
     minSdkVersion 11
-    targetSdkVersion project.tsv != null ? project.tsv : 25
+    targetSdkVersion project.tsv != null ? project.tsv : targetVersion
     versionCode 1
     versionName "1.0"
-
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
   }
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-    }
+
+  sourceSets {
+    main.res.srcDirs 'res', 'res-public'
   }
   sourceSets {
     main.res.srcDirs = [
@@ -27,10 +53,14 @@ android {
   }
 }
 
-def slv = project.slv != null ? project.slv : '25.2.0'
-def rvv = project.rvv != null ? project.rvv : '25.2.0'
+def slv = project.slv != null ? project.slv : supportLibraryVersion
+def rvv = project.rvv != null ? project.rvv : recyclerViewVersion
 
 dependencies {
   compile 'com.android.support:appcompat-v7:' + slv
   compile 'com.android.support:recyclerview-v7:' + rvv
 }
+
+// Place it at the end of the file
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

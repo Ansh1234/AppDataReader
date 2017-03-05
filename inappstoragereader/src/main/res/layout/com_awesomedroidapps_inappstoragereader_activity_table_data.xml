@@ -17,4 +17,6 @@
         </com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView>
     </HorizontalScrollView>
 
+    <include layout="@layout/com_awesomedroidapps_inappstoragereader_view_error_handler" />
+
 </LinearLayout>

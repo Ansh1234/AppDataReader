@@ -2,6 +2,8 @@ package com.awesomedroidapps.inappstoragereader;
 
 import android.content.Context;
 
+import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -24,6 +26,7 @@ public class AppDataReader {
    * @return
    */
   public static List<AppDataStorageItem> readAppDataStorageList(Context context) {
+
     if (context == null) {
       return null;
     }
@@ -32,6 +35,9 @@ public class AppDataReader {
 
     //Get names of all the Databases
     List<AppDataStorageItem> appDatabaseItemsList = getDatabaseItemList(context);
+    if (Utils.isEmpty(appDatabaseItemsList)) {
+      return null;
+    }
     appDataStorageList.addAll(appDatabaseItemsList);
 
     //Get SharedPreference Object
@@ -45,17 +51,34 @@ public class AppDataReader {
   }
 
   /**
-   * Get all the com_awesomedroidapps_inappstoragereader_database names
+   * Get all the database names
    *
    * @param context
    * @return
    */
   private static List<AppDataStorageItem> getDatabaseItemList(Context context) {
+
+    if (context == null) {
+      return null;
+
+    }
+
     ArrayList databaseList = new ArrayList(Arrays.asList(context.databaseList()));
+    if (Utils.isEmpty(databaseList)) {
+      return null;
+    }
+
     Iterator iterator = databaseList.iterator();
     List<AppDataStorageItem> appDataStorageItemList = new ArrayList<>();
+
     while (iterator.hasNext()) {
-      String databaseName = (String) iterator.next();
+      String databaseName;
+      try {
+        databaseName = (String) iterator.next();
+      } catch (Exception e) {
+        e.printStackTrace();
+        continue;
+      }
       if (databaseName.endsWith(SqliteConstants.JOURNAL_SUFFIX)) {
         continue;
       }

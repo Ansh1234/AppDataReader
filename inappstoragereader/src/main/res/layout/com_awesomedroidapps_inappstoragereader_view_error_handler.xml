@@ -9,8 +9,7 @@
         android:id="@+id/error_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/com_awesomedroidapps_inappstoragereader_item_not_found" />
+        android:layout_centerInParent="true" />
 
     <TextView
         android:id="@+id/error_text"
@@ -18,10 +17,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/error_icon"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/error_text_marginLeftRight"
-        android:layout_marginRight="@dimen/error_text_marginLeftRight"
-        android:layout_marginTop="@dimen/error_text_marginTop"
+        android:layout_marginLeft="@dimen/com_awesomedroidapps_inappstoragereader_error_text_marginLeftRight"
+        android:layout_marginRight="@dimen/com_awesomedroidapps_inappstoragereader_error_text_marginLeftRight"
+        android:layout_marginTop="@dimen/com_awesomedroidapps_inappstoragereader_error_text_marginTop"
         android:gravity="center"
-        android:textSize="@dimen/error_text_size"
+        android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_error_text_size"
         android:textStyle="bold" />
 </RelativeLayout>

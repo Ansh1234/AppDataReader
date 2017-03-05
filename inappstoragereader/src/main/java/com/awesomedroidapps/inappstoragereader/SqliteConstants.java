@@ -1,6 +1,7 @@
 package com.awesomedroidapps.inappstoragereader;
 
 /**
+ * A class for storing DB constants.
  * Created by anshul on 11/2/17.
  */
 
