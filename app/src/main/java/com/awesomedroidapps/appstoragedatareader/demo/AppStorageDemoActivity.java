@@ -178,6 +178,7 @@ public class AppStorageDemoActivity extends AppCompatActivity {
     }
     insertIntoSharedPreference(keyStr, valueStr, selectedDataType,
         Constants.PERSON_INFO_SHARED_PREFERENCES1);
+    showToast(string(R.string.shared_preferences_insert_success));
   }
 
   private void fillDefaultValuesInTable() {
