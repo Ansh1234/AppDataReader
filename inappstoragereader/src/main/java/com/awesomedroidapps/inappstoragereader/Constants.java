@@ -16,4 +16,5 @@ public class Constants {
   public static final String SPACE = " ";
   public static final int ZERO_INDEX  =0;
   public static final String EMPTY_STRING="";
+  public static final int INVALID_RESPONSE = -1;
 }

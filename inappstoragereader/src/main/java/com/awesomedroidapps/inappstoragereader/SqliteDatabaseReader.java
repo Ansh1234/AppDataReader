@@ -3,9 +3,12 @@ package com.awesomedroidapps.inappstoragereader;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,6 +87,16 @@ public class SqliteDatabaseReader {
       return null;
     }
     Cursor cursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
+
+    if (cursor == null) {
+      return null;
+    }
+
+    return getAllTableData(cursor);
+  }
+
+  @Nullable
+  private static List<List<String>> getAllTableData(Cursor cursor) {
 
     if (cursor == null) {
       return null;
@@ -209,6 +222,51 @@ public class SqliteDatabaseReader {
       return null;
     }
 
+    return getTableColumnWidth(context, cursor);
+  }
+
+
+  /**
+   * This method is used to return an arraylist of widths of various columns. Based on the column
+   * type the width will be different. e.g the width of a String column will be greater than the
+   * width of an int column.
+   *
+   * @param context
+   * @param databaseName
+   * @param query
+   * @return
+   */
+  @NonNull
+  public static ArrayList<Integer> getQueryColumnWidth(Context context, String databaseName,
+                                                       String query) {
+    if (context == null || Utils.isEmpty(databaseName) || Utils.isEmpty(query)) {
+      return null;
+    }
+
+    SQLiteDatabase sqLiteDatabase = null;
+    try {
+      sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+
+    Cursor cursor = null;
+
+    try {
+      cursor = sqLiteDatabase.rawQuery(query, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    if (cursor == null) {
+      return null;
+    }
+
+    return getTableColumnWidth(context, cursor);
+  }
+
+  @NonNull
+  private static ArrayList<Integer> getTableColumnWidth(Context context, Cursor cursor) {
     ArrayList<Integer> tableDataColumnWidth = new ArrayList<>();
 
     //If no data is present, then give default width to show all the column names.
@@ -247,4 +305,52 @@ public class SqliteDatabaseReader {
     return tableDataColumnWidth;
   }
 
+  public static QueryDataResponse queryDatabase(Context context, String databaseName,
+                                                String query) {
+
+    QueryDataResponse queryDataResponse = new QueryDataResponse();
+    queryDataResponse.setQueryStatus(QueryStatus.SUCCESS);
+
+    SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+
+    int index = query.indexOf(Constants.SPACE);
+    String sqliteStatementType = query.substring(0, index).trim();
+    SqliteRawStatementsType sqliteRawStatementsType = SqliteRawStatementsType.getType
+        (sqliteStatementType);
+
+    switch (sqliteRawStatementsType) {
+      case DELETE:
+      case UPDATE:
+        int modifiedRows = handleDeleteOrUpdateRawQuery(sqLiteDatabase, query, queryDataResponse);
+        if (modifiedRows == Constants.INVALID_RESPONSE) {
+          queryDataResponse.setQueryStatus(QueryStatus.FAILURE);
+        } else {
+          queryDataResponse.setSuccessMessage("Success");
+        }
+        break;
+      case SELECT:
+        break;
+    }
+    return queryDataResponse;
+  }
+
+  /**
+   * @return - The number of modified rows
+   */
+  private static int handleDeleteOrUpdateRawQuery(SQLiteDatabase sqLiteDatabase,
+                                                  String deletQuery,
+                                                  QueryDataResponse queryDataResponse) {
+    SQLiteStatement statement = null;
+    try {
+      statement = sqLiteDatabase.compileStatement(deletQuery);
+      return statement.executeUpdateDelete();
+    } catch (Exception e) {
+      queryDataResponse.setErrorMessage(e.getMessage());
+      return Constants.INVALID_RESPONSE;
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
+    }
+  }
 }

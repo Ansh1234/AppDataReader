@@ -17,4 +17,6 @@
         here.</string>
     <string name="com_awesomedroidapps_inappstoragereader_progressBar_message">Fetching
         Data...</string>
+    <string name="com_awesomedroidapps_inappstoragereader_database_query_empty">The Query
+        cannot be empty</string>
 </resources>

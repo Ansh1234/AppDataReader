@@ -4,23 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/com_awesomedroidapps_inappstoragereader_query_editText"
-        style="@style/EditTextTheme"
+    <RelativeLayout
+        android:id="@+id/database_query_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:hint="@string/com_awesomedroidapps_inappstoragereader_query" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/com_awesomedroidapps_inappstoragereader_submit"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:padding="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_padding"
-        android:text="@string/submit"
-        android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_textSize" />
+        <EditText
+            android:id="@+id/com_awesomedroidapps_inappstoragereader_query_editText"
+            style="@style/ComAwesomeDroidAppEditTextTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:hint="@string/com_awesomedroidapps_inappstoragereader_query" />
+
+        <Button
+            android:id="@+id/com_awesomedroidapps_inappstoragereader_submit"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_padding"
+            android:text="@string/com_awesomedroidapps_inappstoragereader_submit"
+            android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_textSize" />
+
+        <TextView
+            android:id="@+id/error_message_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/com_awesomedroidapps_inappstoragereader_query_editText" />
+    </RelativeLayout>
+
 
     <HorizontalScrollView
         android:layout_width="match_parent"

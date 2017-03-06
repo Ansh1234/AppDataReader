@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
 
@@ -70,7 +71,7 @@ public class Utils {
    * Sets the title of the action bar with the number of  items.
    */
   public static void setActionBarTitle(ActionBar actionBar, String title, int size) {
-    if (actionBar == null) {
+    if (actionBar == null || Utils.isEmpty(title)) {
       return;
     }
 
@@ -103,4 +104,26 @@ public class Utils {
     }
     return width;
   }
+
+  /**
+   * Utility method to display a toast.
+   *
+   * @param context
+   * @param message
+   */
+  public static void showToast(Context context, String message) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+  }
+
+
+  /**
+   * Utility method to display a toast.
+   *
+   * @param context
+   * @param resId
+   */
+  public static String getString(Context context, int resId) {
+    return context.getResources().getString(resId);
+  }
+
 }

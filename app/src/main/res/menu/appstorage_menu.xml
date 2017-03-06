@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/menu_refresh"
-        android:icon="@drawable/refresh"
+        android:icon="@drawable/com_awesomedroidapps_inappstoragereader_refresh"
         auto:showAsAction="always"
         android:title="@string/menu_refresh">
     </item>
