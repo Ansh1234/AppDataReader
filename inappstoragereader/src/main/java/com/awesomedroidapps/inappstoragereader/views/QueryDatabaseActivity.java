@@ -76,7 +76,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     // Handle item selection
-    if (item.getItemId() == R.id.com_awesomedroidapps_inappstoragereader_edit) {
+    if (item.getItemId() == R.id.com_awesomedroidapps_inappstoragereader_refresh) {
       tableDataRecyclerView.setVisibility(View.GONE);
       showQueryUI();
     }
@@ -125,6 +125,8 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   //Show the query editText and submit button
   private void showQueryUI() {
     databaseQueryContainer.setVisibility(View.VISIBLE);
+    errorMessageTextView.setText(Constants.EMPTY_STRING);
+    queryDatabaseEditText.setText(Constants.EMPTY_STRING);
   }
 
   @Override

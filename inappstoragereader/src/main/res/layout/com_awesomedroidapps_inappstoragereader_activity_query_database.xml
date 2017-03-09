@@ -7,9 +7,11 @@
     <RelativeLayout
         android:id="@+id/database_query_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp">
+    </RelativeLayout>
 
-        <EditText
+
+    <EditText
             android:id="@+id/com_awesomedroidapps_inappstoragereader_query_editText"
             style="@style/ComAwesomeDroidAppEditTextTheme"
             android:layout_width="match_parent"
@@ -19,7 +21,7 @@
 
         <Button
             android:id="@+id/com_awesomedroidapps_inappstoragereader_submit"
-            style="@style/Widget.AppCompat.Button.Colored"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -32,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/com_awesomedroidapps_inappstoragereader_query_editText" />
-    </RelativeLayout>
 
 
     <HorizontalScrollView

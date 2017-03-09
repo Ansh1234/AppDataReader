@@ -308,13 +308,20 @@ public class SqliteDatabaseReader {
   public static QueryDataResponse queryDatabase(Context context, String databaseName,
                                                 String query) {
 
+    if (Utils.isEmpty(query)) {
+      return null;
+    }
+
     QueryDataResponse queryDataResponse = new QueryDataResponse();
-    queryDataResponse.setQueryStatus(QueryStatus.SUCCESS);
+    queryDataResponse.setQueryStatus(QueryStatus.FAILURE);
 
     SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
 
-    int index = query.indexOf(Constants.SPACE);
-    String sqliteStatementType = query.substring(0, index).trim();
+    String sqliteStatementType = query;
+    if (query.contains(Constants.SPACE)) {
+      int index = query.indexOf(Constants.SPACE);
+      sqliteStatementType = query.substring(Constants.ZERO_INDEX, index).trim();
+    }
     SqliteRawStatementsType sqliteRawStatementsType = SqliteRawStatementsType.getType
         (sqliteStatementType);
 
@@ -323,13 +330,14 @@ public class SqliteDatabaseReader {
       case UPDATE:
         int modifiedRows = handleDeleteOrUpdateRawQuery(sqLiteDatabase, query, queryDataResponse);
         if (modifiedRows == Constants.INVALID_RESPONSE) {
-          queryDataResponse.setQueryStatus(QueryStatus.FAILURE);
         } else {
           queryDataResponse.setSuccessMessage("Success");
         }
         break;
       case SELECT:
         break;
+      default:
+        handleRawQuery(sqLiteDatabase, queryDataResponse, query);
     }
     return queryDataResponse;
   }
@@ -351,6 +359,16 @@ public class SqliteDatabaseReader {
       if (statement != null) {
         statement.close();
       }
+    }
+  }
+
+  private static void handleRawQuery(SQLiteDatabase sqliteDatabase, QueryDataResponse
+      queryDataResponse, String query) {
+
+    try {
+      sqliteDatabase.execSQL(query);
+    } catch (Exception e) {
+      queryDataResponse.setErrorMessage(e.getMessage());
     }
   }
 }
