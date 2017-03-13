@@ -52,3 +52,11 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 * Export an entire table in csv format.
 
 
+=====
+
+Checkout my other projects
+
+[RxDownloader](https://github.com/Ansh1234/RxDownloader)- Demo of Downloading Songs/Images through Android Download Manager using RxJava2
+[RxFbLiveVideoEmoticons](https://github.com/Ansh1234/RxFbLiveVideoEmoticons) - Demo of Fb Live Video Reactions using RxJava2
+
+
