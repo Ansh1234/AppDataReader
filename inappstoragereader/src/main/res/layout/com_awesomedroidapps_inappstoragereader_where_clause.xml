@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textSize="16dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
             android:textColor="#000000"
             android:text="@string/com_awesomedroidapps_inappstoragereader_select_column_title" />
 
@@ -26,16 +27,25 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textSize="14dp"
-            android:textColor="#000000"
+            android:layout_marginTop="5dp"
+            android:textSize="16dp"
+            android:textColor="#99000000"
             android:text="@string/com_awesomedroidapps_inappstoragereader_select_column_subtitle"
             android:layout_below="@id/dialog_title"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/dialog_recyclerview"
             android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
             android:layout_below="@id/dialog_subtitle"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dialog_subtitle"
+            android:visibility="gone"
+            android:id="@+id/where_clause_query"/>
 
         <Button
             android:id="@+id/dialog_done"
@@ -43,5 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:text="Done"/>
+
+
     </RelativeLayout>
 </LinearLayout>

@@ -150,7 +150,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   private void launchWhereClauseDialog(){
     String[] columnNames = SqliteDatabaseReader.getColumnNames(QueryDatabaseActivity.this,
         databaseName, tableName);
-    WhereCauseDialog tableColumnsDialog = WhereCauseDialog.newInstance(columnNames,this);
+    WhereCauseDialog tableColumnsDialog = WhereCauseDialog.newInstance(columnNames);
     tableColumnsDialog.show(getFragmentManager(), "columnsDialog");
   }
 

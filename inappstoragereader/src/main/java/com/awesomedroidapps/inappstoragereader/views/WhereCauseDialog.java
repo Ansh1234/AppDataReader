@@ -6,14 +6,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.Utils;
+import com.awesomedroidapps.inappstoragereader.adapters.TableColumnsAdapter;
 import com.awesomedroidapps.inappstoragereader.interfaces.ColumnSelectListener;
+import com.awesomedroidapps.inappstoragereader.interfaces.WhereQuerySelectListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,27 +27,20 @@ import java.util.List;
  * Created by anshul on 31/03/17.
  */
 
-public class WhereCauseDialog extends DialogFragment {
+public class WhereCauseDialog extends DialogFragment implements WhereQuerySelectListener{
 
   private String[] columns;
-  private List<String> selectedColumns = new ArrayList<>();
-  private ColumnSelectListener columnSelectListener;
+  private RecyclerView dialogRecyclerView;
+  private EditText whereClauseQuery;
 
-  public static WhereCauseDialog newInstance(String[] columns,
-                                             ColumnSelectListener columnSelectListener) {
+  public static WhereCauseDialog newInstance(String[] columns) {
     WhereCauseDialog tableColumnsDialog = new WhereCauseDialog();
     tableColumnsDialog.setColumns(columns);
-    tableColumnsDialog.setColumnSelectListener(columnSelectListener);
     return tableColumnsDialog;
   }
 
   public void setColumns(String[] columns) {
     this.columns = columns;
-  }
-
-  public void setColumnSelectListener(
-      ColumnSelectListener columnSelectListener) {
-    this.columnSelectListener = columnSelectListener;
   }
 
   @Override
@@ -54,53 +52,19 @@ public class WhereCauseDialog extends DialogFragment {
     LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context
         .LAYOUT_INFLATER_SERVICE);
     View dialogView = inflater.inflate(R.layout.com_awesomedroidapps_inappstoragereader_where_clause, null);
+    dialogRecyclerView = (RecyclerView) dialogView.findViewById(R.id.dialog_recyclerview);
+    TableColumnsAdapter tableColumnsAdapter = new TableColumnsAdapter(columns,this);
+    dialogRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    dialogRecyclerView.setAdapter(tableColumnsAdapter);
+    whereClauseQuery = (EditText) dialogView.findViewById(R.id.where_clause_query);
     builder.setView(dialogView);
 
-    //builder.setAdapter(arrayAdapterItems, listener);
-   // builder.setTitle("Click on individual column name and set the value");
-//    builder.setPositiveButton(Utils.getString(getActivity(),
-//        R.string.com_awesomedroidapps_inappstoragereader_dialog_positive_button),
-//        dialogPositiveListener)
-//        .setNegativeButton(Utils.getString(getActivity(),
-//            R.string.com_awesomedroidapps_inappstoragereader_dialog_negetive_button),
-//            dialogNegetiveListener);
     return builder.create();
   }
 
-  private DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-
-    }
-  };
-
-  private DialogInterface.OnClickListener dialogNegetiveListener =
-      new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-
-        }
-      };
-
-  private DialogInterface.OnClickListener dialogPositiveListener =
-      new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-          if (Utils.isEmpty(selectedColumns)) {
-            return;
-          }
-          StringBuilder stringBuilder = new StringBuilder();
-          for (String string : selectedColumns) {
-            stringBuilder.append(string);
-            stringBuilder.append(Constants.COMMA);
-            stringBuilder.append(Constants.SPACE);
-          }
-
-          String columnString = stringBuilder.toString();
-          if (columnString.endsWith(Constants.COMMA)) {
-            columnString = columnString.substring(0, columnString.length() - 1);
-          }
-          columnSelectListener.onColumnsSelected(columnString);
-        }
-      };
+  @Override
+  public void onWhereClauseQuerySelected() {
+    dialogRecyclerView.setVisibility(View.GONE);
+    whereClauseQuery.setVisibility(View.VISIBLE);
+  }
 }
