@@ -3,30 +3,37 @@ package com.awesomedroidapps.inappstoragereader.views;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
+import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommands;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.QueryDatabaseAsyncTask;
 import com.awesomedroidapps.inappstoragereader.R;
+import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
+import com.awesomedroidapps.inappstoragereader.interfaces.ColumnSelectListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.interfaces.QueryDatabaseView;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 /**
  * An activity for querying the database.
@@ -34,16 +41,19 @@ import java.lang.ref.WeakReference;
  */
 
 public class QueryDatabaseActivity extends AppCompatActivity implements
-    View.OnClickListener, ErrorMessageInterface, QueryDatabaseView, DataItemClickListener {
+    View.OnClickListener, ErrorMessageInterface, QueryDatabaseView, DataItemClickListener,
+    ColumnSelectListener {
 
   private EditText queryDatabaseEditText;
   private Button submitQueryButton;
-  private String databaseName;
+  private String databaseName, tableName;
   private TextView errorMessageTextView;
   private AppStorageDataRecyclerView tableDataRecyclerView;
   private ProgressDialog progressDialog;
   private RelativeLayout databaseQueryContainer;
-
+  private Spinner databaseQueryCommandSpinner, tableColumnsSpinner;
+  private TextView tableNameTv, queryTextTv;
+  private Button buttonDatabaseTableColumns, whereClauseButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +69,46 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     progressDialog = new ProgressDialog(this);
     submitQueryButton.setOnClickListener(this);
 
+    // tableColumnsSpinner = (AppCompatSpinner) findViewById(R.id.spinner_database_table_columns);
+    tableNameTv = (TextView) findViewById(R.id.table_name);
+    queryTextTv = (TextView) findViewById(R.id.query_text);
+    databaseQueryCommandSpinner = (AppCompatSpinner) findViewById(R.id
+        .spinner_database_query_command);
+    buttonDatabaseTableColumns = (Button) findViewById(R.id.button_database_table_columns);
+    whereClauseButton = (Button) findViewById(R.id.button_where_cause);
+
+    readBundle();
+    //TODO anshul.jain Remove this.
+    onSelectQueryCommandSelected();
+    initInitialUI();
+  }
+
+  private void initInitialUI() {
+    ArrayList<String> spinnerArrayList = new ArrayList<>();
+    for (DatabaseQueryCommands sharedPreferenceDataType : DatabaseQueryCommands.values()) {
+      spinnerArrayList.add(sharedPreferenceDataType.getCommand());
+    }
+    ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
+        spinnerArrayList);
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    databaseQueryCommandSpinner.setAdapter(adapter);
+    buttonDatabaseTableColumns.setText("*");
+    buttonDatabaseTableColumns.setOnClickListener(this);
+    whereClauseButton.setOnClickListener(this);
+    tableNameTv.setText(Constants.FROM_PREFIX + tableName);
+  }
+
+  private void onSelectQueryCommandSelected() {
+
+
+  }
+
+  private void readBundle() {
     //Read the bundle
     Bundle bundle = getIntent().getExtras();
     if (bundle != null) {
       databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);
+      tableName = bundle.getString(Constants.BUNDLE_TABLE_NAME);
     }
   }
 
@@ -93,7 +139,26 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   public void onClick(View view) {
     if (view == submitQueryButton) {
       queryDatabase();
+    } else if (view == buttonDatabaseTableColumns) {
+      launchColumnsDialog();
     }
+    else if(view==whereClauseButton){
+      launchWhereClauseDialog();
+    }
+  }
+
+  private void launchWhereClauseDialog(){
+    String[] columnNames = SqliteDatabaseReader.getColumnNames(QueryDatabaseActivity.this,
+        databaseName, tableName);
+    WhereCauseDialog tableColumnsDialog = WhereCauseDialog.newInstance(columnNames,this);
+    tableColumnsDialog.show(getFragmentManager(), "columnsDialog");
+  }
+
+  private void launchColumnsDialog() {
+    String[] columnNames = SqliteDatabaseReader.getColumnNames(QueryDatabaseActivity.this,
+        databaseName, tableName);
+    TableColumnsDialog tableColumnsDialog = TableColumnsDialog.newInstance(columnNames, this);
+    tableColumnsDialog.show(getFragmentManager(), "columnsDialog");
   }
 
   /**
@@ -188,4 +253,8 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
 
   }
 
+  @Override
+  public void onColumnsSelected(String columns) {
+    buttonDatabaseTableColumns.setText(columns);
+  }
 }

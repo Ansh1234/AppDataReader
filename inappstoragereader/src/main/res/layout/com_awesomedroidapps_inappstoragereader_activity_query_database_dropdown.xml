@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_database_query_command">
+    </android.support.v7.widget.AppCompatSpinner>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_database_table_columns"
+        android:gravity="left"
+        android:textSize="16dp"
+        android:layout_below="@id/spinner_database_query_command"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_database_table_columns"
+        android:textSize="16dp"
+        android:gravity="left"
+        android:id="@+id/table_name"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/table_name"
+        android:id="@+id/query_text"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_where_cause"
+        android:gravity="left"
+        android:textSize="16dp"
+        android:layout_below="@id/table_name"/>
+
+
+</RelativeLayout>

@@ -126,6 +126,35 @@ public class SqliteDatabaseReader {
     return tableData;
   }
 
+  public static String[] getColumnNames(Context context, String databaseName, String
+      tableName) {
+
+    if (context == null || Utils.isEmpty(databaseName) || Utils.isEmpty(tableName)) {
+      return null;
+    }
+
+    SQLiteDatabase sqLiteDatabase;
+    try {
+      sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+    Cursor cursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
+
+    if (cursor == null) {
+      return null;
+    }
+
+
+    //Get the column names
+    String[] columnNames = cursor.getColumnNames();
+    if (columnNames == null || columnNames.length == 0) {
+      return null;
+    }
+    return columnNames;
+  }
+
   /**
    * This method is used to return the data of an individual row.
    *

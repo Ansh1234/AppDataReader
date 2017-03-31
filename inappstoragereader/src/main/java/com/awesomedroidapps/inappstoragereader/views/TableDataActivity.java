@@ -84,6 +84,7 @@ public class TableDataActivity extends AppCompatActivity
     Intent intent = new Intent(this, QueryDatabaseActivity.class);
     Bundle bundle = new Bundle();
     bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
+    bundle.putString(Constants.BUNDLE_TABLE_NAME,tableName);
     intent.putExtras(bundle);
     startActivity(intent);
   }

@@ -10,11 +10,16 @@
         android:layout_height="0dp">
     </RelativeLayout>
 
+    <include
+        layout="@layout/com_awesomedroidapps_inappstoragereader_activity_query_database_dropdown"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <EditText
             android:id="@+id/com_awesomedroidapps_inappstoragereader_query_editText"
             style="@style/ComAwesomeDroidAppEditTextTheme"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:hint="@string/com_awesomedroidapps_inappstoragereader_query" />
@@ -39,6 +44,7 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:fillViewport="true">
 
         <com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView

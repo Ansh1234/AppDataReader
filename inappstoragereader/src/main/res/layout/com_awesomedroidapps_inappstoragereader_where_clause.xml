@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:paddingTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="16dp"
+            android:textColor="#000000"
+            android:text="@string/com_awesomedroidapps_inappstoragereader_select_column_title" />
+
+        <TextView
+            android:id="@+id/dialog_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="14dp"
+            android:textColor="#000000"
+            android:text="@string/com_awesomedroidapps_inappstoragereader_select_column_subtitle"
+            android:layout_below="@id/dialog_title"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/dialog_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_below="@id/dialog_subtitle"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/dialog_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Done"/>
+    </RelativeLayout>
+</LinearLayout>
