@@ -155,6 +155,46 @@ public class SqliteDatabaseReader {
     return columnNames;
   }
 
+  public static List getColumnTypes(Context context, String databaseName, String
+      tableName) {
+
+    if (context == null || Utils.isEmpty(databaseName) || Utils.isEmpty(tableName)) {
+      return null;
+    }
+
+    SQLiteDatabase sqLiteDatabase;
+    try {
+      sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+    Cursor cursor = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
+
+    if (cursor == null) {
+      return null;
+    }
+
+
+    ArrayList<Integer> tableColumnDataTypes = new ArrayList<>();
+
+    //If no data is present, then give default width to show all the column names.
+    if (!cursor.moveToFirst()) {
+      int defaultWidth = (int) context.getResources().getDimension(R.dimen
+          .com_awesomedroidapps_inappstoragereader_database_item_string_width);
+      for (int i = 0; i < cursor.getColumnCount(); i++) {
+        tableColumnDataTypes.add(defaultWidth);
+      }
+      return tableColumnDataTypes;
+    }
+
+    for (int i = 0; i < cursor.getColumnCount(); i++) {
+      int columnType = cursor.getType(i);
+      tableColumnDataTypes.add(columnType);
+    }
+    return tableColumnDataTypes;
+  }
+
   /**
    * This method is used to return the data of an individual row.
    *

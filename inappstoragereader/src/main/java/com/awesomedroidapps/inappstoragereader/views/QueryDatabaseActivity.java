@@ -55,7 +55,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   private Spinner databaseQueryCommandSpinner, tableColumnsSpinner;
   private TextView tableNameTv, queryTextTv;
   private Button buttonDatabaseTableColumns, whereClauseButton;
-  private final int requestCode = 1;
+  private final int whereClauseActivityRequestCode = 1;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -147,21 +147,19 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   }
 
   private void launchWhereClauseActivity() {
-    String[] columnNames = SqliteDatabaseReader.getColumnNames(QueryDatabaseActivity.this,
-        databaseName, tableName);
     Intent intent = new Intent(QueryDatabaseActivity.this, WhereCauseActivity.class);
     Bundle bundle = new Bundle();
     bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
     bundle.putString(Constants.BUNDLE_TABLE_NAME, tableName);
     intent.putExtras(bundle);
-    startActivityForResult(intent, 1);
+    startActivityForResult(intent, whereClauseActivityRequestCode);
   }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == 1 && resultCode == RESULT_OK) {
-      String str = data.getStringExtra("whereClause");
+    if (requestCode == whereClauseActivityRequestCode && resultCode == RESULT_OK) {
+      String str = data.getStringExtra(Constants.BUNDLE_WHERE_CLAUSE);
       whereClauseButton.setText(str);
     }
   }
