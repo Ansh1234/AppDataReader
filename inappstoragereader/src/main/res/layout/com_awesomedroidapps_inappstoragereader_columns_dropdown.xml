@@ -9,23 +9,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:layout_centerVertical="true"
         android:layout_marginTop="10dp"
         android:id="@+id/column_name"/>
 
+    <FrameLayout
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/column_select_container"
+        android:layout_alignParentRight="true">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/com_awesomedroidapps_inappstorage_arrow_down"
-        android:id="@+id/column_selected"/>
+        android:layout_gravity="center"
+        android:id="@+id/column_select"
+        android:src="@drawable/com_awesomedroidapps_inappstorage_arrow_down" />
+    </FrameLayout>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/column_name"
         android:id="@+id/column_value"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 </RelativeLayout>

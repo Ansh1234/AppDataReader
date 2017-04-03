@@ -7,8 +7,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/dialog_title"
@@ -16,43 +16,47 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textSize="20dp"
-            android:textStyle="bold"
+            android:text="@string/com_awesomedroidapps_inappstoragereader_select_column_title"
             android:textColor="#000000"
-            android:text="@string/com_awesomedroidapps_inappstoragereader_select_column_title" />
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/dialog_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/dialog_title"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:textSize="16dp"
-            android:textColor="#99000000"
             android:text="@string/com_awesomedroidapps_inappstoragereader_select_column_subtitle"
-            android:layout_below="@id/dialog_title"/>
+            android:textColor="#99000000"
+            android:textSize="16dp" />
 
-        <ListView
+        <ScrollView
             android:id="@+id/dialog_recyclerview"
             android:layout_width="match_parent"
-            android:layout_marginTop="15dp"
+            android:layout_height="match_parent"
             android:layout_below="@id/dialog_subtitle"
-            android:layout_height="match_parent"></ListView>
+            android:layout_marginTop="15dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/child"></LinearLayout>
+        </ScrollView>
 
         <EditText
+            android:id="@+id/where_clause_query"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/dialog_subtitle"
-            android:visibility="gone"
-            android:id="@+id/where_clause_query"/>
+            android:layout_height="0dp" />
 
         <Button
-            android:id="@+id/dialog_done"
+            android:id="@+id/where_clause_button_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="Done"/>
+            android:text="Done" />
 
 
     </RelativeLayout>

@@ -37,6 +37,7 @@
         android:id="@+id/button_where_cause"
         android:gravity="left"
         android:textSize="16dp"
+        android:text="Where "
         android:layout_below="@id/table_name"/>
 
 

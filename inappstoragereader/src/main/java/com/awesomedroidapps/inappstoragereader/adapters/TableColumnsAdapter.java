@@ -23,21 +23,27 @@ public class TableColumnsAdapter extends ArrayAdapter {
   private Context context;
   private WhereQuerySelectListener listener;
 
-  public TableColumnsAdapter(@NonNull Context context,
-                             @LayoutRes int resource,
+  public TableColumnsAdapter(@NonNull Context context, @LayoutRes int resource,
                              @NonNull String[] columnNames) {
     super(context, resource, columnNames);
     this.columnNames=columnNames;
   }
 
-
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-    View view = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.com_awesomedroidapps_inappstoragereader_columns_dropdown, parent,
-            false);
-    TextWithIconViewHolder viewHolder = new TextWithIconViewHolder(view,listener);
-    viewHolder.updateDatabaseItem(columnNames[position]);
-    return view;
+    View row = convertView;
+    TextWithIconViewHolder holder = null;
+    if(row==null) {
+      row = LayoutInflater.from(parent.getContext())
+          .inflate(R.layout.com_awesomedroidapps_inappstoragereader_columns_dropdown, parent,
+              false);
+      holder = new TextWithIconViewHolder(row,listener);
+      row.setTag(holder);
+    }
+    else{
+      holder = (TextWithIconViewHolder) row.getTag();
+    }
+    holder.updateDatabaseItem(columnNames[position]);
+    return row;
   }
 }
