@@ -40,5 +40,11 @@
             android:taskAffinity=".views.AppDataListActivity"
             android:theme="@style/ComAwesomeDroidAppStorageReaderTheme"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.WhereCauseActivity"
+            android:label="@string/com_awesomedroidapps_inappstoragereader_query_database_list_activity"
+            android:taskAffinity=".views.AppDataListActivity"
+            android:theme="@style/ComAwesomeDroidAppStorageReaderTheme"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

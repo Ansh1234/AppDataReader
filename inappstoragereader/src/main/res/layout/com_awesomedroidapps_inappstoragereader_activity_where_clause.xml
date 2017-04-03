@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="match_parent"
         android:paddingTop="10dp"
         android:orientation="vertical">
 
@@ -33,12 +33,12 @@
             android:text="@string/com_awesomedroidapps_inappstoragereader_select_column_subtitle"
             android:layout_below="@id/dialog_title"/>
 
-        <android.support.v7.widget.RecyclerView
+        <ListView
             android:id="@+id/dialog_recyclerview"
             android:layout_width="match_parent"
             android:layout_marginTop="15dp"
             android:layout_below="@id/dialog_subtitle"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"></ListView>
 
         <EditText
             android:layout_width="match_parent"

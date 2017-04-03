@@ -1,13 +1,14 @@
 package com.awesomedroidapps.inappstoragereader.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.awesomedroidapps.inappstoragereader.R;
-import com.awesomedroidapps.inappstoragereader.interfaces.ColumnSelectListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.WhereQuerySelectListener;
 import com.awesomedroidapps.inappstoragereader.views.TextWithIconViewHolder;
 
@@ -16,34 +17,27 @@ import com.awesomedroidapps.inappstoragereader.views.TextWithIconViewHolder;
  */
 
 
-public class TableColumnsAdapter extends RecyclerView.Adapter {
+public class TableColumnsAdapter extends ArrayAdapter {
 
   private String[] columnNames;
   private Context context;
   private WhereQuerySelectListener listener;
 
-  public TableColumnsAdapter(String[] columnNames, WhereQuerySelectListener listener) {
-    this.columnNames = columnNames;
-    this.listener=listener;
+  public TableColumnsAdapter(@NonNull Context context,
+                             @LayoutRes int resource,
+                             @NonNull String[] columnNames) {
+    super(context, resource, columnNames);
+    this.columnNames=columnNames;
   }
 
+
   @Override
-  public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public View getView(int position, View convertView, ViewGroup parent) {
     View view = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.com_awesomedroidapps_inappstoragereader_columns_dropdown, parent,
             false);
     TextWithIconViewHolder viewHolder = new TextWithIconViewHolder(view,listener);
-    return viewHolder;
-  }
-
-  @Override
-  public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-    TextWithIconViewHolder textWithIconViewHolder= (TextWithIconViewHolder) holder;
-    textWithIconViewHolder.updateDatabaseItem(columnNames[position]);
-  }
-
-  @Override
-  public int getItemCount() {
-    return columnNames.length;
+    viewHolder.updateDatabaseItem(columnNames[position]);
+    return view;
   }
 }

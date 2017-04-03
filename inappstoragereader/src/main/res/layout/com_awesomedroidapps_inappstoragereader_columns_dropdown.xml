@@ -2,13 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp">
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:layout_centerVertical="true"
         android:layout_marginTop="10dp"
         android:id="@+id/column_name"/>
 
@@ -16,7 +17,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:src="@drawable/com_awesomedroidapps_inappstorage_right_arrow"
+        android:layout_centerVertical="true"
+        android:src="@drawable/com_awesomedroidapps_inappstorage_arrow_down"
         android:id="@+id/column_selected"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/column_name"
+        android:id="@+id/column_value"
+        android:visibility="gone"/>
 
 </RelativeLayout>

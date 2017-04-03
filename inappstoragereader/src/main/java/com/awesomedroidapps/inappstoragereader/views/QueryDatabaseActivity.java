@@ -1,6 +1,7 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
@@ -95,12 +96,10 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     buttonDatabaseTableColumns.setText("*");
     buttonDatabaseTableColumns.setOnClickListener(this);
     whereClauseButton.setOnClickListener(this);
-    tableNameTv.setText(Constants.FROM_PREFIX + tableName);
+    tableNameTv.setText(Constants.FROM_PREFIX + Constants.SPACE + tableName);
   }
 
   private void onSelectQueryCommandSelected() {
-
-
   }
 
   private void readBundle() {
@@ -141,17 +140,20 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       queryDatabase();
     } else if (view == buttonDatabaseTableColumns) {
       launchColumnsDialog();
-    }
-    else if(view==whereClauseButton){
-      launchWhereClauseDialog();
+    } else if (view == whereClauseButton) {
+      launchWhereClauseActivity();
     }
   }
 
-  private void launchWhereClauseDialog(){
+  private void launchWhereClauseActivity() {
     String[] columnNames = SqliteDatabaseReader.getColumnNames(QueryDatabaseActivity.this,
         databaseName, tableName);
-    WhereCauseDialog tableColumnsDialog = WhereCauseDialog.newInstance(columnNames);
-    tableColumnsDialog.show(getFragmentManager(), "columnsDialog");
+    Intent intent = new Intent(QueryDatabaseActivity.this,WhereCauseActivity.class);
+    Bundle bundle = new Bundle();
+    bundle.putString(Constants.BUNDLE_DATABASE_NAME,databaseName);
+    bundle.putString(Constants.BUNDLE_TABLE_NAME,tableName);
+    intent.putExtras(bundle);
+    startActivity(intent);
   }
 
   private void launchColumnsDialog() {
@@ -201,7 +203,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     if (queryDataResponse == null || queryDataResponse.getQueryStatus() == null) {
       return;
     }
-
     switch (queryDataResponse.getQueryStatus()) {
       case SUCCESS:
         showQueryData(queryDataResponse.getTableDataResponse());
