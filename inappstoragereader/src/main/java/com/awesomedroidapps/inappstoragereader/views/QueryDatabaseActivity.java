@@ -28,6 +28,7 @@ import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
+import com.awesomedroidapps.inappstoragereader.helpers.GeneralSqliteHelper;
 import com.awesomedroidapps.inappstoragereader.interfaces.ColumnSelectListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
@@ -35,6 +36,7 @@ import com.awesomedroidapps.inappstoragereader.interfaces.QueryDatabaseView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An activity for querying the database.
@@ -52,9 +54,9 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   private AppStorageDataRecyclerView tableDataRecyclerView;
   private ProgressDialog progressDialog;
   private RelativeLayout databaseQueryContainer;
-  private Spinner databaseQueryCommandSpinner, tableColumnsSpinner;
-  private TextView tableNameTv, queryTextTv;
-  private Button buttonDatabaseTableColumns, whereClauseButton;
+  private Spinner queryTypeSpinner, tableColumnsSpinner;
+  private TextView fromTableTextView, queryTextTv;
+  private Button selectedColumnsButton, whereClauseButton;
   private final int whereClauseActivityRequestCode = 1;
 
   @Override
@@ -71,12 +73,12 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     progressDialog = new ProgressDialog(this);
     submitQueryButton.setOnClickListener(this);
 
-    // tableColumnsSpinner = (AppCompatSpinner) findViewById(R.id.spinner_database_table_columns);
-    tableNameTv = (TextView) findViewById(R.id.table_name);
+   // tableColumnsSpinner = (AppCompatSpinner) findViewById(R.id.spinner_database_table_columns);
+    fromTableTextView = (TextView) findViewById(R.id.table_name);
     queryTextTv = (TextView) findViewById(R.id.query_text);
-    databaseQueryCommandSpinner = (AppCompatSpinner) findViewById(R.id
+    queryTypeSpinner = (AppCompatSpinner) findViewById(R.id
         .spinner_database_query_command);
-    buttonDatabaseTableColumns = (Button) findViewById(R.id.button_database_table_columns);
+    selectedColumnsButton = (Button) findViewById(R.id.button_database_table_columns);
     whereClauseButton = (Button) findViewById(R.id.button_where_cause);
 
     readBundle();
@@ -93,11 +95,11 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
         spinnerArrayList);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    databaseQueryCommandSpinner.setAdapter(adapter);
-    buttonDatabaseTableColumns.setText("*");
-    buttonDatabaseTableColumns.setOnClickListener(this);
+    queryTypeSpinner.setAdapter(adapter);
+    selectedColumnsButton.setText("*");
+    selectedColumnsButton.setOnClickListener(this);
     whereClauseButton.setOnClickListener(this);
-    tableNameTv.setText(Constants.FROM_PREFIX + Constants.SPACE + tableName);
+    fromTableTextView.setText(Constants.FROM_PREFIX + Constants.SPACE + tableName);
   }
 
   private void onSelectQueryCommandSelected() {
@@ -139,7 +141,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   public void onClick(View view) {
     if (view == submitQueryButton) {
       queryDatabase();
-    } else if (view == buttonDatabaseTableColumns) {
+    } else if (view == selectedColumnsButton) {
       launchColumnsDialog();
     } else if (view == whereClauseButton) {
       launchWhereClauseActivity();
@@ -160,6 +162,8 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == whereClauseActivityRequestCode && resultCode == RESULT_OK) {
       String str = data.getStringExtra(Constants.BUNDLE_WHERE_CLAUSE);
+      str = new StringBuilder(Constants.WHERE_CLAUSE).append(Constants
+          .SPACE).append(str).toString();
       whereClauseButton.setText(str);
     }
   }
@@ -167,7 +171,14 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   private void launchColumnsDialog() {
     String[] columnNames = SqliteDatabaseReader.getColumnNames(QueryDatabaseActivity.this,
         databaseName, tableName);
-    TableColumnsDialog tableColumnsDialog = TableColumnsDialog.newInstance(columnNames, this);
+    boolean[] previouslySelectedColumns = null;
+    if (!Constants.ASTERIK.equals(selectedColumnsButton.getText().toString())) {
+      String selectedColumnsStr = selectedColumnsButton.getText().toString();
+      List<String> selectedColumns = GeneralSqliteHelper.getListFromString(selectedColumnsStr);
+      previouslySelectedColumns = GeneralSqliteHelper.getCheckedArray(columnNames, selectedColumns);
+    }
+    TableColumnsDialog tableColumnsDialog = TableColumnsDialog.newInstance(columnNames,
+        previouslySelectedColumns, this);
     tableColumnsDialog.show(getFragmentManager(), "columnsDialog");
   }
 
@@ -175,7 +186,27 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
    * This method will query the database.
    */
   private void queryDatabase() {
-    String query = queryDatabaseEditText.getText().toString();
+    //String query = queryDatabaseEditText.getText().toString();
+
+    String queryType = queryTypeSpinner.getSelectedItem().toString();
+    String queryColumns = selectedColumnsButton.getText().toString();
+    String queryTableName = fromTableTextView.getText().toString();
+    String queryWhereClause = whereClauseButton.getText().toString();
+
+    if (Constants.WHERE_CLAUSE.equals(queryWhereClause.trim())) {
+      queryWhereClause = Constants.EMPTY_STRING;
+    }
+
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(queryType)
+        .append(Constants.SPACE)
+        .append(queryColumns)
+        .append(Constants.SPACE)
+        .append(queryTableName)
+        .append(Constants.SPACE).append(queryWhereClause);
+
+    String query = stringBuilder.toString();
+
     if (Utils.isEmpty(query)) {
       String message = Utils.getString(this,
           R.string.com_awesomedroidapps_inappstoragereader_database_query_empty);
@@ -264,6 +295,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
 
   @Override
   public void onColumnsSelected(String columns) {
-    buttonDatabaseTableColumns.setText(columns);
+    selectedColumnsButton.setText(columns);
   }
 }

@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.SparseBooleanArray;
 
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.Utils;
@@ -20,19 +21,26 @@ import java.util.List;
 public class TableColumnsDialog extends DialogFragment {
 
   private String[] columns;
+  private boolean[] previouslySelectedColumns;
   private List<String> selectedColumns = new ArrayList<>();
   private ColumnSelectListener columnSelectListener;
+  private AlertDialog alertDialog;
 
-  public static TableColumnsDialog newInstance(String[] columns,
+  public static TableColumnsDialog newInstance(String[] columns, boolean[] previouslySelectedColumns,
                                                ColumnSelectListener columnSelectListener) {
     TableColumnsDialog tableColumnsDialog = new TableColumnsDialog();
     tableColumnsDialog.setColumns(columns);
     tableColumnsDialog.setColumnSelectListener(columnSelectListener);
+    tableColumnsDialog.setPreviouslySelectedColumns(previouslySelectedColumns);
     return tableColumnsDialog;
   }
 
   public void setColumns(String[] columns) {
     this.columns = columns;
+  }
+
+  public void setPreviouslySelectedColumns(boolean[] previouslySelectedColumns) {
+    this.previouslySelectedColumns = previouslySelectedColumns;
   }
 
   public void setColumnSelectListener(
@@ -43,10 +51,11 @@ public class TableColumnsDialog extends DialogFragment {
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
     // Set the dialog title
     builder.setTitle(Utils.getString(getActivity(),
         R.string.com_awesomedroidapps_inappstoragereader_select_column_title));
-    builder.setMultiChoiceItems(columns, null, listener)
+    builder.setMultiChoiceItems(columns,previouslySelectedColumns, listener)
         // Set the action buttons
         .setPositiveButton(Utils.getString(getActivity(),
             R.string.com_awesomedroidapps_inappstoragereader_dialog_positive_button),
@@ -54,7 +63,8 @@ public class TableColumnsDialog extends DialogFragment {
         .setNegativeButton(Utils.getString(getActivity(),
             R.string.com_awesomedroidapps_inappstoragereader_dialog_negetive_button),
             dialogNegetiveListener);
-    return builder.create();
+    alertDialog =  builder.create();
+    return alertDialog;
   }
 
   private DialogInterface.OnMultiChoiceClickListener listener =
@@ -81,19 +91,21 @@ public class TableColumnsDialog extends DialogFragment {
       new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-          if (Utils.isEmpty(selectedColumns)) {
-            return;
-          }
-          StringBuilder stringBuilder = new StringBuilder();
-          for (String string : selectedColumns) {
-            stringBuilder.append(string + ",");
-          }
+          SparseBooleanArray booleanArray = alertDialog.getListView().getCheckedItemPositions();
 
-          String columnString = stringBuilder.toString();
-          if (columnString.endsWith(",")) {
-            columnString = columnString.substring(0, columnString.length() - 1);
-          }
-          columnSelectListener.onColumnsSelected(columnString);
+//          if (Utils.isEmpty(selectedColumns)) {
+//            return;
+//          }
+//          StringBuilder stringBuilder = new StringBuilder();
+//          for (String string : selectedColumns) {
+//            stringBuilder.append(string + ",");
+//          }
+//
+//          String columnString = stringBuilder.toString();
+//          if (columnString.endsWith(",")) {
+//            columnString = columnString.substring(0, columnString.length() - 1);
+//          }
+//          columnSelectListener.onColumnsSelected(columnString);
         }
       };
 }

@@ -23,4 +23,6 @@ public class Constants {
   public static final String EQUAL = "=";
   public static final String INVERTED_COMMA = "'";
   public static final String AND = "AND";
+  public static final String WHERE_CLAUSE= "WHERE";
+  public static final String ASTERIK = "*";
 }

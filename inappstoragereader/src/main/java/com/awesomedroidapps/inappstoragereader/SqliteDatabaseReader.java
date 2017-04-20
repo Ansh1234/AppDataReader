@@ -435,7 +435,9 @@ public class SqliteDatabaseReader {
       queryDataResponse, String query) {
 
     try {
-      sqliteDatabase.execSQL(query);
+      Cursor cursor = sqliteDatabase.rawQuery(query,null);
+      getAllTableData(cursor);
+     // sqliteDatabase.execSQL(query);
     } catch (Exception e) {
       queryDataResponse.setErrorMessage(e.getMessage());
     }
