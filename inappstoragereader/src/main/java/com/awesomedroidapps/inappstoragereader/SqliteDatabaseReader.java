@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 
 import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
+import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,7 +123,6 @@ public class SqliteDatabaseReader {
       tableData.add(rowData);
     } while (cursor.moveToNext());
 
-    cursor.close();
     return tableData;
   }
 
@@ -406,7 +406,7 @@ public class SqliteDatabaseReader {
       case SELECT:
         break;
       default:
-        handleRawQuery(sqLiteDatabase, queryDataResponse, query);
+        handleRawQuery(context,sqLiteDatabase, queryDataResponse, query);
     }
     return queryDataResponse;
   }
@@ -431,15 +431,27 @@ public class SqliteDatabaseReader {
     }
   }
 
-  private static void handleRawQuery(SQLiteDatabase sqliteDatabase, QueryDataResponse
+  private static void handleRawQuery(Context context, SQLiteDatabase sqliteDatabase,
+                                     QueryDataResponse
       queryDataResponse, String query) {
 
+    Cursor cursor = null;
     try {
-      Cursor cursor = sqliteDatabase.rawQuery(query,null);
-      getAllTableData(cursor);
-     // sqliteDatabase.execSQL(query);
+       cursor = sqliteDatabase.rawQuery(query,null);
+      TableDataResponse tableDataResponse = new TableDataResponse();
+      tableDataResponse.setTableData(getAllTableData(cursor));
+      ArrayList<Integer> tableColumnWidth = getTableColumnWidth(context, cursor);
+      tableDataResponse.setRecyclerViewColumnsWidth(tableColumnWidth);
+      tableDataResponse.setRecyclerViewWidth(Utils.getTableWidth(tableColumnWidth));
+      queryDataResponse.setTableDataResponse(tableDataResponse);
+      queryDataResponse.setQueryStatus(QueryStatus.SUCCESS);
+
     } catch (Exception e) {
       queryDataResponse.setErrorMessage(e.getMessage());
+    }finally {
+      if(cursor!=null){
+        cursor.close();
+      }
     }
   }
 }

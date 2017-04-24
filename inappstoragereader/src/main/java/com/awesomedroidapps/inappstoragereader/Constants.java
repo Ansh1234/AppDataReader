@@ -8,6 +8,7 @@ public class Constants {
 
   public static final String BUNDLE_DATABASE_NAME = "databaseName";
   public static final String BUNDLE_TABLE_NAME = "tableName";
+  public static final String BUNDLE_RAW_QUERY = "rawQuery";
   public static final String SHARED_PREFERENCES_NAME = "Shared Preferences";
   public static final String BUNDLE_FILE_NAME = "fileName";
   public static final String BUNDLE_DISPLAY_FILTER = "bundle_display_filter";

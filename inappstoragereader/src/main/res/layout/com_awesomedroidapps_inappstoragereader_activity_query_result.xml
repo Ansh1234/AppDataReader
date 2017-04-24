@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView
+            android:id="@+id/query_result_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView>
+    </HorizontalScrollView>
+
+    <include layout="@layout/com_awesomedroidapps_inappstoragereader_view_error_handler" />
+
+</LinearLayout>

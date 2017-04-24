@@ -21,7 +21,6 @@ import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommands;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
-import com.awesomedroidapps.inappstoragereader.QueryDatabaseAsyncTask;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
 import com.awesomedroidapps.inappstoragereader.Utils;
@@ -34,7 +33,6 @@ import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.interfaces.QueryDatabaseView;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -213,9 +211,14 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       Utils.showToast(this, message);
       return;
     }
-    new QueryDatabaseAsyncTask(new WeakReference(this), this).execute(new String[]{
-        databaseName, query
-    });
+
+    Intent intent = new Intent(this,QueryDatabaseResultActivity.class);
+    Bundle bundle = new Bundle();
+    bundle.putString(Constants.BUNDLE_RAW_QUERY,query);
+    bundle.putString(Constants.BUNDLE_DATABASE_NAME,databaseName);
+    intent.putExtras(bundle);
+    startActivity(intent);
+
   }
 
   @Override
