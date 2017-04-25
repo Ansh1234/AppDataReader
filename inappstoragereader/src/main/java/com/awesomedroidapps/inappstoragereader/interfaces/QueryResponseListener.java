@@ -8,7 +8,7 @@ import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
  * Interface for propogating the response from async tasks to Activity
  */
 
-public interface QueryDatabaseView {
+public interface QueryResponseListener {
 
   void onDataFetched(QueryDataResponse queryDataResponse);
 }

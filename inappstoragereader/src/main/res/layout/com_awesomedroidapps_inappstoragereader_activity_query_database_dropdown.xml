@@ -9,13 +9,22 @@
         android:id="@+id/spinner_database_query_command">
     </android.support.v7.widget.AppCompatSpinner>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:gravity="left"
+        android:layout_below="@id/spinner_database_query_command"
+        android:id="@+id/update_table_name"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_database_table_columns"
+        android:textAllCaps="false"
         android:gravity="left"
         android:textSize="16dp"
-        android:layout_below="@id/spinner_database_query_command"/>
+        android:layout_below="@id/update_table_name"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -34,11 +43,22 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/set_clause"
+        android:gravity="left"
+        android:textSize="16dp"
+        android:textAllCaps="false"
+        android:text="SET "
+        android:layout_below="@id/table_name"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/button_where_cause"
         android:gravity="left"
         android:textSize="16dp"
+        android:textAllCaps="false"
         android:text="Where "
-        android:layout_below="@id/table_name"/>
+        android:layout_below="@id/set_clause"/>
 
 
 </RelativeLayout>

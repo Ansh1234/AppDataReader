@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,15 +23,9 @@ import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommands;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
-import com.awesomedroidapps.inappstoragereader.Utils;
-import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
-import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
-import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
 import com.awesomedroidapps.inappstoragereader.helpers.GeneralSqliteHelper;
 import com.awesomedroidapps.inappstoragereader.interfaces.ColumnSelectListener;
-import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
-import com.awesomedroidapps.inappstoragereader.interfaces.QueryDatabaseView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +36,8 @@ import java.util.List;
  */
 
 public class QueryDatabaseActivity extends AppCompatActivity implements
-    View.OnClickListener, ErrorMessageInterface, QueryDatabaseView, DataItemClickListener,
-    ColumnSelectListener {
+    View.OnClickListener, ErrorMessageInterface, ColumnSelectListener,
+    AdapterView.OnItemSelectedListener, QueryDatabaseView {
 
   private EditText queryDatabaseEditText;
   private Button submitQueryButton;
@@ -53,9 +47,11 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   private ProgressDialog progressDialog;
   private RelativeLayout databaseQueryContainer;
   private Spinner queryTypeSpinner, tableColumnsSpinner;
-  private TextView fromTableTextView, queryTextTv;
-  private Button selectedColumnsButton, whereClauseButton;
-  private final int whereClauseActivityRequestCode = 1;
+  private TextView fromTableTextView, updaeTableTextView, queryTextTv;
+  private Button selectedColumnsButton, whereClauseButton, setClauseButton;
+  private final int whereClauseActivityRequestCode = 1, setClauseActivityRequestCode = 2;
+  ArrayList<String> querySpinnerArrayList = new ArrayList<>();
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +67,17 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     progressDialog = new ProgressDialog(this);
     submitQueryButton.setOnClickListener(this);
 
-   // tableColumnsSpinner = (AppCompatSpinner) findViewById(R.id.spinner_database_table_columns);
+    // tableColumnsSpinner = (AppCompatSpinner) findViewById(R.id.spinner_database_table_columns);
     fromTableTextView = (TextView) findViewById(R.id.table_name);
+    updaeTableTextView = (TextView) findViewById(R.id.update_table_name);
+
     queryTextTv = (TextView) findViewById(R.id.query_text);
     queryTypeSpinner = (AppCompatSpinner) findViewById(R.id
         .spinner_database_query_command);
+    queryTypeSpinner.setOnItemSelectedListener(this);
     selectedColumnsButton = (Button) findViewById(R.id.button_database_table_columns);
     whereClauseButton = (Button) findViewById(R.id.button_where_cause);
+    setClauseButton = (Button) findViewById(R.id.set_clause);
 
     readBundle();
     //TODO anshul.jain Remove this.
@@ -86,18 +86,19 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   }
 
   private void initInitialUI() {
-    ArrayList<String> spinnerArrayList = new ArrayList<>();
     for (DatabaseQueryCommands sharedPreferenceDataType : DatabaseQueryCommands.values()) {
-      spinnerArrayList.add(sharedPreferenceDataType.getCommand());
+      querySpinnerArrayList.add(sharedPreferenceDataType.getCommand());
     }
     ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
-        spinnerArrayList);
+        querySpinnerArrayList);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     queryTypeSpinner.setAdapter(adapter);
-    selectedColumnsButton.setText("*");
+    selectedColumnsButton.setText(Constants.ASTERIK);
     selectedColumnsButton.setOnClickListener(this);
     whereClauseButton.setOnClickListener(this);
-    fromTableTextView.setText(Constants.FROM_PREFIX + Constants.SPACE + tableName);
+    setClauseButton.setOnClickListener(this);
+
+    onSelectQueryCommandSelected();
   }
 
   private void onSelectQueryCommandSelected() {
@@ -142,27 +143,37 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     } else if (view == selectedColumnsButton) {
       launchColumnsDialog();
     } else if (view == whereClauseButton) {
-      launchWhereClauseActivity();
+      launchClauseActivity(whereClauseActivityRequestCode);
+    } else if (view == setClauseButton) {
+      launchClauseActivity(setClauseActivityRequestCode);
     }
   }
 
-  private void launchWhereClauseActivity() {
+  private void launchClauseActivity(int requestCode) {
     Intent intent = new Intent(QueryDatabaseActivity.this, WhereCauseActivity.class);
     Bundle bundle = new Bundle();
     bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
     bundle.putString(Constants.BUNDLE_TABLE_NAME, tableName);
     intent.putExtras(bundle);
-    startActivityForResult(intent, whereClauseActivityRequestCode);
+    startActivityForResult(intent, requestCode);
   }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == whereClauseActivityRequestCode && resultCode == RESULT_OK) {
-      String str = data.getStringExtra(Constants.BUNDLE_WHERE_CLAUSE);
+    if (resultCode != RESULT_OK) {
+      return;
+    }
+
+    String str = data.getStringExtra(Constants.BUNDLE_WHERE_CLAUSE);
+    if (requestCode == whereClauseActivityRequestCode) {
       str = new StringBuilder(Constants.WHERE_CLAUSE).append(Constants
           .SPACE).append(str).toString();
       whereClauseButton.setText(str);
+    }else if(requestCode==setClauseActivityRequestCode){
+      str = new StringBuilder("SET ").append(Constants
+          .SPACE).append(str).toString();
+      setClauseButton.setText(str);
     }
   }
 
@@ -191,6 +202,9 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     String queryTableName = fromTableTextView.getText().toString();
     String queryWhereClause = whereClauseButton.getText().toString();
 
+    if (selectedColumnsButton.getVisibility() == View.GONE) {
+      queryColumns = Constants.EMPTY_STRING;
+    }
     if (Constants.WHERE_CLAUSE.equals(queryWhereClause.trim())) {
       queryWhereClause = Constants.EMPTY_STRING;
     }
@@ -203,22 +217,14 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
         .append(queryTableName)
         .append(Constants.SPACE).append(queryWhereClause);
 
-    String query = stringBuilder.toString();
+    String query = stringBuilder.toString().trim();
 
-    if (Utils.isEmpty(query)) {
-      String message = Utils.getString(this,
-          R.string.com_awesomedroidapps_inappstoragereader_database_query_empty);
-      Utils.showToast(this, message);
-      return;
-    }
-
-    Intent intent = new Intent(this,QueryDatabaseResultActivity.class);
+    Intent intent = new Intent(this, QueryDatabaseResultActivity.class);
     Bundle bundle = new Bundle();
-    bundle.putString(Constants.BUNDLE_RAW_QUERY,query);
-    bundle.putString(Constants.BUNDLE_DATABASE_NAME,databaseName);
+    bundle.putString(Constants.BUNDLE_RAW_QUERY, query);
+    bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
     intent.putExtras(bundle);
     startActivity(intent);
-
   }
 
   @Override
@@ -238,49 +244,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     queryDatabaseEditText.setText(Constants.EMPTY_STRING);
   }
 
-  @Override
-  public void onDataFetched(QueryDataResponse queryDataResponse) {
-    progressDialog.dismiss();
-
-    if (queryDataResponse == null || queryDataResponse.getQueryStatus() == null) {
-      return;
-    }
-    switch (queryDataResponse.getQueryStatus()) {
-      case SUCCESS:
-        showQueryData(queryDataResponse.getTableDataResponse());
-        break;
-      case FAILURE:
-        showQueryError(queryDataResponse.getErrorMessage());
-        break;
-    }
-  }
-
-  /**
-   * This method is called when the query to the database is succesful.
-   *
-   * @param tableDataResponse
-   */
-  private void showQueryData(TableDataResponse tableDataResponse) {
-    if (tableDataResponse == null || Utils.isEmpty(tableDataResponse.getTableData())) {
-      handleError(ErrorType.NO_TABLE_DATA_FOUND);
-      return;
-    }
-
-    hideQueryUI();
-    tableDataRecyclerView.setVisibility(View.VISIBLE);
-    tableDataRecyclerView.setRecyclerViewWidth(tableDataResponse.getRecyclerViewWidth());
-
-
-    TableDataListAdapter adapter =
-        new TableDataListAdapter(tableDataResponse.getTableData(), this,
-            tableDataResponse.getRecyclerViewColumnsWidth(), this);
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager
-        .VERTICAL, false);
-    Utils.setActionBarTitle(getSupportActionBar(), null,
-        tableDataResponse.getTableData().size() - 1);
-    tableDataRecyclerView.setLayoutManager(linearLayoutManager);
-    tableDataRecyclerView.setAdapter(adapter);
-  }
 
   /**
    * This method is called when the query to the database is failed.
@@ -291,13 +254,59 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     errorMessageTextView.setText(errorMessage);
   }
 
-  @Override
-  public void onDataItemClicked(String data) {
-
-  }
 
   @Override
   public void onColumnsSelected(String columns) {
     selectedColumnsButton.setText(columns);
+  }
+
+  @Override
+  public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    String queryCommand = querySpinnerArrayList.get(position);
+    DatabaseQueryCommands command = DatabaseQueryCommands.getCommand(queryCommand);
+    switch (command) {
+      case SELECT:
+        onSelectQueryCommandSelected();
+        break;
+      case UPDATE:
+        onUpdateCommandSelected();
+        break;
+      case DELETE:
+        onDeleteCommandSelected();
+        break;
+      case INSERT:
+        onInsertCommandSelected();
+        break;
+    }
+  }
+
+  @Override
+  public void onNothingSelected(AdapterView<?> parent) {
+
+  }
+
+  @Override
+  public void onSelectCommandSelected() {
+    updaeTableTextView.setVisibility(View.GONE);
+    selectedColumnsButton.setVisibility(View.VISIBLE);
+    fromTableTextView.setVisibility(View.VISIBLE);
+    fromTableTextView.setText(Constants.FROM_PREFIX + Constants.SPACE + tableName);
+  }
+
+  @Override
+  public void onUpdateCommandSelected() {
+    fromTableTextView.setVisibility(View.GONE);
+    updaeTableTextView.setVisibility(View.VISIBLE);
+    updaeTableTextView.setText(Constants.SPACE + tableName);
+  }
+
+  @Override
+  public void onDeleteCommandSelected() {
+    selectedColumnsButton.setVisibility(View.GONE);
+  }
+
+  @Override
+  public void onInsertCommandSelected() {
+
   }
 }

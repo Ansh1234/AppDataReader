@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:padding="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_padding"
+            android:textAllCaps="false"
             android:text="@string/com_awesomedroidapps_inappstoragereader_submit"
             android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_textSize" />
 

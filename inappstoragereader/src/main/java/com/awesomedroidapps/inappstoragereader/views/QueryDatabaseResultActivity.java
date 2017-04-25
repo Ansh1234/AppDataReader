@@ -24,7 +24,7 @@ import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
 import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
-import com.awesomedroidapps.inappstoragereader.interfaces.QueryDatabaseView;
+import com.awesomedroidapps.inappstoragereader.interfaces.QueryResponseListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.TableDataView;
 
 import java.lang.ref.WeakReference;
@@ -34,7 +34,7 @@ import java.lang.ref.WeakReference;
  */
 
 public class QueryDatabaseResultActivity extends AppCompatActivity
-    implements ErrorMessageInterface, DataItemClickListener, TableDataView, QueryDatabaseView{
+    implements ErrorMessageInterface, DataItemClickListener, TableDataView, QueryResponseListener {
 
   private AppStorageDataRecyclerView tableDataRecyclerView;
   private String rawQuery, databaseName;

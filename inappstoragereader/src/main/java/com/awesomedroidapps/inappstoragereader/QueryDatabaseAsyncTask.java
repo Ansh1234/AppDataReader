@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
-import com.awesomedroidapps.inappstoragereader.interfaces.QueryDatabaseView;
+import com.awesomedroidapps.inappstoragereader.interfaces.QueryResponseListener;
 
 import java.lang.ref.WeakReference;
 
@@ -16,12 +16,12 @@ import java.lang.ref.WeakReference;
 public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDataResponse> {
 
   private final WeakReference<Activity> activtyWeakReference;
-  private final QueryDatabaseView queryDatabaseView;
+  private final QueryResponseListener queryResponseListener;
 
   public QueryDatabaseAsyncTask(WeakReference activtyWeakReference,
-                                QueryDatabaseView queryDatabaseView) {
+                                QueryResponseListener queryResponseListener) {
     this.activtyWeakReference = activtyWeakReference;
-    this.queryDatabaseView = queryDatabaseView;
+    this.queryResponseListener = queryResponseListener;
   }
 
   @Override
@@ -39,8 +39,8 @@ public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDataRes
 
 
   protected void onPostExecute(QueryDataResponse queryDataResponse) {
-    if (queryDatabaseView != null && activtyWeakReference.get() != null) {
-      queryDatabaseView.onDataFetched(queryDataResponse);
+    if (queryResponseListener != null && activtyWeakReference.get() != null) {
+      queryResponseListener.onDataFetched(queryDataResponse);
     }
   }
 }
