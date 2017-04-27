@@ -13,25 +13,25 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.awesomedroidapps.inappstoragereader.AppStorageItemListAsyncTask;
-import com.awesomedroidapps.inappstoragereader.SharedPreferenceAsyncTask;
-import com.awesomedroidapps.inappstoragereader.interfaces.SharedPreferenceView;
-import com.awesomedroidapps.inappstoragereader.StorageType;
-import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
-import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
-import com.awesomedroidapps.inappstoragereader.interfaces.AppStorageItemClickListener;
+import com.awesomedroidapps.inappstoragereader.AppStorageItemListAsyncTask;
 import com.awesomedroidapps.inappstoragereader.Constants;
+import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageHandler;
-import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
-import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
+import com.awesomedroidapps.inappstoragereader.SharedPreferenceAsyncTask;
+import com.awesomedroidapps.inappstoragereader.StorageType;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
 import com.awesomedroidapps.inappstoragereader.adapters.SharedPreferencesListAdapter;
+import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
+import com.awesomedroidapps.inappstoragereader.interfaces.AppStorageItemClickListener;
+import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
+import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.interfaces.ListDataView;
+import com.awesomedroidapps.inappstoragereader.interfaces.SharedPreferenceView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -236,19 +236,6 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
     startActivity(intent);
   }
 
-  @Override
-  public void onDataItemClicked(String data) {
-    if (Utils.isEmpty(data)) {
-      String toastMessage =
-          getResources().getString(R.string.com_awesomedroidapps_inappstoragereader_item_empty);
-      Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
-      return;
-    }
-    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data);
-    dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
-  }
-
-
   /**
    * To get the width of the recyclerView based on its individual column widths.
    *
@@ -304,5 +291,22 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
   public void onSharedPreferencesFetched(List<SharedPreferenceObject> appDataList) {
     progressDialog.dismiss();
     setSharedPreferenceList(appDataList);
+  }
+
+  @Override
+  public void onDataItemClicked(String data) {
+    if (Utils.isEmpty(data)) {
+      String toastMessage =
+          getResources().getString(R.string.com_awesomedroidapps_inappstoragereader_item_empty);
+      Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
+      return;
+    }
+    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data);
+    dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
+  }
+
+  @Override
+  public void onDataItemClicked(String data, int columnIndex, List<String> columnValues) {
+
   }
 }

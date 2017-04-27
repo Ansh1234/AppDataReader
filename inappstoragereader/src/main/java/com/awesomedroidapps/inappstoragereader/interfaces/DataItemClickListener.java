@@ -1,5 +1,7 @@
 package com.awesomedroidapps.inappstoragereader.interfaces;
 
+import java.util.List;
+
 /**
  * Created by anshul on 26/2/17.
  *
@@ -8,4 +10,6 @@ package com.awesomedroidapps.inappstoragereader.interfaces;
 
 public interface DataItemClickListener {
   void onDataItemClicked(String data);
+
+  void onDataItemClicked(String data, int columnIndex, List<String> columnValues);
 }

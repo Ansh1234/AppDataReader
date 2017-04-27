@@ -338,17 +338,16 @@ public class SqliteDatabaseReader {
   private static ArrayList<Integer> getTableColumnWidth(Context context, Cursor cursor) {
     ArrayList<Integer> tableDataColumnWidth = new ArrayList<>();
 
+    int width = (int) context.getResources().getDimension(R.dimen
+        .com_awesomedroidapps_inappstoragereader_database_item_string_width);
     //If no data is present, then give default width to show all the column names.
     if (!cursor.moveToFirst()) {
-      int defaultWidth = (int) context.getResources().getDimension(R.dimen
-          .com_awesomedroidapps_inappstoragereader_database_item_string_width);
       for (int i = 0; i < cursor.getColumnCount(); i++) {
-        tableDataColumnWidth.add(defaultWidth);
+        tableDataColumnWidth.add(width);
       }
       return tableDataColumnWidth;
     }
 
-    int width = 0;
     for (int i = 0; i < cursor.getColumnCount(); i++) {
       int columnType = cursor.getType(i);
       switch (columnType) {

@@ -28,6 +28,7 @@ import com.awesomedroidapps.inappstoragereader.interfaces.QueryResponseListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.TableDataView;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 /**
  * Created by anshul on 11/2/17.
@@ -105,18 +106,6 @@ public class QueryResultActivity extends AppCompatActivity
   }
 
   @Override
-  public void onDataItemClicked(String data) {
-    if (Utils.isEmpty(data)) {
-      String toastMessage =
-          getResources().getString(R.string.com_awesomedroidapps_inappstoragereader_item_empty);
-      Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
-      return;
-    }
-    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data);
-    dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
-  }
-
-  @Override
   public void onDataFetched(TableDataResponse tableDataResponse) {
 
     progressDialog.dismiss();
@@ -190,5 +179,22 @@ public class QueryResultActivity extends AppCompatActivity
    * @param errorMessage
    */
   private void showQueryError(String errorMessage) {
+  }
+
+  @Override
+  public void onDataItemClicked(String data) {
+    if (Utils.isEmpty(data)) {
+      String toastMessage =
+          getResources().getString(R.string.com_awesomedroidapps_inappstoragereader_item_empty);
+      Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
+      return;
+    }
+    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data);
+    dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
+  }
+
+  @Override
+  public void onDataItemClicked(String data, int columnIndex, List<String> columnValues) {
+
   }
 }

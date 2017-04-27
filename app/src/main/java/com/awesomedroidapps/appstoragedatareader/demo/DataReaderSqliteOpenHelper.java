@@ -16,14 +16,14 @@ public class DataReaderSqliteOpenHelper extends SQLiteOpenHelper {
   public static final int DATABASE_VERSION = 1;
   public static final String DATABASE_NAME = "person.db";
   public static final String TABLE_NAME = "person_info";
-  public static final String COLUMN_ID = "id";
+  public static final String COLUMN_ID = "uniqueId";
   public static final String COLUMN_FIRST_NAME = "first_name";
   public static final String COLUMN_LAST_NAME = "last_name";
   public static final String COLUMN_ADDRESS = "address";
 
 
   private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + TABLE_NAME + " (" +
-      COLUMN_ID + " INTEGER PRIMARY KEY," +
+      COLUMN_ID + " TEXT," +
       COLUMN_FIRST_NAME + " TEXT," +
       COLUMN_LAST_NAME + " TEXT," +
       COLUMN_ADDRESS + " TEXT)";

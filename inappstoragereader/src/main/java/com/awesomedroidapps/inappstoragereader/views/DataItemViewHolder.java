@@ -42,6 +42,7 @@ public class DataItemViewHolder extends RecyclerView.ViewHolder
           (RelativeLayout) layoutInflater.inflate(R.layout
               .com_awesomedroidapps_inappstoragereader_view_individual_data_item, null);
       view.setOnClickListener(this);
+      view.setTag(i);
       LinearLayout.LayoutParams layoutParams1 =
           new LinearLayout.LayoutParams(columnWidthList.get
               (i), ViewGroup.LayoutParams.MATCH_PARENT);
@@ -69,7 +70,15 @@ public class DataItemViewHolder extends RecyclerView.ViewHolder
       RelativeLayout relativeLayout = (RelativeLayout) v;
       TextView textView = (TextView) relativeLayout.getChildAt(0);
       if (dataItemClickListener != null && textView.getText() != null) {
-        dataItemClickListener.onDataItemClicked(textView.getText().toString());
+        List<String> columnValues = new ArrayList<>();
+        for (int i = 0; i < columnWidthList.size(); i++) {
+          RelativeLayout layout = (RelativeLayout) rowDataContainer.getChildAt(i);
+          TextView view = (TextView) layout.getChildAt(0);
+          columnValues.add(view.getText().toString());
+        }
+        System.out.println(columnValues);
+        dataItemClickListener.onDataItemClicked(textView.getText().toString(), (int) v.getTag
+            (), columnValues);
       }
     }
   }

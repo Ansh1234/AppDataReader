@@ -80,7 +80,7 @@ public class DataItemDialogFragment extends DialogFragment {
         public void onClick(View v) {
           if (Constants.DIALOG_EDIT.equals(editOrDoneButton.getText().toString())) {
             onEditButtonClicked(editOrDoneButton);
-          }else{
+          } else if(Constants.DIALOG_DONE.equals(editOrDoneButton.getText().toString())) {
             onDoneButtonClicked();
           }
         }
@@ -97,7 +97,7 @@ public class DataItemDialogFragment extends DialogFragment {
   }
 
   private void onEditButtonClicked(Button editButton) {
-    editButton.setText("DONE");
+    editButton.setText(Constants.DIALOG_DONE);
     editedColumnValue.setVisibility(View.VISIBLE);
     editedColumnValue.setText(data);
     editedColumnValue.requestFocus();
@@ -105,6 +105,6 @@ public class DataItemDialogFragment extends DialogFragment {
   }
 
   private void onDoneButtonClicked() {
-
+    alertDialog.dismiss();
   }
 }

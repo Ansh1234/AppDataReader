@@ -7,6 +7,7 @@ import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
 import com.awesomedroidapps.inappstoragereader.interfaces.TableDataView;
 
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,6 +49,12 @@ public class TableDataAsyncTask extends AsyncTask<String, Void, TableDataRespons
     //Get the actual data.
     List<List<String>> tableData = SqliteDatabaseReader.getAllTableData
         (activtyWeakReference.get(), databaseName, tableName);
+    String[] columnNames = SqliteDatabaseReader.getColumnNames(activtyWeakReference.get(),
+        databaseName,tableName);
+    tableDataResponse.setColumnNames(Arrays.asList(columnNames));
+    List<Integer> columnTypes = SqliteDatabaseReader.getColumnTypes(activtyWeakReference.get(),
+        databaseName,tableName);
+    tableDataResponse.setColumnTypes(columnTypes);
     tableDataResponse.setTableData(tableData);
     return tableDataResponse;
   }

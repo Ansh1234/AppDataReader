@@ -6,9 +6,6 @@ import android.support.v7.app.ActionBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.awesomedroidapps.inappstoragereader.entities.SharedPreferenceObject;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -125,5 +122,6 @@ public class Utils {
   public static String getString(Context context, int resId) {
     return context.getResources().getString(resId);
   }
+
 
 }
