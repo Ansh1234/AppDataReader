@@ -33,7 +33,7 @@ import java.lang.ref.WeakReference;
  * Created by anshul on 11/2/17.
  */
 
-public class QueryDatabaseResultActivity extends AppCompatActivity
+public class QueryResultActivity extends AppCompatActivity
     implements ErrorMessageInterface, DataItemClickListener, TableDataView, QueryResponseListener {
 
   private AppStorageDataRecyclerView tableDataRecyclerView;

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
@@ -81,12 +82,20 @@ public class WhereCauseActivity extends AppCompatActivity implements View.OnClic
       if (queryDataType == Cursor.FIELD_TYPE_INTEGER) {
         try {
           Integer.parseInt(editText.getText().toString());
-        }catch (NumberFormatException exception){
-
+        } catch (NumberFormatException exception) {
+          Toast.makeText(this, "The value of " + textView.getText().toString() + " field is not " +
+              "proper ", Toast.LENGTH_SHORT).show();
+          return;
+        }
+      }else if(queryDataType == Cursor.FIELD_TYPE_FLOAT){
+        try {
+          Float.parseFloat(editText.getText().toString());
+        } catch (NumberFormatException exception) {
+          Toast.makeText(this, "The value of " + textView.getText().toString() + " field is not " +
+              "proper ", Toast.LENGTH_SHORT).show();
           return;
         }
       }
-
       queryBuilder.append(textView.getText().toString());
       queryBuilder.append(Constants.EQUAL);
       if (Cursor.FIELD_TYPE_STRING == queryDataType) {

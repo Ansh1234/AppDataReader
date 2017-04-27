@@ -197,7 +197,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
 
     String query = stringBuilder.toString().trim();
 
-    Intent intent = new Intent(this, QueryDatabaseResultActivity.class);
+    Intent intent = new Intent(this, QueryResultActivity.class);
     Bundle bundle = new Bundle();
     bundle.putString(Constants.BUNDLE_RAW_QUERY, query);
     bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);

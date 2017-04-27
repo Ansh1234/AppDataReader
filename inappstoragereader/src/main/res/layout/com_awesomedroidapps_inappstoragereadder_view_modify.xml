@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><!-- This is the container for holding any row item of database or Shared Preference
+      We specify a minimum height here. -->
+<LinearLayout android:id="@+id/table_data_row_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/column_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edited_column_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

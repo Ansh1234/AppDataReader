@@ -27,4 +27,8 @@ public class Constants {
   public static final String WHERE_CLAUSE= "WHERE";
   public static final String SET_CLAUSE = "SET";
   public static final String ASTERIK = "*";
+
+  public static final String DIALOG_COPY ="COPY";
+  public static final String DIALOG_EDIT ="EDIT";
+  public static final String DIALOG_DONE ="DONE";
 }
