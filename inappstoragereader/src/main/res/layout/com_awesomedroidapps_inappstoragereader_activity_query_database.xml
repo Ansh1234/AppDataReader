@@ -40,19 +40,4 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/com_awesomedroidapps_inappstoragereader_query_editText" />
-
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:fillViewport="true">
-
-        <com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView
-            android:id="@+id/table_data_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView>
-    </HorizontalScrollView>
 </RelativeLayout>

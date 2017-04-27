@@ -15,7 +15,7 @@
         android:textSize="16dp"
         android:gravity="left"
         android:layout_below="@id/spinner_database_query_command"
-        android:id="@+id/update_table_name"/>
+        android:id="@+id/textview_update_query_table_name"/>
 
     <Button
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         android:textAllCaps="false"
         android:gravity="left"
         android:textSize="16dp"
-        android:layout_below="@id/update_table_name"/>
+        android:layout_below="@id/textview_update_query_table_name"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -32,12 +32,12 @@
         android:layout_below="@+id/button_database_table_columns"
         android:textSize="16dp"
         android:gravity="left"
-        android:id="@+id/table_name"/>
+        android:id="@+id/textview_select_query_table_name"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/table_name"
+        android:layout_below="@id/textview_select_query_table_name"
         android:id="@+id/query_text"/>
 
     <Button
@@ -47,8 +47,8 @@
         android:gravity="left"
         android:textSize="16dp"
         android:textAllCaps="false"
-        android:text="SET "
-        android:layout_below="@id/table_name"/>
+        android:layout_below="@+id/query_text"
+        android:text="SET " />
 
     <Button
         android:layout_width="match_parent"
@@ -57,7 +57,6 @@
         android:gravity="left"
         android:textSize="16dp"
         android:textAllCaps="false"
-        android:text="Where "
         android:layout_below="@id/set_clause"/>
 
 
