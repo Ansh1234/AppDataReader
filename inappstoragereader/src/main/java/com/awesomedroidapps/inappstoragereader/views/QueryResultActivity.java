@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
+import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommands;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.QueryDatabaseAsyncTask;
 import com.awesomedroidapps.inappstoragereader.R;
@@ -22,6 +23,7 @@ import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
+import com.awesomedroidapps.inappstoragereader.interfaces.CommandResponses;
 import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.interfaces.QueryResponseListener;
@@ -35,7 +37,8 @@ import java.util.List;
  */
 
 public class QueryResultActivity extends AppCompatActivity
-    implements ErrorMessageInterface, DataItemClickListener, TableDataView, QueryResponseListener {
+    implements ErrorMessageInterface, DataItemClickListener, TableDataView,
+    QueryResponseListener, CommandResponses {
 
   private AppStorageDataRecyclerView tableDataRecyclerView;
   private String rawQuery, databaseName;
@@ -137,15 +140,29 @@ public class QueryResultActivity extends AppCompatActivity
     if (queryDataResponse == null || queryDataResponse.getQueryStatus() == null) {
       return;
     }
-    switch (queryDataResponse.getQueryStatus()) {
-      case SUCCESS:
-        showQueryData(queryDataResponse.getTableDataResponse());
-        break;
-      case FAILURE:
-        showQueryError(queryDataResponse.getErrorMessage());
-        break;
+
+    DatabaseQueryCommands commands = queryDataResponse.getDatabaseQueryCommands();
+
+    if(commands!=null){
+      switch (commands){
+        case UPDATE:
+          onUpdateQueryResponse(queryDataResponse);
+          break;
+        case SELECT:
+          onSelectQueryResponse(queryDataResponse);
+          break;
+        case DELETE:
+          onDeleteQueryResponse(queryDataResponse);
+          break;
+        case INSERT:
+          onInsertQueryResponse(queryDataResponse);
+          break;
+      }
     }
+
   }
+
+
 
   /**
    * This method is called when the query to the database is succesful.
@@ -189,12 +206,47 @@ public class QueryResultActivity extends AppCompatActivity
       Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
       return;
     }
-    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data);
+    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data,null,0,
+        null);
     dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
   }
 
   @Override
   public void onDataItemClicked(String data, int columnIndex, List<String> columnValues) {
+
+  }
+
+  @Override
+  public void onSelectQueryResponse(QueryDataResponse queryDataResponse) {
+    switch (queryDataResponse.getQueryStatus()) {
+      case SUCCESS:
+        showQueryData(queryDataResponse.getTableDataResponse());
+        break;
+      case FAILURE:
+        showQueryError(queryDataResponse.getErrorMessage());
+        break;
+    }
+  }
+
+  @Override
+  public void onUpdateQueryResponse(QueryDataResponse queryDataResponse) {
+    switch (queryDataResponse.getQueryStatus()) {
+      case SUCCESS:
+        Toast.makeText(this,"Update successful",Toast.LENGTH_LONG).show();
+        break;
+      case FAILURE:
+        Toast.makeText(this,"Update successful",Toast.LENGTH_LONG).show();
+        break;
+    }
+  }
+
+  @Override
+  public void onDeleteQueryResponse(QueryDataResponse queryDataResponse) {
+
+  }
+
+  @Override
+  public void onInsertQueryResponse(QueryDataResponse queryDataResponse) {
 
   }
 }

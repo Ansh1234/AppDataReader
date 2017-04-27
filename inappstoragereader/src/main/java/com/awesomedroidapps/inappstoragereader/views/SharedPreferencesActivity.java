@@ -301,7 +301,8 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
       Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
       return;
     }
-    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data);
+    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data,null,
+        0,null);
     dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
   }
 

@@ -367,6 +367,11 @@ public class SqliteDatabaseReader {
           width = Utils.getDimensionInInteger(context,
               R.dimen.com_awesomedroidapps_inappstoragereader_database_item_float_width);
           break;
+        case Cursor.FIELD_TYPE_NULL:
+          width = (int) context.getResources().getDimension(R.dimen
+              .com_awesomedroidapps_inappstoragereader_database_item_string_width);
+          break;
+
       }
       tableDataColumnWidth.add(width);
     }
@@ -395,14 +400,22 @@ public class SqliteDatabaseReader {
 
     switch (sqliteRawStatementsType) {
       case DELETE:
+        int deletedRows = handleDeleteOrUpdateRawQuery(sqLiteDatabase, query, queryDataResponse);
+        if (deletedRows == Constants.INVALID_RESPONSE) {
+        } else {
+          queryDataResponse.setSuccessMessage("Success");
+        }
+        break;
       case UPDATE:
-        int modifiedRows = handleDeleteOrUpdateRawQuery(sqLiteDatabase, query, queryDataResponse);
-        if (modifiedRows == Constants.INVALID_RESPONSE) {
+        queryDataResponse.setDatabaseQueryCommands(DatabaseQueryCommands.UPDATE);
+        int updatedRows = handleDeleteOrUpdateRawQuery(sqLiteDatabase, query, queryDataResponse);
+        if (updatedRows == Constants.INVALID_RESPONSE) {
         } else {
           queryDataResponse.setSuccessMessage("Success");
         }
         break;
       case SELECT:
+        queryDataResponse.setDatabaseQueryCommands(DatabaseQueryCommands.SELECT);
         break;
       default:
         handleRawQuery(context,sqLiteDatabase, queryDataResponse, query);
@@ -419,7 +432,9 @@ public class SqliteDatabaseReader {
     SQLiteStatement statement = null;
     try {
       statement = sqLiteDatabase.compileStatement(deletQuery);
-      return statement.executeUpdateDelete();
+      int response = statement.executeUpdateDelete();
+      queryDataResponse.setQueryStatus(QueryStatus.SUCCESS);
+      return response;
     } catch (Exception e) {
       queryDataResponse.setErrorMessage(e.getMessage());
       return Constants.INVALID_RESPONSE;

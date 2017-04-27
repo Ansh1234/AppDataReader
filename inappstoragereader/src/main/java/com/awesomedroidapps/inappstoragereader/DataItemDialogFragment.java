@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.awesomedroidapps.inappstoragereader.interfaces.TableDataEditListener;
+
+import java.util.List;
+
 /**
  * A dialog fragment for copying the data of an individual data column.
  * Created by anshul on 26/2/17.
@@ -26,15 +30,35 @@ public class DataItemDialogFragment extends DialogFragment {
   private View alertDialogView;
   private TextView columnValue;
   private EditText editedColumnValue;
+  private TableDataEditListener dataEditListener;
+  private int columnIndex;
+  private List<String> currentColumnValues;
 
-  public static DataItemDialogFragment newInstance(String data) {
+  public static DataItemDialogFragment newInstance(String data, TableDataEditListener
+      tableDataEditListener, int columnIndex, List<String> currentColumnValues) {
     DataItemDialogFragment dataItemDialogFragment = new DataItemDialogFragment();
     dataItemDialogFragment.setData(data);
+    dataItemDialogFragment.setDataEditListener(tableDataEditListener);
+    dataItemDialogFragment.setColumnIndex(columnIndex);
+    dataItemDialogFragment.setCurrentColumnValues(currentColumnValues);
     return dataItemDialogFragment;
   }
 
   public void setData(String data) {
     this.data = data;
+  }
+
+  public void setDataEditListener(
+      TableDataEditListener dataEditListener) {
+    this.dataEditListener = dataEditListener;
+  }
+
+  public void setColumnIndex(int columnIndex) {
+    this.columnIndex = columnIndex;
+  }
+
+  public void setCurrentColumnValues(List<String> currentColumnValues) {
+    this.currentColumnValues = currentColumnValues;
   }
 
   @Override
@@ -106,5 +130,6 @@ public class DataItemDialogFragment extends DialogFragment {
 
   private void onDoneButtonClicked() {
     alertDialog.dismiss();
+    dataEditListener.onTableDataEdited(editedColumnValue.getText().toString(),columnIndex,currentColumnValues);
   }
 }

@@ -16,14 +16,20 @@ import android.widget.Toast;
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
+import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommands;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
+import com.awesomedroidapps.inappstoragereader.QueryDatabaseAsyncTask;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.TableDataAsyncTask;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
+import com.awesomedroidapps.inappstoragereader.interfaces.CommandResponses;
 import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
+import com.awesomedroidapps.inappstoragereader.interfaces.QueryResponseListener;
+import com.awesomedroidapps.inappstoragereader.interfaces.TableDataEditListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.TableDataView;
 
 import java.lang.ref.WeakReference;
@@ -34,7 +40,8 @@ import java.util.List;
  */
 
 public class TableDataActivity extends AppCompatActivity
-    implements ErrorMessageInterface, DataItemClickListener, TableDataView {
+    implements ErrorMessageInterface, DataItemClickListener, TableDataView,
+    TableDataEditListener, QueryResponseListener,CommandResponses {
 
   private AppStorageDataRecyclerView tableDataRecyclerView;
   private String databaseName, tableName;
@@ -64,6 +71,10 @@ public class TableDataActivity extends AppCompatActivity
   public void onStart() {
     super.onStart();
     initUI();
+    fetchData();
+  }
+
+  private void fetchData(){
     new TableDataAsyncTask(new WeakReference(this), this).execute(
         new String[]{databaseName, tableName});
   }
@@ -122,37 +133,8 @@ public class TableDataActivity extends AppCompatActivity
       return;
     }
 
-    String toUpdateColumn = tableColumnNames.get(columnIndex);
-
-    String whereClause = Constants.EMPTY_STRING;
-    StringBuilder stringBuilder = new StringBuilder(" WHERE ");
-    for(int i=0;i<columnValues.size();i++){
-      stringBuilder.append(tableColumnNames.get(i));
-      stringBuilder.append(Constants.EQUAL);
-      if(tableColumnTypes.get(i).equals(Cursor.FIELD_TYPE_STRING)){
-        stringBuilder.append(Constants.INVERTED_COMMA);
-      }
-      stringBuilder.append(columnValues.get(i));
-      if(tableColumnTypes.get(i).equals(Cursor.FIELD_TYPE_STRING)){
-        stringBuilder.append(Constants.INVERTED_COMMA);
-      }
-      if(i==columnValues.size()-1){
-        break;
-      }
-      stringBuilder.append(Constants.SPACE);
-      stringBuilder.append(Constants.AND);
-      stringBuilder.append(Constants.SPACE);
-    }
-    whereClause = stringBuilder.toString();
-    int toUpdateColumnType = tableColumnTypes.get(columnIndex);
-    if(toUpdateColumnType==Cursor.FIELD_TYPE_STRING){
-      data = Constants.INVERTED_COMMA+data+Constants.INVERTED_COMMA;
-    }
-    whereClause=whereClause.trim();
-
-    String updateQuery = "update "+tableName+" set "+toUpdateColumn+"="+data+Constants
-        .SPACE+whereClause;
-    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data);
+    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data,this,
+        columnIndex,columnValues);
     dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
 
   }
@@ -182,5 +164,108 @@ public class TableDataActivity extends AppCompatActivity
         tableDataResponse.getTableData().size() - 1);
     tableDataRecyclerView.setLayoutManager(linearLayoutManager);
     tableDataRecyclerView.setAdapter(adapter);
+  }
+
+  @Override
+  public void onTableDataEdited(String newValue, int columnIndex,
+                                List<String> columnValues) {
+    String toUpdateColumn = tableColumnNames.get(columnIndex);
+
+    String whereClause = Constants.EMPTY_STRING;
+    StringBuilder stringBuilder = new StringBuilder(" WHERE ");
+    for(int i=0;i<columnValues.size();i++){
+      if(tableColumnTypes.get(i)==Cursor.FIELD_TYPE_NULL){
+        continue;
+      }
+      stringBuilder.append(tableColumnNames.get(i));
+      stringBuilder.append(Constants.EQUAL);
+      if(tableColumnTypes.get(i).equals(Cursor.FIELD_TYPE_STRING)){
+        stringBuilder.append(Constants.INVERTED_COMMA);
+      }
+      stringBuilder.append(columnValues.get(i));
+      if(tableColumnTypes.get(i).equals(Cursor.FIELD_TYPE_STRING)){
+        stringBuilder.append(Constants.INVERTED_COMMA);
+      }
+      if(i==columnValues.size()-1){
+        break;
+      }
+      stringBuilder.append(Constants.SPACE);
+      stringBuilder.append(Constants.AND);
+      stringBuilder.append(Constants.SPACE);
+    }
+    whereClause = stringBuilder.toString();
+    int toUpdateColumnType = tableColumnTypes.get(columnIndex);
+    if(toUpdateColumnType==Cursor.FIELD_TYPE_STRING){
+      newValue = Constants.INVERTED_COMMA+newValue+Constants.INVERTED_COMMA;
+    }
+    whereClause=whereClause.trim();
+
+    String updateQuery = "update "+tableName+" set "+toUpdateColumn+"="+newValue+Constants
+        .SPACE+whereClause;
+    new QueryDatabaseAsyncTask(new WeakReference(this), this).execute(new String[]{
+        databaseName, updateQuery});
+  }
+
+
+  @Override
+  public void onSelectQueryResponse(QueryDataResponse queryDataResponse) {
+    switch (queryDataResponse.getQueryStatus()) {
+      case SUCCESS:
+        break;
+      case FAILURE:
+        break;
+    }
+  }
+
+  @Override
+  public void onUpdateQueryResponse(QueryDataResponse queryDataResponse) {
+    switch (queryDataResponse.getQueryStatus()) {
+      case SUCCESS:
+        Toast.makeText(this,"Update successful",Toast.LENGTH_LONG).show();
+        fetchData();
+        break;
+      case FAILURE:
+        Toast.makeText(this,"Update Failed",Toast.LENGTH_LONG).show();
+        break;
+    }
+  }
+
+  @Override
+  public void onDeleteQueryResponse(QueryDataResponse queryDataResponse) {
+
+  }
+
+  @Override
+  public void onInsertQueryResponse(QueryDataResponse queryDataResponse) {
+
+  }
+
+  @Override
+  public void onDataFetched(QueryDataResponse queryDataResponse) {
+    progressDialog.dismiss();
+
+    if (queryDataResponse == null || queryDataResponse.getQueryStatus() == null) {
+      return;
+    }
+
+    DatabaseQueryCommands commands = queryDataResponse.getDatabaseQueryCommands();
+
+    if(commands!=null){
+      switch (commands){
+        case UPDATE:
+          onUpdateQueryResponse(queryDataResponse);
+          break;
+        case SELECT:
+          onSelectQueryResponse(queryDataResponse);
+          break;
+        case DELETE:
+          onDeleteQueryResponse(queryDataResponse);
+          break;
+        case INSERT:
+          onInsertQueryResponse(queryDataResponse);
+          break;
+      }
+    }
+
   }
 }
