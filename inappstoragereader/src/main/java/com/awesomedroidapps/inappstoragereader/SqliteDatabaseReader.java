@@ -260,6 +260,45 @@ public class SqliteDatabaseReader {
     return rowData;
   }
 
+
+  @NonNull
+  public static ArrayList<Integer> getTableDataPrimaryKey(Context context, String databaseName,
+                                                          String tableName) {
+    String query = "pragma table_info(" + tableName + ")";
+    SQLiteDatabase sqLiteDatabase = null;
+    ArrayList<Integer> primaryKeyList = new ArrayList<>();
+
+    try {
+      sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+
+    Cursor cursor = null;
+    try {
+      cursor = sqLiteDatabase.rawQuery(query, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    if (cursor == null || !cursor.moveToFirst()) {
+      return null;
+    }
+
+    int primaryKeyColumnIndex = cursor.getColumnIndex("pk");
+    int cidIndex = cursor.getColumnIndex("cid");
+
+    do {
+      int value = cursor.getInt(primaryKeyColumnIndex);
+      if (value == 1) {
+        primaryKeyList.add(cursor.getInt(cidIndex));
+      }
+    } while (cursor.moveToNext());
+    cursor.close();
+    return primaryKeyList;
+  }
+
   /**
    * This method is used to return an arraylist of widths of various columns. Based on the column
    * type the width will be different. e.g the width of a String column will be greater than the
@@ -416,10 +455,10 @@ public class SqliteDatabaseReader {
         break;
       case SELECT:
         queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
-        handleRawQuery(context,sqLiteDatabase,queryDataResponse,query);
+        handleRawQuery(context, sqLiteDatabase, queryDataResponse, query);
         break;
       default:
-        handleRawQuery(context,sqLiteDatabase, queryDataResponse, query);
+        handleRawQuery(context, sqLiteDatabase, queryDataResponse, query);
     }
     return queryDataResponse;
   }
@@ -448,11 +487,10 @@ public class SqliteDatabaseReader {
 
   private static void handleRawQuery(Context context, SQLiteDatabase sqliteDatabase,
                                      QueryDataResponse
-      queryDataResponse, String query) {
-
+                                         queryDataResponse, String query) {
     Cursor cursor = null;
     try {
-       cursor = sqliteDatabase.rawQuery(query,null);
+      cursor = sqliteDatabase.rawQuery(query, null);
       TableDataResponse tableDataResponse = new TableDataResponse();
       tableDataResponse.setTableData(getAllTableData(cursor));
       ArrayList<Integer> tableColumnWidth = getTableColumnWidth(context, cursor);
@@ -463,8 +501,8 @@ public class SqliteDatabaseReader {
 
     } catch (Exception e) {
       queryDataResponse.setErrorMessage(e.getMessage());
-    }finally {
-      if(cursor!=null){
+    } finally {
+      if (cursor != null) {
         cursor.close();
       }
     }

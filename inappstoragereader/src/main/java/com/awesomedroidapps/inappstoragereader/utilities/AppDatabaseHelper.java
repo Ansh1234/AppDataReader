@@ -15,7 +15,7 @@ public class AppDatabaseHelper {
 
   public static String getUpdateQuery(List<String> tableColumnNames, List<Integer>
       tableColumnTypes, List<String> columnValues, int columnIndex, String newValue,
-                                      String tableName) {
+                                      String tableName, List<Integer> primaryKeyList) {
 
     if (tableColumnNames == null || columnValues == null) {
       return Constants.EMPTY_STRING;
@@ -30,7 +30,8 @@ public class AppDatabaseHelper {
 
     for (int i = 0; i < columnValues.size(); i++) {
 
-      if (tableColumnTypes.get(i) == Cursor.FIELD_TYPE_NULL || tableColumnTypes.get(i)==Cursor.FIELD_TYPE_BLOB) {
+      if (tableColumnTypes.get(i) == Cursor.FIELD_TYPE_NULL || tableColumnTypes.get(i)==Cursor
+          .FIELD_TYPE_BLOB || (!Utils.isEmpty(primaryKeyList) && !primaryKeyList.contains(i))) {
         continue;
       }
 

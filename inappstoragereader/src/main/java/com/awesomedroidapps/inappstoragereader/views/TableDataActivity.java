@@ -49,6 +49,7 @@ public class TableDataActivity extends AppCompatActivity
   private RelativeLayout errorHandlerLayout;
   private List<String> tableColumnNames;
   private List<Integer> tableColumnTypes;
+  private List<Integer> primaryKeysList;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +154,8 @@ public class TableDataActivity extends AppCompatActivity
 
     tableColumnNames = tableDataResponse.getColumnNames();
     tableColumnTypes = tableDataResponse.getColumnTypes();
+    primaryKeysList = tableDataResponse.getPrimaryKeyList();
+
     tableDataRecyclerView.setVisibility(View.VISIBLE);
     tableDataRecyclerView.setRecyclerViewWidth(tableDataResponse.getRecyclerViewWidth());
 
@@ -171,7 +174,7 @@ public class TableDataActivity extends AppCompatActivity
   public void onTableDataEdited(String newValue, int columnIndex,
                                 List<String> columnValues) {
     String updateQuery = AppDatabaseHelper.getUpdateQuery(tableColumnNames, tableColumnTypes,
-        columnValues, columnIndex, newValue, tableName);
+        columnValues, columnIndex, newValue, tableName, primaryKeysList);
     if (Utils.isEmpty(updateQuery)) {
       //TODO anshul.jain Take proper action here.
       return;

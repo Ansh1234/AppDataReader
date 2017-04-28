@@ -13,6 +13,7 @@ public class TableDataResponse {
   private List<List<String>> tableData;
   private List<String> columnNames;
   private List<Integer> columnTypes;
+  private List<Integer> primaryKeyList;
 
   public int getRecyclerViewWidth() {
     return recyclerViewWidth;
@@ -53,5 +54,13 @@ public class TableDataResponse {
 
   public void setColumnTypes(List<Integer> columnTypes) {
     this.columnTypes = columnTypes;
+  }
+
+  public List<Integer> getPrimaryKeyList() {
+    return primaryKeyList;
+  }
+
+  public void setPrimaryKeyList(List<Integer> primaryKeyList) {
+    this.primaryKeyList = primaryKeyList;
   }
 }

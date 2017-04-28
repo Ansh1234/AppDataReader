@@ -41,6 +41,9 @@ public class TableDataAsyncTask extends AsyncTask<String, Void, TableDataRespons
     List<Integer> tableDataColumnWidthList = SqliteDatabaseReader.getTableDataColumnWidth
         (activtyWeakReference.get(), databaseName, tableName);
     tableDataResponse.setRecyclerViewColumnsWidth(tableDataColumnWidthList);
+    List<Integer> primaryKeyList = SqliteDatabaseReader.getTableDataPrimaryKey(activtyWeakReference
+            .get(), databaseName,tableName);
+    tableDataResponse.setPrimaryKeyList(primaryKeyList);
 
     //Get the width
     int recyclerViewWidth = Utils.getTableWidth(tableDataColumnWidthList);
