@@ -1,5 +1,6 @@
 package com.awesomedroidapps.inappstoragereader;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -265,14 +266,14 @@ public class SqliteDatabaseReader {
   public static ArrayList<Integer> getTableDataPrimaryKey(Context context, String databaseName,
                                                           String tableName) {
     String query = "pragma table_info(" + tableName + ")";
-    SQLiteDatabase sqLiteDatabase = null;
+    SQLiteDatabase sqLiteDatabase;
     ArrayList<Integer> primaryKeyList = new ArrayList<>();
 
     try {
       sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
     } catch (Exception e) {
       e.printStackTrace();
-      return null;
+      return primaryKeyList;
     }
 
     Cursor cursor = null;
@@ -280,18 +281,19 @@ public class SqliteDatabaseReader {
       cursor = sqLiteDatabase.rawQuery(query, null);
     } catch (Exception e) {
       e.printStackTrace();
+      return primaryKeyList;
     }
 
     if (cursor == null || !cursor.moveToFirst()) {
-      return null;
+      return primaryKeyList;
     }
 
-    int primaryKeyColumnIndex = cursor.getColumnIndex("pk");
-    int cidIndex = cursor.getColumnIndex("cid");
+    int primaryKeyColumnIndex = cursor.getColumnIndex(Constants.PRAGMA_COLUMN_PK);
+    int cidIndex = cursor.getColumnIndex(Constants.PRAGMA_COLUMN_CID);
 
     do {
       int value = cursor.getInt(primaryKeyColumnIndex);
-      if (value == 1) {
+      if (value == Constants.COLUMN_PRIMARY_KEY_VALUE) {
         primaryKeyList.add(cursor.getInt(cidIndex));
       }
     } while (cursor.moveToNext());
@@ -483,6 +485,22 @@ public class SqliteDatabaseReader {
         statement.close();
       }
     }
+  }
+
+  public static int handleUpdateQuery(Context context, String databaseName, QueryDataResponse queryDataResponse,
+                                      String tableName, ContentValues contentValues,
+                                      String whereClause) {
+
+    SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+
+    try {
+      int updateResult = sqLiteDatabase.update(tableName, contentValues, whereClause, null);
+      queryDataResponse.setQueryStatus(QueryStatus.SUCCESS);
+      return updateResult;
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+    return -1;
   }
 
   private static void handleRawQuery(Context context, SQLiteDatabase sqliteDatabase,

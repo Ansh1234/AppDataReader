@@ -1,6 +1,7 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +18,9 @@ import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
 import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommandType;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
-import com.awesomedroidapps.inappstoragereader.QueryDatabaseAsyncTask;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.TableDataAsyncTask;
+import com.awesomedroidapps.inappstoragereader.UpdateDatabaseAsyncTask;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
@@ -173,14 +174,17 @@ public class TableDataActivity extends AppCompatActivity
   @Override
   public void onTableDataEdited(String newValue, int columnIndex,
                                 List<String> columnValues) {
-    String updateQuery = AppDatabaseHelper.getUpdateQuery(tableColumnNames, tableColumnTypes,
-        columnValues, columnIndex, newValue, tableName, primaryKeysList);
-    if (Utils.isEmpty(updateQuery)) {
+    ContentValues contentValues =
+        AppDatabaseHelper.getUpdateQuery(tableColumnNames, tableColumnTypes,
+            columnValues, columnIndex, newValue, tableName, primaryKeysList);
+    if (contentValues == null) {
       //TODO anshul.jain Take proper action here.
       return;
     }
-    new QueryDatabaseAsyncTask(new WeakReference(this), this).execute(new String[]{
-        databaseName, updateQuery
+    String whereClause = AppDatabaseHelper.getUpdateWhereClause(tableColumnNames, tableColumnTypes,
+        columnValues, columnIndex, newValue, tableName, primaryKeysList);
+    new UpdateDatabaseAsyncTask(new WeakReference(this), this, contentValues).execute(new String[]{
+        databaseName, tableName, whereClause
     });
   }
 
@@ -227,7 +231,7 @@ public class TableDataActivity extends AppCompatActivity
 
   @Override
   public void onUnknownTypeQueryResponse(QueryDataResponse queryDataResponse) {
-
+    fetchData();
   }
 
   @Override

@@ -1,5 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.utilities;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.awesomedroidapps.inappstoragereader.Constants;
@@ -13,21 +14,48 @@ import java.util.List;
 
 public class AppDatabaseHelper {
 
-  public static String getUpdateQuery(List<String> tableColumnNames, List<Integer>
+  public static ContentValues getUpdateQuery(List<String> tableColumnNames, List<Integer>
       tableColumnTypes, List<String> columnValues, int columnIndex, String newValue,
                                       String tableName, List<Integer> primaryKeyList) {
 
     if (tableColumnNames == null || columnValues == null) {
-      return Constants.EMPTY_STRING;
+      return null;
     }
 
-    String toUpdateColumn = tableColumnNames.get(columnIndex);
+    String columnName = tableColumnNames.get(columnIndex);
+    String columnValue = columnValues.get(columnIndex);
+
+    ContentValues contentValues = new ContentValues();
+    switch (tableColumnTypes.get(columnIndex)){
+      case Cursor.FIELD_TYPE_BLOB:
+        contentValues.put(columnName,columnValue.getBytes());
+        break;
+      case Cursor.FIELD_TYPE_FLOAT:
+        contentValues.put(columnName, Float.parseFloat(columnValue));
+        break;
+      case Cursor.FIELD_TYPE_INTEGER:
+        contentValues.put(columnName, Integer.parseInt(columnValue));
+        break;
+      case Cursor.FIELD_TYPE_NULL:
+        break;
+      case Cursor.FIELD_TYPE_STRING:
+        contentValues.put(columnName, columnValue);
+        break;
+    }
+
+    return contentValues;
+  }
+
+  public static String getUpdateWhereClause(List<String> tableColumnNames, List<Integer>
+      tableColumnTypes, List<String> columnValues, int columnIndex, String newValue,
+                                            String tableName, List<Integer> primaryKeyList){
+    if (tableColumnNames == null || columnValues == null) {
+      return null;
+    }
+
+
 
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(Constants.SPACE);
-    stringBuilder.append(Constants.WHERE_CLAUSE);
-    stringBuilder.append(Constants.SPACE);
-
     for (int i = 0; i < columnValues.size(); i++) {
 
       if (tableColumnTypes.get(i) == Cursor.FIELD_TYPE_NULL || tableColumnTypes.get(i)==Cursor
@@ -36,6 +64,7 @@ public class AppDatabaseHelper {
       }
 
       String columnName = tableColumnNames.get(i);
+      String columnValue = columnValues.get(i);
       if(Utils.isEmpty(columnName)){
         continue;
       }
@@ -69,12 +98,7 @@ public class AppDatabaseHelper {
       newValue = Constants.INVERTED_COMMA + newValue + Constants.INVERTED_COMMA;
     }
     whereClause = whereClause.trim();
-
-    String updateQuery =
-        "update " + tableName + " set " + toUpdateColumn + "=" + newValue + Constants
-            .SPACE + whereClause;
-    return updateQuery;
+    return whereClause;
   }
-
 
 }

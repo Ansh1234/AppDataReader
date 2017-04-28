@@ -31,4 +31,8 @@ public class Constants {
   public static final String DIALOG_COPY ="COPY";
   public static final String DIALOG_EDIT ="EDIT";
   public static final String DIALOG_DONE ="DONE";
+
+  public static final String PRAGMA_COLUMN_PK = "pk";
+  public static final String PRAGMA_COLUMN_CID = "cid";
+  public static final int COLUMN_PRIMARY_KEY_VALUE = 1;
 }
