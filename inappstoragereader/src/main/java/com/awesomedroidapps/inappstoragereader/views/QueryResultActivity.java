@@ -93,16 +93,6 @@ public class QueryResultActivity extends AppCompatActivity
     startActivity(intent);
   }
 
-  private void initUI() {
-    tableDataRecyclerView.setVisibility(View.GONE);
-    errorHandlerLayout.setVisibility(View.GONE);
-    progressDialog.setMessage(
-        getString(R.string.com_awesomedroidapps_inappstoragereader_progressBar_message));
-    progressDialog.setIndeterminate(false);
-    progressDialog.show();
-  }
-
-
   @Override
   public void handleError(ErrorType errorType) {
 

@@ -142,7 +142,9 @@ public class TableDataActivity extends AppCompatActivity
   @Override
   public void onDataFetched(TableDataResponse tableDataResponse) {
 
-    progressDialog.dismiss();
+    if (progressDialog != null) {
+      progressDialog.dismiss();
+    }
 
     if (tableDataResponse == null || Utils.isEmpty(tableDataResponse.getTableData())) {
       handleError(ErrorType.NO_TABLE_DATA_FOUND);
@@ -153,7 +155,6 @@ public class TableDataActivity extends AppCompatActivity
     tableColumnTypes = tableDataResponse.getColumnTypes();
     tableDataRecyclerView.setVisibility(View.VISIBLE);
     tableDataRecyclerView.setRecyclerViewWidth(tableDataResponse.getRecyclerViewWidth());
-
 
     TableDataListAdapter adapter =
         new TableDataListAdapter(tableDataResponse.getTableData(), this,
@@ -171,6 +172,10 @@ public class TableDataActivity extends AppCompatActivity
                                 List<String> columnValues) {
     String updateQuery = AppDatabaseHelper.getUpdateQuery(tableColumnNames, tableColumnTypes,
         columnValues, columnIndex, newValue, tableName);
+    if (Utils.isEmpty(updateQuery)) {
+      //TODO anshul.jain Take proper action here.
+      return;
+    }
     new QueryDatabaseAsyncTask(new WeakReference(this), this).execute(new String[]{
         databaseName, updateQuery
     });
@@ -189,7 +194,6 @@ public class TableDataActivity extends AppCompatActivity
 
   @Override
   public void onUpdateQueryResponse(QueryDataResponse queryDataResponse) {
-
     if (queryDataResponse == null || queryDataResponse.getQueryStatus() == null) {
       return;
     }
@@ -202,6 +206,7 @@ public class TableDataActivity extends AppCompatActivity
         fetchData();
         break;
       case FAILURE:
+        //TODO anshul.jain Replace this with a proper message.
         Toast.makeText(this, "Update Failed", Toast.LENGTH_LONG).show();
         break;
     }
@@ -236,14 +241,14 @@ public class TableDataActivity extends AppCompatActivity
       return;
     }
 
-    DatabaseQueryCommandType commands = queryDataResponse.getDatabaseQueryCommandType();
+    DatabaseQueryCommandType commandType = queryDataResponse.getDatabaseQueryCommandType();
 
-    if (commands == null) {
+    if (commandType == null) {
       onUnknownTypeQueryResponse(queryDataResponse);
       return;
     }
 
-    switch (commands) {
+    switch (commandType) {
       case UPDATE:
         onUpdateQueryResponse(queryDataResponse);
         break;
