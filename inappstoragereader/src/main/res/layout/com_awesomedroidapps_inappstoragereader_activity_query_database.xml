@@ -15,14 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <EditText
-            android:id="@+id/com_awesomedroidapps_inappstoragereader_query_editText"
-            style="@style/ComAwesomeDroidAppEditTextTheme"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:hint="@string/com_awesomedroidapps_inappstoragereader_query" />
+
 
         <Button
             android:id="@+id/com_awesomedroidapps_inappstoragereader_submit"
@@ -38,6 +31,5 @@
         <TextView
             android:id="@+id/error_message_textview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/com_awesomedroidapps_inappstoragereader_query_editText" />
+            android:layout_height="wrap_content" />
 </RelativeLayout>

@@ -66,7 +66,8 @@ public class QueryResultActivity extends AppCompatActivity
   public void onStart() {
     super.onStart();
     new QueryDatabaseAsyncTask(new WeakReference(this), this).execute(new String[]{
-        databaseName, rawQuery});
+        databaseName, rawQuery
+    });
   }
 
   @Override
@@ -131,27 +132,31 @@ public class QueryResultActivity extends AppCompatActivity
       return;
     }
 
-    DatabaseQueryCommandType commands = queryDataResponse.getDatabaseQueryCommandType();
+    DatabaseQueryCommandType databaseQueryCommandType =
+        queryDataResponse.getDatabaseQueryCommandType();
 
-    if(commands!=null){
-      switch (commands){
-        case UPDATE:
-          onUpdateQueryResponse(queryDataResponse);
-          break;
-        case SELECT:
-          onSelectQueryResponse(queryDataResponse);
-          break;
-        case DELETE:
-          onDeleteQueryResponse(queryDataResponse);
-          break;
-        case INSERT:
-          onInsertQueryResponse(queryDataResponse);
-          break;
-      }
+    if (databaseQueryCommandType == null) {
+      onUnknownTypeQueryResponse(queryDataResponse);
+      return;
     }
 
+    switch (databaseQueryCommandType) {
+      case UPDATE:
+        onUpdateQueryResponse(queryDataResponse);
+        break;
+      case SELECT:
+        onSelectQueryResponse(queryDataResponse);
+        break;
+      case DELETE:
+        onDeleteQueryResponse(queryDataResponse);
+        break;
+      case INSERT:
+        onInsertQueryResponse(queryDataResponse);
+        break;
+      default:
+        onUnknownTypeQueryResponse(queryDataResponse);
+    }
   }
-
 
 
   /**
@@ -196,8 +201,9 @@ public class QueryResultActivity extends AppCompatActivity
       Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
       return;
     }
-    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data,null,0,
-        null);
+    DataItemDialogFragment dataItemDialogFragment =
+        DataItemDialogFragment.newInstance(data, null, 0,
+            null);
     dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
   }
 
@@ -222,10 +228,10 @@ public class QueryResultActivity extends AppCompatActivity
   public void onUpdateQueryResponse(QueryDataResponse queryDataResponse) {
     switch (queryDataResponse.getQueryStatus()) {
       case SUCCESS:
-        Toast.makeText(this,"Update successful",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Update successful", Toast.LENGTH_LONG).show();
         break;
       case FAILURE:
-        Toast.makeText(this,"Update successful",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Update successful", Toast.LENGTH_LONG).show();
         break;
     }
   }
@@ -242,6 +248,18 @@ public class QueryResultActivity extends AppCompatActivity
 
   @Override
   public void onUnknownTypeQueryResponse(QueryDataResponse queryDataResponse) {
+    if (queryDataResponse == null || queryDataResponse.getQueryStatus() == null) {
+      return;
+    }
 
+    switch (queryDataResponse.getQueryStatus()) {
+      case SUCCESS:
+        if (queryDataResponse.getTableDataResponse() != null) {
+          onDataFetched(queryDataResponse.getTableDataResponse());
+        }
+        break;
+      case FAILURE:
+        break;
+    }
   }
 }

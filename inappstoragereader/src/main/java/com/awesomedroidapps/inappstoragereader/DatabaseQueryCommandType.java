@@ -8,8 +8,8 @@ public enum DatabaseQueryCommandType {
   SELECT("SELECT"),
   UPDATE("UPDATE"),
   DELETE("DELETE"),
-  INSERT("INSERT");
-
+  INSERT("INSERT"),
+  RAW_QUERY("RAW");
 
   private String command;
 

@@ -13,4 +13,6 @@ public interface QueryDatabaseView {
   void onDeleteCommandSelected();
 
   void onInsertCommandSelected();
+
+  void onRawQueryCommandSelected();
 }

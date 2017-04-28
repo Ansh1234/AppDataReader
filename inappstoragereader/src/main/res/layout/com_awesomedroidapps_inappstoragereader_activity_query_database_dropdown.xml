@@ -59,5 +59,14 @@
         android:textAllCaps="false"
         android:layout_below="@id/set_clause"/>
 
+    <EditText
+        android:id="@+id/com_awesomedroidapps_inappstoragereader_query_editText"
+        style="@style/ComAwesomeDroidAppEditTextTheme"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_database_query_command"
+        android:hint="@string/com_awesomedroidapps_inappstoragereader_query" />
+
 
 </RelativeLayout>
