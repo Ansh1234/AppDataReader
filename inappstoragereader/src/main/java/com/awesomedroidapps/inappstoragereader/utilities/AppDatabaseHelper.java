@@ -15,8 +15,7 @@ import java.util.List;
 public class AppDatabaseHelper {
 
   public static ContentValues getUpdateQuery(List<String> tableColumnNames, List<Integer>
-      tableColumnTypes, List<String> columnValues, int columnIndex, String newValue,
-                                      String tableName, List<Integer> primaryKeyList) {
+      tableColumnTypes, List<String> columnValues, int columnIndex, String newValue) {
 
     if (tableColumnNames == null || columnValues == null) {
       return null;
@@ -28,7 +27,7 @@ public class AppDatabaseHelper {
     ContentValues contentValues = new ContentValues();
     switch (tableColumnTypes.get(columnIndex)){
       case Cursor.FIELD_TYPE_BLOB:
-        contentValues.put(columnName,columnValue.getBytes());
+        contentValues.put(columnName,newValue.getBytes());
         break;
       case Cursor.FIELD_TYPE_FLOAT:
         contentValues.put(columnName, Float.parseFloat(columnValue));
@@ -47,12 +46,10 @@ public class AppDatabaseHelper {
   }
 
   public static String getUpdateWhereClause(List<String> tableColumnNames, List<Integer>
-      tableColumnTypes, List<String> columnValues, int columnIndex, String newValue,
-                                            String tableName, List<Integer> primaryKeyList){
+      tableColumnTypes, List<String> columnValues,List<Integer> primaryKeyList){
     if (tableColumnNames == null || columnValues == null) {
       return null;
     }
-
 
 
     StringBuilder stringBuilder = new StringBuilder();
@@ -64,7 +61,6 @@ public class AppDatabaseHelper {
       }
 
       String columnName = tableColumnNames.get(i);
-      String columnValue = columnValues.get(i);
       if(Utils.isEmpty(columnName)){
         continue;
       }
@@ -93,10 +89,7 @@ public class AppDatabaseHelper {
       whereClause = whereClause.substring(0, lastIndex);
       whereClause = whereClause.trim();
     }
-    int toUpdateColumnType = tableColumnTypes.get(columnIndex);
-    if (toUpdateColumnType == Cursor.FIELD_TYPE_STRING) {
-      newValue = Constants.INVERTED_COMMA + newValue + Constants.INVERTED_COMMA;
-    }
+
     whereClause = whereClause.trim();
     return whereClause;
   }

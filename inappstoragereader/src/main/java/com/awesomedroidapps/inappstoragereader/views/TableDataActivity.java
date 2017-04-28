@@ -176,13 +176,13 @@ public class TableDataActivity extends AppCompatActivity
                                 List<String> columnValues) {
     ContentValues contentValues =
         AppDatabaseHelper.getUpdateQuery(tableColumnNames, tableColumnTypes,
-            columnValues, columnIndex, newValue, tableName, primaryKeysList);
+            columnValues, columnIndex, newValue);
     if (contentValues == null) {
       //TODO anshul.jain Take proper action here.
       return;
     }
     String whereClause = AppDatabaseHelper.getUpdateWhereClause(tableColumnNames, tableColumnTypes,
-        columnValues, columnIndex, newValue, tableName, primaryKeysList);
+        columnValues, primaryKeysList);
     new UpdateDatabaseAsyncTask(new WeakReference(this), this, contentValues).execute(new String[]{
         databaseName, tableName, whereClause
     });
