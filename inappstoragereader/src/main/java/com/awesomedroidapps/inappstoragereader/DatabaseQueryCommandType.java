@@ -4,7 +4,7 @@ package com.awesomedroidapps.inappstoragereader;
  * Created by anshul on 27/03/17.
  */
 
-public enum  DatabaseQueryCommands {
+public enum DatabaseQueryCommandType {
   SELECT("SELECT"),
   UPDATE("UPDATE"),
   DELETE("DELETE"),
@@ -13,7 +13,7 @@ public enum  DatabaseQueryCommands {
 
   private String command;
 
-  DatabaseQueryCommands(String command) {
+  DatabaseQueryCommandType(String command) {
     this.command = command;
   }
 
@@ -21,8 +21,8 @@ public enum  DatabaseQueryCommands {
     return command;
   }
 
-  public static DatabaseQueryCommands getCommand(String command) {
-    for (DatabaseQueryCommands commands : DatabaseQueryCommands.values()) {
+  public static DatabaseQueryCommandType getCommand(String command) {
+    for (DatabaseQueryCommandType commands : DatabaseQueryCommandType.values()) {
       if (commands.getCommand().equals(command)) {
         return commands;
       }

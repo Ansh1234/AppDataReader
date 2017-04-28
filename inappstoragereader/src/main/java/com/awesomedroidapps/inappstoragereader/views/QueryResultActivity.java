@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
-import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommands;
+import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommandType;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.QueryDatabaseAsyncTask;
 import com.awesomedroidapps.inappstoragereader.R;
@@ -134,14 +134,14 @@ public class QueryResultActivity extends AppCompatActivity
   }
 
   @Override
-  public void onDataFetched(QueryDataResponse queryDataResponse) {
+  public void onRawQueryDataFetched(QueryDataResponse queryDataResponse) {
     progressDialog.dismiss();
 
     if (queryDataResponse == null || queryDataResponse.getQueryStatus() == null) {
       return;
     }
 
-    DatabaseQueryCommands commands = queryDataResponse.getDatabaseQueryCommands();
+    DatabaseQueryCommandType commands = queryDataResponse.getDatabaseQueryCommandType();
 
     if(commands!=null){
       switch (commands){
@@ -247,6 +247,11 @@ public class QueryResultActivity extends AppCompatActivity
 
   @Override
   public void onInsertQueryResponse(QueryDataResponse queryDataResponse) {
+
+  }
+
+  @Override
+  public void onUnknownTypeQueryResponse(QueryDataResponse queryDataResponse) {
 
   }
 }

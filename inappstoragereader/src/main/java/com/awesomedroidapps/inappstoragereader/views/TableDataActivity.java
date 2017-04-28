@@ -2,7 +2,6 @@ package com.awesomedroidapps.inappstoragereader.views;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +15,7 @@ import android.widget.Toast;
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
-import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommands;
+import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommandType;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.QueryDatabaseAsyncTask;
 import com.awesomedroidapps.inappstoragereader.R;
@@ -31,6 +30,7 @@ import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.interfaces.QueryResponseListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.TableDataEditListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.TableDataView;
+import com.awesomedroidapps.inappstoragereader.utilities.AppDatabaseHelper;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -41,7 +41,7 @@ import java.util.List;
 
 public class TableDataActivity extends AppCompatActivity
     implements ErrorMessageInterface, DataItemClickListener, TableDataView,
-    TableDataEditListener, QueryResponseListener,CommandResponses {
+    TableDataEditListener, QueryResponseListener, CommandResponses {
 
   private AppStorageDataRecyclerView tableDataRecyclerView;
   private String databaseName, tableName;
@@ -74,7 +74,7 @@ public class TableDataActivity extends AppCompatActivity
     fetchData();
   }
 
-  private void fetchData(){
+  private void fetchData() {
     new TableDataAsyncTask(new WeakReference(this), this).execute(
         new String[]{databaseName, tableName});
   }
@@ -99,7 +99,7 @@ public class TableDataActivity extends AppCompatActivity
     Intent intent = new Intent(this, QueryDatabaseActivity.class);
     Bundle bundle = new Bundle();
     bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
-    bundle.putString(Constants.BUNDLE_TABLE_NAME,tableName);
+    bundle.putString(Constants.BUNDLE_TABLE_NAME, tableName);
     intent.putExtras(bundle);
     startActivity(intent);
   }
@@ -122,7 +122,7 @@ public class TableDataActivity extends AppCompatActivity
   @Override
   public void onDataItemClicked(String data) {
 
-   }
+  }
 
   @Override
   public void onDataItemClicked(String data, int columnIndex, List<String> columnValues) {
@@ -133,8 +133,8 @@ public class TableDataActivity extends AppCompatActivity
       return;
     }
 
-    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data,this,
-        columnIndex,columnValues);
+    DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data, this,
+        columnIndex, columnValues);
     dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
 
   }
@@ -169,41 +169,11 @@ public class TableDataActivity extends AppCompatActivity
   @Override
   public void onTableDataEdited(String newValue, int columnIndex,
                                 List<String> columnValues) {
-    String toUpdateColumn = tableColumnNames.get(columnIndex);
-
-    String whereClause = Constants.EMPTY_STRING;
-    StringBuilder stringBuilder = new StringBuilder(" WHERE ");
-    for(int i=0;i<columnValues.size();i++){
-      if(tableColumnTypes.get(i)==Cursor.FIELD_TYPE_NULL){
-        continue;
-      }
-      stringBuilder.append(tableColumnNames.get(i));
-      stringBuilder.append(Constants.EQUAL);
-      if(tableColumnTypes.get(i).equals(Cursor.FIELD_TYPE_STRING)){
-        stringBuilder.append(Constants.INVERTED_COMMA);
-      }
-      stringBuilder.append(columnValues.get(i));
-      if(tableColumnTypes.get(i).equals(Cursor.FIELD_TYPE_STRING)){
-        stringBuilder.append(Constants.INVERTED_COMMA);
-      }
-      if(i==columnValues.size()-1){
-        break;
-      }
-      stringBuilder.append(Constants.SPACE);
-      stringBuilder.append(Constants.AND);
-      stringBuilder.append(Constants.SPACE);
-    }
-    whereClause = stringBuilder.toString();
-    int toUpdateColumnType = tableColumnTypes.get(columnIndex);
-    if(toUpdateColumnType==Cursor.FIELD_TYPE_STRING){
-      newValue = Constants.INVERTED_COMMA+newValue+Constants.INVERTED_COMMA;
-    }
-    whereClause=whereClause.trim();
-
-    String updateQuery = "update "+tableName+" set "+toUpdateColumn+"="+newValue+Constants
-        .SPACE+whereClause;
+    String updateQuery = AppDatabaseHelper.getUpdateQuery(tableColumnNames, tableColumnTypes,
+        columnValues, columnIndex, newValue, tableName);
     new QueryDatabaseAsyncTask(new WeakReference(this), this).execute(new String[]{
-        databaseName, updateQuery});
+        databaseName, updateQuery
+    });
   }
 
 
@@ -219,13 +189,20 @@ public class TableDataActivity extends AppCompatActivity
 
   @Override
   public void onUpdateQueryResponse(QueryDataResponse queryDataResponse) {
+
+    if (queryDataResponse == null || queryDataResponse.getQueryStatus() == null) {
+      return;
+    }
+
     switch (queryDataResponse.getQueryStatus()) {
       case SUCCESS:
-        Toast.makeText(this,"Update successful",Toast.LENGTH_LONG).show();
+        String toastMessage = Utils.getString(this, R.string
+            .com_awesomedroidapps_inappstoragereader_database_query_success);
+        Utils.showLongToast(this, toastMessage);
         fetchData();
         break;
       case FAILURE:
-        Toast.makeText(this,"Update Failed",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Update Failed", Toast.LENGTH_LONG).show();
         break;
     }
   }
@@ -241,31 +218,46 @@ public class TableDataActivity extends AppCompatActivity
   }
 
   @Override
-  public void onDataFetched(QueryDataResponse queryDataResponse) {
-    progressDialog.dismiss();
+  public void onUnknownTypeQueryResponse(QueryDataResponse queryDataResponse) {
+
+  }
+
+  @Override
+  public void onRawQueryDataFetched(QueryDataResponse queryDataResponse) {
+
+    if (progressDialog != null) {
+      progressDialog.dismiss();
+    }
 
     if (queryDataResponse == null || queryDataResponse.getQueryStatus() == null) {
+      String toastMessage = Utils.getString(this, R.string
+          .com_awesomedroidapps_inappstoragereader_database_query_failed);
+      Utils.showLongToast(this, toastMessage);
       return;
     }
 
-    DatabaseQueryCommands commands = queryDataResponse.getDatabaseQueryCommands();
+    DatabaseQueryCommandType commands = queryDataResponse.getDatabaseQueryCommandType();
 
-    if(commands!=null){
-      switch (commands){
-        case UPDATE:
-          onUpdateQueryResponse(queryDataResponse);
-          break;
-        case SELECT:
-          onSelectQueryResponse(queryDataResponse);
-          break;
-        case DELETE:
-          onDeleteQueryResponse(queryDataResponse);
-          break;
-        case INSERT:
-          onInsertQueryResponse(queryDataResponse);
-          break;
-      }
+    if (commands == null) {
+      onUnknownTypeQueryResponse(queryDataResponse);
+      return;
     }
 
+    switch (commands) {
+      case UPDATE:
+        onUpdateQueryResponse(queryDataResponse);
+        break;
+      case SELECT:
+        onSelectQueryResponse(queryDataResponse);
+        break;
+      case DELETE:
+        onDeleteQueryResponse(queryDataResponse);
+        break;
+      case INSERT:
+        onInsertQueryResponse(queryDataResponse);
+        break;
+      default:
+        onUnknownTypeQueryResponse(queryDataResponse);
+    }
   }
 }

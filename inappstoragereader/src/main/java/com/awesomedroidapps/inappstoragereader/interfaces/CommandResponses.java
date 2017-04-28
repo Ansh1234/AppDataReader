@@ -16,4 +16,6 @@ public interface CommandResponses {
 
   void onInsertQueryResponse(QueryDataResponse queryDataResponse);
 
+  void onUnknownTypeQueryResponse(QueryDataResponse queryDataResponse);
+
 }

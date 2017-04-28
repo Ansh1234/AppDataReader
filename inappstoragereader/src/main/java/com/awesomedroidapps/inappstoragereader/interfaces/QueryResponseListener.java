@@ -10,5 +10,5 @@ import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 
 public interface QueryResponseListener {
 
-  void onDataFetched(QueryDataResponse queryDataResponse);
+  void onRawQueryDataFetched(QueryDataResponse queryDataResponse);
 }

@@ -105,11 +105,21 @@ public class Utils {
   /**
    * Utility method to display a toast.
    *
-   * @param context
-   * @param message
+   * @param context - The Context.
+   * @param message - Toast message.
    */
-  public static void showToast(Context context, String message) {
+  public static void showShortToast(Context context, String message) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+  }
+
+  /**
+   * Utility method to display a toast.
+   *
+   * @param context - The Context.
+   * @param message - Toast message.
+   */
+  public static void showLongToast(Context context, String message) {
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
   }
 
 

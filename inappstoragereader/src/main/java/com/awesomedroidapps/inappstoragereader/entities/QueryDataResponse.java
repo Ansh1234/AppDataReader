@@ -1,6 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.entities;
 
-import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommands;
+import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommandType;
 import com.awesomedroidapps.inappstoragereader.QueryStatus;
 
 /**
@@ -14,7 +14,7 @@ public class QueryDataResponse {
   private TableDataResponse tableDataResponse;
   private String errorMessage;
   private String successMessage;
-  private DatabaseQueryCommands databaseQueryCommands;
+  private DatabaseQueryCommandType databaseQueryCommandType;
 
   public QueryStatus getQueryStatus() {
     return queryStatus;
@@ -49,12 +49,12 @@ public class QueryDataResponse {
     this.successMessage = successMessage;
   }
 
-  public DatabaseQueryCommands getDatabaseQueryCommands() {
-    return databaseQueryCommands;
+  public DatabaseQueryCommandType getDatabaseQueryCommandType() {
+    return databaseQueryCommandType;
   }
 
-  public void setDatabaseQueryCommands(
-      DatabaseQueryCommands databaseQueryCommands) {
-    this.databaseQueryCommands = databaseQueryCommands;
+  public void setDatabaseQueryCommandType(
+      DatabaseQueryCommandType databaseQueryCommandType) {
+    this.databaseQueryCommandType = databaseQueryCommandType;
   }
 }

@@ -407,7 +407,7 @@ public class SqliteDatabaseReader {
         }
         break;
       case UPDATE:
-        queryDataResponse.setDatabaseQueryCommands(DatabaseQueryCommands.UPDATE);
+        queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
         int updatedRows = handleDeleteOrUpdateRawQuery(sqLiteDatabase, query, queryDataResponse);
         if (updatedRows == Constants.INVALID_RESPONSE) {
         } else {
@@ -415,7 +415,8 @@ public class SqliteDatabaseReader {
         }
         break;
       case SELECT:
-        queryDataResponse.setDatabaseQueryCommands(DatabaseQueryCommands.SELECT);
+        queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
+        handleRawQuery(context,sqLiteDatabase,queryDataResponse,query);
         break;
       default:
         handleRawQuery(context,sqLiteDatabase, queryDataResponse, query);

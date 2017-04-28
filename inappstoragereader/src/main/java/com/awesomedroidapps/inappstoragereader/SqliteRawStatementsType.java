@@ -28,7 +28,7 @@ public enum SqliteRawStatementsType {
 
   public static SqliteRawStatementsType getType(String type) {
     for (SqliteRawStatementsType sqliteRawStatementType : SqliteRawStatementsType.values()) {
-      if (sqliteRawStatementType.getType().equals(type)) {
+      if (sqliteRawStatementType.getType().equalsIgnoreCase(type)) {
         return sqliteRawStatementType;
       }
     }

@@ -40,7 +40,7 @@ public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDataRes
 
   protected void onPostExecute(QueryDataResponse queryDataResponse) {
     if (queryResponseListener != null && activtyWeakReference.get() != null) {
-      queryResponseListener.onDataFetched(queryDataResponse);
+      queryResponseListener.onRawQueryDataFetched(queryDataResponse);
     }
   }
 }

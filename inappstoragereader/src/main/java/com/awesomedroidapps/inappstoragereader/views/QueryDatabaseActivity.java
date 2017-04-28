@@ -15,10 +15,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.awesomedroidapps.inappstoragereader.Constants;
-import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommands;
+import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommandType;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
+import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.helpers.GeneralSqliteHelper;
 import com.awesomedroidapps.inappstoragereader.interfaces.ColumnSelectListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
@@ -72,7 +73,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   }
 
   private void initInitialUI() {
-    for (DatabaseQueryCommands sharedPreferenceDataType : DatabaseQueryCommands.values()) {
+    for (DatabaseQueryCommandType sharedPreferenceDataType : DatabaseQueryCommandType.values()) {
       querySpinnerArrayList.add(sharedPreferenceDataType.getCommand());
     }
     ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
@@ -156,8 +157,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   }
 
   private void launchColumnsSelectionDialog() {
-    String[] columnNames = SqliteDatabaseReader.getColumnNames(QueryDatabaseActivity.this,
-        databaseName, tableName);
+    String[] columnNames = SqliteDatabaseReader.getColumnNames(this, databaseName, tableName);
     boolean[] previouslySelectedColumns = null;
     if (!Constants.ASTERIK.equals(selectedColumnsButton.getText().toString())) {
       String selectedColumnsStr = selectedColumnsButton.getText().toString();
@@ -213,7 +213,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     String queryCommand = querySpinnerArrayList.get(position);
-    DatabaseQueryCommands command = DatabaseQueryCommands.getCommand(queryCommand);
+    DatabaseQueryCommandType command = DatabaseQueryCommandType.getCommand(queryCommand);
     switch (command) {
       case SELECT:
         onSelectCommandSelected();
@@ -271,6 +271,9 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
 
   @Override
   public void onColumnsSelected(String columns) {
+    if(Utils.isEmpty(columns)){
+      selectedColumnsButton.setText(Constants.ASTERIK);
+    }
     selectedColumnsButton.setText(columns);
   }
 }
