@@ -51,9 +51,6 @@ public class TableDataActivity extends AppCompatActivity
   private ProgressDialog progressDialog;
   private RelativeLayout errorHandlerLayout;
   private TableDataResponse tableDataResponse;
-//  private List<String> tableColumnNames;
-//  private List<DatabaseColumnType> tableColumnTypes;
-//  private List<Integer> primaryKeysList;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseRequest;
 import com.awesomedroidapps.inappstoragereader.entities.TableInfo;
 import com.awesomedroidapps.inappstoragereader.utilities.AppDatabaseHelper;
 
@@ -33,6 +34,7 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
   private String[] columnNames;
   private List list;
   private TableInfo tableInfo;
+  private QueryDatabaseRequest queryDatabaseRequest;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,9 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
 
     Bundle bundle = getIntent().getExtras();
     tableInfo = (TableInfo) bundle.getSerializable(Constants.BUNDLE_TABLE_INFO);
+    queryDatabaseRequest = (QueryDatabaseRequest) bundle.getSerializable(Constants
+        .BUNDLE_QUERY_REQUEST);
+
     String databaseName = tableInfo.getDatabaseName();
     String tableName = tableInfo.getTableName();
 
@@ -82,6 +87,8 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
   private ContentValues getContentValues() {
 
     ContentValues contentValues = new ContentValues();
+    StringBuilder queryBuilder = new StringBuilder();
+
 
     for (int i = 0; i < whereClauseContainer.getChildCount(); i++) {
       RelativeLayout listViewItem = (RelativeLayout) whereClauseContainer.getChildAt(i);
@@ -112,9 +119,32 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
       }
 
       contentValues = AppDatabaseHelper.getContentValues(tableInfo.getTableColumnNames(), tableInfo
-          .getTableColumnTypes(), i, editText.getText().toString(), null);
+          .getTableColumnTypes(), i, editText.getText().toString(), contentValues);
+      queryBuilder.append(textView.getText().toString());
+      queryBuilder.append(Constants.EQUAL);
+      if (Cursor.FIELD_TYPE_STRING == queryDataType) {
+        queryBuilder.append(Constants.INVERTED_COMMA);
+      }
+      queryBuilder.append(editText.getText().toString());
+      if (Cursor.FIELD_TYPE_STRING == queryDataType) {
+        queryBuilder.append(Constants.INVERTED_COMMA);
+      }
+      queryBuilder.append(Constants.SPACE);
+      queryBuilder.append(Constants.AND);
+      queryBuilder.append(Constants.SPACE);
     }
 
+    String str = queryBuilder.toString();
+    if (str.endsWith(Constants.SPACE + Constants.AND + Constants.SPACE)) {
+      str = str.substring(0, str.lastIndexOf(Constants.SPACE + Constants.AND + Constants.SPACE));
+    }
+    queryDatabaseRequest.setContentValues(contentValues);
+    Intent intent = new Intent();
+   // intent.putExtra(Constants.BUNDLE_QUERY_REQUEST, queryDatabaseRequest);
+    intent.putExtra("contentValues" ,contentValues);
+    intent.putExtra(Constants.SET_CLAUSE, str);
+    setResult(RESULT_OK, intent);
+    finish();
     return contentValues;
   }
 

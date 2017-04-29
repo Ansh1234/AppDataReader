@@ -1,5 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +50,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   ArrayList<String> querySpinnerArrayList = new ArrayList<>();
   private EditText rawQueryEditText;
   private TableInfo tableInfo;
+  private QueryDatabaseRequest queryDatabaseRequest;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     whereClauseButton.setOnClickListener(this);
     setClauseButton.setOnClickListener(this);
 
+    queryDatabaseRequest = new QueryDatabaseRequest();
     readBundle();
     initInitialUI();
   }
@@ -147,6 +150,9 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   private void launchGetContentValuesActivity(int requestCode){
     Intent intent = new Intent(QueryDatabaseActivity.this, WhereClauseActivity.class);
     Bundle bundle = new Bundle();
+    bundle.putSerializable(Constants.BUNDLE_QUERY_REQUEST, queryDatabaseRequest);
+    bundle.putString(Constants.BUNDLE_DATABASE_NAME,databaseName);
+    bundle.putString(Constants.BUNDLE_TABLE_NAME,tableName);
     bundle.putSerializable(Constants.BUNDLE_TABLE_INFO,tableInfo);
     bundle.putInt(Constants.BUNDLE_REQUEST_CODE, Constants.REQUEST_CODE_SET_CLAUSE);
     intent.putExtras(bundle);
@@ -166,6 +172,9 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
           .SPACE).append(str).toString();
       whereClauseButton.setText(str);
     } else if (requestCode == setClauseActivityRequestCode) {
+      ContentValues contentValues = data.getExtras().getParcelable("contentValues");
+      queryDatabaseRequest.setContentValues(contentValues);
+       str = data.getStringExtra(Constants.SET_CLAUSE);
       str = new StringBuilder(Constants.SET_CLAUSE).append(Constants
           .SPACE).append(str).toString();
       setClauseButton.setText(str);
@@ -339,6 +348,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
 
   @Override
   public void onSelectCommandSelected() {
+    queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
     updateTableTextView.setVisibility(View.GONE);
     setClauseButton.setVisibility(View.GONE);
     selectedColumnsButton.setVisibility(View.VISIBLE);
@@ -351,6 +361,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
 
   @Override
   public void onUpdateCommandSelected() {
+    queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
     fromTableTextView.setVisibility(View.GONE);
     updateTableTextView.setVisibility(View.VISIBLE);
     updateTableTextView.setText(Constants.SPACE + tableName);
@@ -362,6 +373,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
 
   @Override
   public void onDeleteCommandSelected() {
+    queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.DELETE);
     selectedColumnsButton.setVisibility(View.GONE);
     setClauseButton.setVisibility(View.GONE);
     whereClauseButton.setVisibility(View.VISIBLE);
