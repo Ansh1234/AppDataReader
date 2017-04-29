@@ -167,10 +167,17 @@ public class TableDataActivity extends AppCompatActivity
   @Override
   public void onTableDataEdited(String newValue, int columnIndex,
                                 List<String> columnValues) {
-    ContentValues contentValues =
-        AppDatabaseHelper.getUpdateQuery(tableColumnNames, tableColumnTypes,
-            columnValues, columnIndex, newValue);
+    ContentValues contentValues = null;
+    try {
+      contentValues =
+          AppDatabaseHelper.getUpdateQuery(tableColumnNames, tableColumnTypes,
+              columnValues, columnIndex, newValue);
+    } catch (Exception e) {
+      Toast.makeText(this, "Update Failed", Toast.LENGTH_LONG).show();
+      return;
+    }
     if (contentValues == null) {
+      Toast.makeText(this, "Update Failed", Toast.LENGTH_LONG).show();
       //TODO anshul.jain Take proper action here.
       return;
     }

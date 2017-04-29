@@ -1,7 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.utilities;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.DatabaseColumnType;
@@ -53,29 +52,41 @@ public class AppDatabaseHelper {
     StringBuilder stringBuilder = new StringBuilder();
     for (int i = 0; i < columnValues.size(); i++) {
 
-      if (tableColumnTypes.get(i)==
+      DatabaseColumnType databaseColumnType = tableColumnTypes.get(i);
+      if (databaseColumnType ==
           DatabaseColumnType.FIELD_TYPE_BLOB || (!Utils.isEmpty(primaryKeyList) &&
           !primaryKeyList.contains(i))) {
         continue;
       }
 
       String columnName = tableColumnNames.get(i);
+      String columnValue = columnValues.get(i);
+
       if(Utils.isEmpty(columnName)){
         continue;
       }
 
       stringBuilder.append(columnName);
+
+      if(databaseColumnType== DatabaseColumnType.FIELD_TYPE_FLOAT || databaseColumnType==DatabaseColumnType.FIELD_TYPE_INTEGER){
+        if(Utils.isEmpty(columnValue)){
+          stringBuilder.append(Constants.SPACE);
+          stringBuilder.append("IS NULL ");
+          stringBuilder.append(Constants.AND);
+          stringBuilder.append(Constants.SPACE);
+          continue;
+        }
+      }
+
       stringBuilder.append(Constants.EQUAL);
-      if (tableColumnTypes.get(i).equals(Cursor.FIELD_TYPE_STRING)) {
+      if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_TEXT) {
         stringBuilder.append(Constants.INVERTED_COMMA);
       }
-      stringBuilder.append(columnValues.get(i));
-      if (tableColumnTypes.get(i).equals(Cursor.FIELD_TYPE_STRING)) {
+      stringBuilder.append(columnValue);
+      if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_TEXT) {
         stringBuilder.append(Constants.INVERTED_COMMA);
       }
-      if (i == columnValues.size() - 1) {
-        break;
-      }
+
       stringBuilder.append(Constants.SPACE);
       stringBuilder.append(Constants.AND);
       stringBuilder.append(Constants.SPACE);
