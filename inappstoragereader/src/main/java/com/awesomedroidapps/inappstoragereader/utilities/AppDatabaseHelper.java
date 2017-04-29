@@ -14,19 +14,23 @@ import java.util.List;
 
 public class AppDatabaseHelper {
 
-  public static ContentValues getContentValues(List<String> tableColumnNames, List<DatabaseColumnType>
-      tableColumnTypes, List<String> columnValues, int columnIndex, String newValue) {
+  public static ContentValues getContentValues(List<String> tableColumnNames,
+                                               List<DatabaseColumnType>
+                                                   tableColumnTypes, int columnIndex,
+                                               String newValue, ContentValues contentValues) {
 
-    if (tableColumnNames == null || columnValues == null) {
+    if (tableColumnNames == null) {
       return null;
     }
 
     String columnName = tableColumnNames.get(columnIndex);
 
-    ContentValues contentValues = new ContentValues();
-    switch (tableColumnTypes.get(columnIndex)){
+    if (contentValues == null) {
+      contentValues = new ContentValues();
+    }
+    switch (tableColumnTypes.get(columnIndex)) {
       case FIELD_TYPE_BLOB:
-        contentValues.put(columnName,newValue.getBytes());
+        contentValues.put(columnName, newValue.getBytes());
         break;
       case FIELD_TYPE_FLOAT:
         contentValues.put(columnName, Float.parseFloat(newValue));
@@ -43,7 +47,7 @@ public class AppDatabaseHelper {
   }
 
   public static String getUpdateWhereClause(List<String> tableColumnNames, List<DatabaseColumnType>
-      tableColumnTypes, List<String> columnValues,List<Integer> primaryKeyList){
+      tableColumnTypes, List<String> columnValues, List<Integer> primaryKeyList) {
     if (tableColumnNames == null || columnValues == null) {
       return null;
     }
@@ -62,14 +66,15 @@ public class AppDatabaseHelper {
       String columnName = tableColumnNames.get(i);
       String columnValue = columnValues.get(i);
 
-      if(Utils.isEmpty(columnName)){
+      if (Utils.isEmpty(columnName)) {
         continue;
       }
 
       stringBuilder.append(columnName);
 
-      if(databaseColumnType== DatabaseColumnType.FIELD_TYPE_FLOAT || databaseColumnType==DatabaseColumnType.FIELD_TYPE_INTEGER){
-        if(Utils.isEmpty(columnValue)){
+      if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_FLOAT ||
+          databaseColumnType == DatabaseColumnType.FIELD_TYPE_INTEGER) {
+        if (Utils.isEmpty(columnValue)) {
           stringBuilder.append(Constants.SPACE);
           stringBuilder.append("IS NULL ");
           stringBuilder.append(Constants.AND);

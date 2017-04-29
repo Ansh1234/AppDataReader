@@ -22,6 +22,7 @@ import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseRequest;
+import com.awesomedroidapps.inappstoragereader.entities.TableInfo;
 import com.awesomedroidapps.inappstoragereader.helpers.GeneralSqliteHelper;
 import com.awesomedroidapps.inappstoragereader.interfaces.ColumnSelectListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
@@ -47,7 +48,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   private final int whereClauseActivityRequestCode = 1, setClauseActivityRequestCode = 2;
   ArrayList<String> querySpinnerArrayList = new ArrayList<>();
   private EditText rawQueryEditText;
-
+  private TableInfo tableInfo;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +94,9 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     //Read the bundle
     Bundle bundle = getIntent().getExtras();
     if (bundle != null) {
-      databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);
-      tableName = bundle.getString(Constants.BUNDLE_TABLE_NAME);
+      tableInfo = (TableInfo) bundle.get(Constants.BUNDLE_TABLE_INFO);
+      databaseName = tableInfo.getDatabaseName();
+      tableName = tableInfo.getTableName();
     }
   }
 
@@ -127,17 +129,26 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     } else if (view == selectedColumnsButton) {
       launchColumnsSelectionDialog();
     } else if (view == whereClauseButton) {
-      launchClauseActivity(whereClauseActivityRequestCode);
+      launchWhereClauseActivity(whereClauseActivityRequestCode);
     } else if (view == setClauseButton) {
-      launchClauseActivity(setClauseActivityRequestCode);
+      launchGetContentValuesActivity(setClauseActivityRequestCode);
     }
   }
 
-  private void launchClauseActivity(int requestCode) {
-    Intent intent = new Intent(QueryDatabaseActivity.this, WhereCauseActivity.class);
+  private void launchWhereClauseActivity(int requestCode) {
+    Intent intent = new Intent(QueryDatabaseActivity.this, WhereClauseActivity.class);
     Bundle bundle = new Bundle();
     bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
     bundle.putString(Constants.BUNDLE_TABLE_NAME, tableName);
+    intent.putExtras(bundle);
+    startActivityForResult(intent, requestCode);
+  }
+
+  private void launchGetContentValuesActivity(int requestCode){
+    Intent intent = new Intent(QueryDatabaseActivity.this, WhereClauseActivity.class);
+    Bundle bundle = new Bundle();
+    bundle.putSerializable(Constants.BUNDLE_TABLE_INFO,tableInfo);
+    bundle.putInt(Constants.BUNDLE_REQUEST_CODE, Constants.REQUEST_CODE_SET_CLAUSE);
     intent.putExtras(bundle);
     startActivityForResult(intent, requestCode);
   }

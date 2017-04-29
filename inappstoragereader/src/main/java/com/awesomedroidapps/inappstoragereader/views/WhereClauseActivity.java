@@ -1,5 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
+import com.awesomedroidapps.inappstoragereader.entities.TableInfo;
+import com.awesomedroidapps.inappstoragereader.utilities.AppDatabaseHelper;
 
 import java.util.List;
 
@@ -23,12 +26,13 @@ import java.util.List;
  * Created by anshul on 31/03/17.
  */
 
-public class WhereCauseActivity extends AppCompatActivity implements View.OnClickListener {
+public class WhereClauseActivity extends AppCompatActivity implements View.OnClickListener {
 
   private Button whereClauseSubmitButton;
   private LinearLayout whereClauseContainer;
   private String[] columnNames;
   private List list;
+  private TableInfo tableInfo;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,10 @@ public class WhereCauseActivity extends AppCompatActivity implements View.OnClic
     whereClauseSubmitButton.setOnClickListener(this);
 
     Bundle bundle = getIntent().getExtras();
-    String databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);
-    String tableName = bundle.getString(Constants.BUNDLE_TABLE_NAME);
+    tableInfo = (TableInfo) bundle.getSerializable(Constants.BUNDLE_TABLE_INFO);
+    String databaseName = tableInfo.getDatabaseName();
+    String tableName = tableInfo.getTableName();
+
     columnNames = SqliteDatabaseReader.getColumnNames(this, databaseName, tableName);
     list = SqliteDatabaseReader.getColumnTypes(this, databaseName, tableName);
     LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -63,8 +69,53 @@ public class WhereCauseActivity extends AppCompatActivity implements View.OnClic
   @Override
   public void onClick(View v) {
     if (v == whereClauseSubmitButton) {
-      getWhereClauseQuery();
+      int requestCode = getIntent().getExtras().getInt(Constants.BUNDLE_REQUEST_CODE);
+      if (requestCode == Constants.REQUEST_CODE_SET_CLAUSE) {
+        getContentValues();
+        return;
+      } else {
+        getWhereClauseQuery();
+      }
     }
+  }
+
+  private ContentValues getContentValues() {
+
+    ContentValues contentValues = new ContentValues();
+
+    for (int i = 0; i < whereClauseContainer.getChildCount(); i++) {
+      RelativeLayout listViewItem = (RelativeLayout) whereClauseContainer.getChildAt(i);
+      EditText editText = (EditText) listViewItem.findViewById(R.id.column_value);
+      TextView textView = (TextView) listViewItem.findViewById(R.id.column_name);
+      if (Constants.EMPTY_STRING.equals(editText.getText().toString())) {
+        continue;
+      }
+
+      Integer queryDataType = (Integer) list.get(i);
+
+      if (queryDataType == Cursor.FIELD_TYPE_INTEGER) {
+        try {
+          Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException exception) {
+          Toast.makeText(this, "The value of " + textView.getText().toString() + " field is not " +
+              "proper ", Toast.LENGTH_SHORT).show();
+          return contentValues;
+        }
+      } else if (queryDataType == Cursor.FIELD_TYPE_FLOAT) {
+        try {
+          Float.parseFloat(editText.getText().toString());
+        } catch (NumberFormatException exception) {
+          Toast.makeText(this, "The value of " + textView.getText().toString() + " field is not " +
+              "proper ", Toast.LENGTH_SHORT).show();
+          return contentValues;
+        }
+      }
+
+      contentValues = AppDatabaseHelper.getContentValues(tableInfo.getTableColumnNames(), tableInfo
+          .getTableColumnTypes(), i, editText.getText().toString(), null);
+    }
+
+    return contentValues;
   }
 
   private void getWhereClauseQuery() {
@@ -87,7 +138,7 @@ public class WhereCauseActivity extends AppCompatActivity implements View.OnClic
               "proper ", Toast.LENGTH_SHORT).show();
           return;
         }
-      }else if(queryDataType == Cursor.FIELD_TYPE_FLOAT){
+      } else if (queryDataType == Cursor.FIELD_TYPE_FLOAT) {
         try {
           Float.parseFloat(editText.getText().toString());
         } catch (NumberFormatException exception) {

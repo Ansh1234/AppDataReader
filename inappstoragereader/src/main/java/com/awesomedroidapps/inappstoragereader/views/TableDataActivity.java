@@ -26,6 +26,7 @@ import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
+import com.awesomedroidapps.inappstoragereader.entities.TableInfo;
 import com.awesomedroidapps.inappstoragereader.interfaces.CommandResponses;
 import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
@@ -49,9 +50,10 @@ public class TableDataActivity extends AppCompatActivity
   private String databaseName, tableName;
   private ProgressDialog progressDialog;
   private RelativeLayout errorHandlerLayout;
-  private List<String> tableColumnNames;
-  private List<DatabaseColumnType> tableColumnTypes;
-  private List<Integer> primaryKeysList;
+  private TableDataResponse tableDataResponse;
+//  private List<String> tableColumnNames;
+//  private List<DatabaseColumnType> tableColumnTypes;
+//  private List<Integer> primaryKeysList;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +103,14 @@ public class TableDataActivity extends AppCompatActivity
   private void openQueryActivity() {
     Intent intent = new Intent(this, QueryDatabaseActivity.class);
     Bundle bundle = new Bundle();
-    bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
-    bundle.putString(Constants.BUNDLE_TABLE_NAME, tableName);
+    TableInfo tableInfo = new TableInfo();
+    tableInfo.setDatabaseName(databaseName);
+    tableInfo.setTableName(tableName);
+    tableInfo.setPrimaryKeysList(tableDataResponse.getPrimaryKeyList());
+    tableInfo.setTableColumnNames(tableDataResponse.getColumnNames());
+    tableInfo.setTableColumnTypes(tableDataResponse.getColumnTypes());
+
+    bundle.putSerializable(Constants.BUNDLE_TABLE_INFO, tableInfo);
     intent.putExtras(bundle);
     startActivity(intent);
   }
@@ -137,6 +145,7 @@ public class TableDataActivity extends AppCompatActivity
   @Override
   public void onDataFetched(TableDataResponse tableDataResponse) {
 
+    this.tableDataResponse = tableDataResponse;
     if (progressDialog != null) {
       progressDialog.dismiss();
     }
@@ -146,9 +155,9 @@ public class TableDataActivity extends AppCompatActivity
       return;
     }
 
-    tableColumnNames = tableDataResponse.getColumnNames();
-    tableColumnTypes = tableDataResponse.getColumnTypes();
-    primaryKeysList = tableDataResponse.getPrimaryKeyList();
+//    tableColumnNames = tableDataResponse.getColumnNames();
+//    tableColumnTypes = tableDataResponse.getColumnTypes();
+//    primaryKeysList = tableDataResponse.getPrimaryKeyList();
 
     tableDataRecyclerView.setVisibility(View.VISIBLE);
     tableDataRecyclerView.setRecyclerViewWidth(tableDataResponse.getRecyclerViewWidth());
@@ -167,11 +176,15 @@ public class TableDataActivity extends AppCompatActivity
   @Override
   public void onTableDataEdited(String newValue, int columnIndex,
                                 List<String> columnValues) {
+    List<String> tableColumnNames = tableDataResponse.getColumnNames();
+    List<DatabaseColumnType> tableColumnTypes = tableDataResponse.getColumnTypes();
+    List<Integer> primaryKeysList = tableDataResponse.getPrimaryKeyList();
+
     ContentValues contentValues = null;
     try {
       contentValues =
           AppDatabaseHelper.getContentValues(tableColumnNames, tableColumnTypes,
-              columnValues, columnIndex, newValue);
+               columnIndex, newValue, contentValues);
     } catch (Exception e) {
       Toast.makeText(this, "Update Failed", Toast.LENGTH_LONG).show();
       return;
