@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseRequest;
 import com.awesomedroidapps.inappstoragereader.interfaces.QueryResponseListener;
 
 import java.lang.ref.WeakReference;
@@ -17,11 +18,14 @@ public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDataRes
 
   private final WeakReference<Activity> activtyWeakReference;
   private final QueryResponseListener queryResponseListener;
+  private final QueryDatabaseRequest queryDatabaseRequest;
 
   public QueryDatabaseAsyncTask(WeakReference activtyWeakReference,
-                                QueryResponseListener queryResponseListener) {
+                                QueryResponseListener queryResponseListener, QueryDatabaseRequest
+                                    queryDatabaseRequest) {
     this.activtyWeakReference = activtyWeakReference;
     this.queryResponseListener = queryResponseListener;
+    this.queryDatabaseRequest = queryDatabaseRequest;
   }
 
   @Override
@@ -33,7 +37,7 @@ public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDataRes
     String query = params[1];
 
     QueryDataResponse queryDataResponse = SqliteDatabaseReader.queryDatabase(
-        activtyWeakReference.get(), databaseName, query);
+        activtyWeakReference.get(), queryDatabaseRequest, databaseName, query);
     return queryDataResponse;
   }
 

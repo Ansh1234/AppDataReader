@@ -21,6 +21,7 @@ import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
 import com.awesomedroidapps.inappstoragereader.Utils;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseRequest;
 import com.awesomedroidapps.inappstoragereader.helpers.GeneralSqliteHelper;
 import com.awesomedroidapps.inappstoragereader.interfaces.ColumnSelectListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
@@ -187,10 +188,13 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       return;
     }
 
+    QueryDatabaseRequest queryDatabaseRequest = new QueryDatabaseRequest();
+
     String query = Constants.EMPTY_STRING;
     switch (databaseQueryCommandType) {
       case SELECT:
         query = getSelectQuery();
+        queryDatabaseRequest.setSelectQuery(query);
         break;
       case UPDATE:
         query = getUpdateQuery();
@@ -203,36 +207,22 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
         break;
       case RAW_QUERY:
         query = getRawQuery();
+        queryDatabaseRequest.setRawQuery(query);
+        if (query.contains(Constants.SPACE)) {
+          int index = query.indexOf(Constants.SPACE);
+          String commandType = query.substring(Constants.ZERO_INDEX, index).trim();
+          databaseQueryCommandType = DatabaseQueryCommandType.getCommand(commandType);
+        }
         break;
     }
+    queryDatabaseRequest.setDatabaseQueryCommandType(databaseQueryCommandType);
 
-
-//    String queryType = queryTypeSpinner.getSelectedItem().toString();
-//    String queryColumns = selectedColumnsButton.getText().toString();
-//    String queryTableName = fromTableTextView.getText().toString();
-//    String queryWhereClause = whereClauseButton.getText().toString();
-//
-//    if (selectedColumnsButton.getVisibility() == View.GONE) {
-//      queryColumns = Constants.EMPTY_STRING;
-//    }
-//    if (Constants.WHERE_CLAUSE.equals(queryWhereClause.trim())) {
-//      queryWhereClause = Constants.EMPTY_STRING;
-//    }
-//
-//    StringBuilder stringBuilder = new StringBuilder();
-//    stringBuilder.append(queryType)
-//        .append(Constants.SPACE)
-//        .append(queryColumns)
-//        .append(Constants.SPACE)
-//        .append(queryTableName)
-//        .append(Constants.SPACE).append(queryWhereClause);
-//
-//    String query = stringBuilder.toString().trim();
 
     Intent intent = new Intent(this, QueryResultActivity.class);
     Bundle bundle = new Bundle();
     bundle.putString(Constants.BUNDLE_RAW_QUERY, query);
     bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
+    bundle.putSerializable(Constants.BUNDLE_QUERY_REQUEST,queryDatabaseRequest);
     intent.putExtras(bundle);
     startActivity(intent);
   }

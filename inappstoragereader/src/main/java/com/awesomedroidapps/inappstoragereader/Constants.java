@@ -6,6 +6,7 @@ package com.awesomedroidapps.inappstoragereader;
 
 public class Constants {
 
+  public static final String BUNDLE_QUERY_REQUEST = "bundleQueryRequest";
   public static final String BUNDLE_DATABASE_NAME = "databaseName";
   public static final String BUNDLE_TABLE_NAME = "tableName";
   public static final String BUNDLE_RAW_QUERY = "rawQuery";

@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 
 import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseRequest;
 import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
 
 import java.util.ArrayList;
@@ -455,8 +456,8 @@ public class SqliteDatabaseReader {
     return tableDataColumnWidth;
   }
 
-  public static QueryDataResponse queryDatabase(Context context, String databaseName,
-                                                String query) {
+  public static QueryDataResponse queryDatabase(Context context, QueryDatabaseRequest
+      queryDatabaseRequest, String databaseName, String query) {
 
     QueryDataResponse queryDataResponse = new QueryDataResponse();
     String errorMessage = Utils.getString(context, R.string
@@ -477,16 +478,9 @@ public class SqliteDatabaseReader {
       return queryDataResponse;
     }
 
-    String sqliteStatementType = query;
 
-    if (query.contains(Constants.SPACE)) {
-      int index = query.indexOf(Constants.SPACE);
-      sqliteStatementType = query.substring(Constants.ZERO_INDEX, index).trim();
-    }
-    SqliteRawStatementsType sqliteRawStatementsType = SqliteRawStatementsType.getType
-        (sqliteStatementType);
-
-    switch (sqliteRawStatementsType) {
+    DatabaseQueryCommandType commandType = queryDatabaseRequest.getDatabaseQueryCommandType();
+    switch (commandType) {
       case SELECT:
         queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
         handleRawQuery(context, sqLiteDatabase, queryDataResponse, query);
@@ -513,7 +507,7 @@ public class SqliteDatabaseReader {
       case INSERT:
         break;
 
-      case UNKNOWN:
+      case RAW_QUERY:
       default:
         handleRawQuery(context, sqLiteDatabase, queryDataResponse, query);
     }
@@ -570,6 +564,29 @@ public class SqliteDatabaseReader {
       e.printStackTrace();
     }
     return -1;
+  }
+
+
+  private static void handleSelectQuery(Context context, SQLiteDatabase sqliteDatabase,
+                                     QueryDataResponse queryDataResponse, String query) {
+    Cursor cursor = null;
+    try {
+      cursor = sqliteDatabase.rawQuery(query, null);
+      TableDataResponse tableDataResponse = new TableDataResponse();
+      tableDataResponse.setTableData(getAllTableData(cursor));
+      ArrayList<Integer> tableColumnWidth = getTableColumnWidth(context, cursor);
+      tableDataResponse.setRecyclerViewColumnsWidth(tableColumnWidth);
+      tableDataResponse.setRecyclerViewWidth(Utils.getTableWidth(tableColumnWidth));
+      queryDataResponse.setTableDataResponse(tableDataResponse);
+      queryDataResponse.setQueryStatus(QueryStatus.SUCCESS);
+
+    } catch (Exception e) {
+      queryDataResponse.setErrorMessage(e.getMessage());
+    } finally {
+      if (cursor != null) {
+        cursor.close();
+      }
+    }
   }
 
   private static void handleRawQuery(Context context, SQLiteDatabase sqliteDatabase,

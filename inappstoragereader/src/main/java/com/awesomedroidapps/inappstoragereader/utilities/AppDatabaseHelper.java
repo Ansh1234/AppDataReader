@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AppDatabaseHelper {
 
-  public static ContentValues getUpdateQuery(List<String> tableColumnNames, List<DatabaseColumnType>
+  public static ContentValues getContentValues(List<String> tableColumnNames, List<DatabaseColumnType>
       tableColumnTypes, List<String> columnValues, int columnIndex, String newValue) {
 
     if (tableColumnNames == null || columnValues == null) {

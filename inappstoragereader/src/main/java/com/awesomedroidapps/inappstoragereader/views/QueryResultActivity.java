@@ -1,13 +1,9 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -22,6 +18,7 @@ import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseRequest;
 import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
 import com.awesomedroidapps.inappstoragereader.interfaces.CommandResponses;
 import com.awesomedroidapps.inappstoragereader.interfaces.DataItemClickListener;
@@ -44,6 +41,7 @@ public class QueryResultActivity extends AppCompatActivity
   private String rawQuery, databaseName;
   private ProgressDialog progressDialog;
   private RelativeLayout errorHandlerLayout;
+  private QueryDatabaseRequest queryDatabaseRequest;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -59,40 +57,18 @@ public class QueryResultActivity extends AppCompatActivity
     if (bundle != null) {
       rawQuery = bundle.getString(Constants.BUNDLE_RAW_QUERY);
       databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);
+      queryDatabaseRequest = (QueryDatabaseRequest) bundle.get(Constants.BUNDLE_QUERY_REQUEST);
     }
   }
 
   @Override
   public void onStart() {
     super.onStart();
-    new QueryDatabaseAsyncTask(new WeakReference(this), this).execute(new String[]{
+    new QueryDatabaseAsyncTask(new WeakReference(this), this, queryDatabaseRequest).execute(new String[]{
         databaseName, rawQuery
     });
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.com_awesomedroidapps_inappstoragereader_table_data, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle item selection
-    if (item.getItemId() == R.id.com_awesomedroidapps_inappstoragereader_edit) {
-      openQueryActivity();
-    }
-    return super.onOptionsItemSelected(item);
-  }
-
-  private void openQueryActivity() {
-    Intent intent = new Intent(this, QueryDatabaseActivity.class);
-    Bundle bundle = new Bundle();
-    bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
-    intent.putExtras(bundle);
-    startActivity(intent);
-  }
 
   @Override
   public void handleError(ErrorType errorType) {

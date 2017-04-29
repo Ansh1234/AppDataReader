@@ -11,6 +11,7 @@ public enum DatabaseQueryCommandType {
   INSERT("INSERT"),
   RAW_QUERY("RAW");
 
+
   private String command;
 
   DatabaseQueryCommandType(String command) {
@@ -23,10 +24,10 @@ public enum DatabaseQueryCommandType {
 
   public static DatabaseQueryCommandType getCommand(String command) {
     for (DatabaseQueryCommandType commands : DatabaseQueryCommandType.values()) {
-      if (commands.getCommand().equals(command)) {
+      if (commands.getCommand().equalsIgnoreCase(command)) {
         return commands;
       }
     }
-    return null;
+    return RAW_QUERY;
   }
 }

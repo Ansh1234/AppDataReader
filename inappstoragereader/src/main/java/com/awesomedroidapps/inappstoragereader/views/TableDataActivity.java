@@ -170,7 +170,7 @@ public class TableDataActivity extends AppCompatActivity
     ContentValues contentValues = null;
     try {
       contentValues =
-          AppDatabaseHelper.getUpdateQuery(tableColumnNames, tableColumnTypes,
+          AppDatabaseHelper.getContentValues(tableColumnNames, tableColumnTypes,
               columnValues, columnIndex, newValue);
     } catch (Exception e) {
       Toast.makeText(this, "Update Failed", Toast.LENGTH_LONG).show();
