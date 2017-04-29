@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.awesomedroidapps.inappstoragereader.Constants;
+import com.awesomedroidapps.inappstoragereader.DatabaseColumnType;
 import com.awesomedroidapps.inappstoragereader.Utils;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class AppDatabaseHelper {
 
-  public static ContentValues getUpdateQuery(List<String> tableColumnNames, List<Integer>
+  public static ContentValues getUpdateQuery(List<String> tableColumnNames, List<DatabaseColumnType>
       tableColumnTypes, List<String> columnValues, int columnIndex, String newValue) {
 
     if (tableColumnNames == null || columnValues == null) {
@@ -22,30 +23,27 @@ public class AppDatabaseHelper {
     }
 
     String columnName = tableColumnNames.get(columnIndex);
-    String columnValue = columnValues.get(columnIndex);
 
     ContentValues contentValues = new ContentValues();
     switch (tableColumnTypes.get(columnIndex)){
-      case Cursor.FIELD_TYPE_BLOB:
+      case FIELD_TYPE_BLOB:
         contentValues.put(columnName,newValue.getBytes());
         break;
-      case Cursor.FIELD_TYPE_FLOAT:
-        contentValues.put(columnName, Float.parseFloat(columnValue));
+      case FIELD_TYPE_FLOAT:
+        contentValues.put(columnName, Float.parseFloat(newValue));
         break;
-      case Cursor.FIELD_TYPE_INTEGER:
-        contentValues.put(columnName, Integer.parseInt(columnValue));
+      case FIELD_TYPE_INTEGER:
+        contentValues.put(columnName, Integer.parseInt(newValue));
         break;
-      case Cursor.FIELD_TYPE_NULL:
-        break;
-      case Cursor.FIELD_TYPE_STRING:
-        contentValues.put(columnName, columnValue);
+      case FIELD_TYPE_TEXT:
+        contentValues.put(columnName, newValue);
         break;
     }
 
     return contentValues;
   }
 
-  public static String getUpdateWhereClause(List<String> tableColumnNames, List<Integer>
+  public static String getUpdateWhereClause(List<String> tableColumnNames, List<DatabaseColumnType>
       tableColumnTypes, List<String> columnValues,List<Integer> primaryKeyList){
     if (tableColumnNames == null || columnValues == null) {
       return null;
@@ -55,8 +53,9 @@ public class AppDatabaseHelper {
     StringBuilder stringBuilder = new StringBuilder();
     for (int i = 0; i < columnValues.size(); i++) {
 
-      if (tableColumnTypes.get(i) == Cursor.FIELD_TYPE_NULL || tableColumnTypes.get(i)==Cursor
-          .FIELD_TYPE_BLOB || (!Utils.isEmpty(primaryKeyList) && !primaryKeyList.contains(i))) {
+      if (tableColumnTypes.get(i)==
+          DatabaseColumnType.FIELD_TYPE_BLOB || (!Utils.isEmpty(primaryKeyList) &&
+          !primaryKeyList.contains(i))) {
         continue;
       }
 

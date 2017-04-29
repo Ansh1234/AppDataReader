@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.awesomedroidapps.inappstoragereader.AppStorageDataRecyclerView;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
+import com.awesomedroidapps.inappstoragereader.DatabaseColumnType;
 import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommandType;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
 import com.awesomedroidapps.inappstoragereader.R;
@@ -49,7 +50,7 @@ public class TableDataActivity extends AppCompatActivity
   private ProgressDialog progressDialog;
   private RelativeLayout errorHandlerLayout;
   private List<String> tableColumnNames;
-  private List<Integer> tableColumnTypes;
+  private List<DatabaseColumnType> tableColumnTypes;
   private List<Integer> primaryKeysList;
 
   @Override
@@ -128,17 +129,9 @@ public class TableDataActivity extends AppCompatActivity
 
   @Override
   public void onDataItemClicked(String data, int columnIndex, List<String> columnValues) {
-    if (Utils.isEmpty(data)) {
-      String toastMessage =
-          getResources().getString(R.string.com_awesomedroidapps_inappstoragereader_item_empty);
-      Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
-      return;
-    }
-
     DataItemDialogFragment dataItemDialogFragment = DataItemDialogFragment.newInstance(data, this,
         columnIndex, columnValues);
     dataItemDialogFragment.show(getSupportFragmentManager(), "dialog");
-
   }
 
   @Override

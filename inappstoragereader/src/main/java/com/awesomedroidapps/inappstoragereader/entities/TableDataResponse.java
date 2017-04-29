@@ -1,5 +1,7 @@
 package com.awesomedroidapps.inappstoragereader.entities;
 
+import com.awesomedroidapps.inappstoragereader.DatabaseColumnType;
+
 import java.util.List;
 
 /**
@@ -12,7 +14,7 @@ public class TableDataResponse {
   private List<Integer> recyclerViewColumnsWidth;
   private List<List<String>> tableData;
   private List<String> columnNames;
-  private List<Integer> columnTypes;
+  private List<DatabaseColumnType> columnTypes;
   private List<Integer> primaryKeyList;
 
   public int getRecyclerViewWidth() {
@@ -48,11 +50,11 @@ public class TableDataResponse {
   }
 
 
-  public List<Integer> getColumnTypes() {
+  public List<DatabaseColumnType> getColumnTypes() {
     return columnTypes;
   }
 
-  public void setColumnTypes(List<Integer> columnTypes) {
+  public void setColumnTypes(List<DatabaseColumnType> columnTypes) {
     this.columnTypes = columnTypes;
   }
 

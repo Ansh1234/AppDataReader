@@ -34,5 +34,6 @@ public class Constants {
 
   public static final String PRAGMA_COLUMN_PK = "pk";
   public static final String PRAGMA_COLUMN_CID = "cid";
+  public static final String PRAGMA_COLUMN_TYPE = "type";
   public static final int COLUMN_PRIMARY_KEY_VALUE = 1;
 }

@@ -261,6 +261,41 @@ public class SqliteDatabaseReader {
     return rowData;
   }
 
+  @NonNull
+  public static ArrayList<DatabaseColumnType> getTableDataColumnTypes(Context context, String databaseName,
+                                                          String tableName) {
+    String query = "pragma table_info(" + tableName + ")";
+    SQLiteDatabase sqLiteDatabase;
+    ArrayList<DatabaseColumnType> primaryKeyList = new ArrayList<>();
+
+    try {
+      sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return primaryKeyList;
+    }
+
+    Cursor cursor = null;
+    try {
+      cursor = sqLiteDatabase.rawQuery(query, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return primaryKeyList;
+    }
+
+    if (cursor == null || !cursor.moveToFirst()) {
+      return primaryKeyList;
+    }
+
+    int primaryKeyColumnIndex = cursor.getColumnIndex(Constants.PRAGMA_COLUMN_TYPE);
+    do {
+      DatabaseColumnType databaseColumnType = DatabaseColumnType.getType(cursor.getString
+          (primaryKeyColumnIndex));
+        primaryKeyList.add(databaseColumnType);
+    } while (cursor.moveToNext());
+    cursor.close();
+    return primaryKeyList;
+  }
 
   @NonNull
   public static ArrayList<Integer> getTableDataPrimaryKey(Context context, String databaseName,

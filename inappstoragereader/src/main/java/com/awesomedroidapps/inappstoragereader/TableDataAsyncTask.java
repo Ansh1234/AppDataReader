@@ -55,7 +55,7 @@ public class TableDataAsyncTask extends AsyncTask<String, Void, TableDataRespons
     String[] columnNames = SqliteDatabaseReader.getColumnNames(activtyWeakReference.get(),
         databaseName,tableName);
     tableDataResponse.setColumnNames(Arrays.asList(columnNames));
-    List<Integer> columnTypes = SqliteDatabaseReader.getColumnTypes(activtyWeakReference.get(),
+    List<DatabaseColumnType> columnTypes = SqliteDatabaseReader.getTableDataColumnTypes(activtyWeakReference.get(),
         databaseName,tableName);
     tableDataResponse.setColumnTypes(columnTypes);
     tableDataResponse.setTableData(tableData);
