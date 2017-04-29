@@ -30,14 +30,15 @@ public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDataRes
 
   @Override
   protected QueryDataResponse doInBackground(String... params) {
-    if (activtyWeakReference.get() == null || params == null || params.length != 2) {
+    if (activtyWeakReference.get() == null || params == null || params.length != 3) {
       return null;
     }
     String databaseName = params[0];
-    String query = params[1];
+    String tableName = params[1];
+    String query = params[2];
 
     QueryDataResponse queryDataResponse = SqliteDatabaseReader.queryDatabase(
-        activtyWeakReference.get(), queryDatabaseRequest, databaseName, query);
+        activtyWeakReference.get(), queryDatabaseRequest, databaseName, tableName, query);
     return queryDataResponse;
   }
 

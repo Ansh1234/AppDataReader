@@ -458,17 +458,12 @@ public class SqliteDatabaseReader {
   }
 
   public static QueryDataResponse queryDatabase(Context context, QueryDatabaseRequest
-      queryDatabaseRequest, String databaseName, String query) {
+      queryDatabaseRequest, String databaseName, String tableName, String query) {
 
     QueryDataResponse queryDataResponse = new QueryDataResponse();
     String errorMessage = Utils.getString(context, R.string
         .com_awesomedroidapps_inappstoragereader_database_query_failed);
     queryDataResponse.setQueryStatus(QueryStatus.FAILURE);
-
-    if (Utils.isEmpty(query)) {
-      queryDataResponse.setErrorMessage(errorMessage);
-      return queryDataResponse;
-    }
 
     SQLiteDatabase sqLiteDatabase;
     try {
@@ -490,9 +485,9 @@ public class SqliteDatabaseReader {
 
       case UPDATE:
         queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
-        int updatedRows = handleDeleteOrUpdateRawQuery(sqLiteDatabase, query, queryDataResponse);
-        handleUpdateAndDeleteAndIndexQuery(queryDatabaseRequest, context, databaseName,
-            queryDataResponse, null,
+        int updatedRows = handleUpdateAndDeleteAndIndexQuery(queryDatabaseRequest, context,
+          databaseName,
+            queryDataResponse, tableName,
             queryDatabaseRequest.getContentValues(), queryDatabaseRequest.getWhereClause(),
             commandType);
         if (updatedRows == Constants.INVALID_RESPONSE) {
@@ -557,7 +552,8 @@ public class SqliteDatabaseReader {
 
       switch (type) {
         case UPDATE:
-          handleUpdateQuery(queryDatabaseRequest, sqLiteDatabase, queryDataResponse, tableName,
+          affectedRows = handleUpdateQuery(queryDatabaseRequest, sqLiteDatabase, queryDataResponse,
+            tableName,
               contentValues, whereClause, type);
           break;
         case DELETE:
@@ -572,7 +568,7 @@ public class SqliteDatabaseReader {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return -1;
+    return (int)affectedRows;
   }
 
   private static int handleUpdateQuery(QueryDatabaseRequest queryDatabaseRequest,

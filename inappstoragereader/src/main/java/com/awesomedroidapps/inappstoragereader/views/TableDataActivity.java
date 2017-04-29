@@ -192,9 +192,11 @@ public class TableDataActivity extends AppCompatActivity
         columnValues, primaryKeysList);
     QueryDatabaseRequest queryDatabaseRequest = new QueryDatabaseRequest();
     queryDatabaseRequest.setContentValues(contentValues);
+    queryDatabaseRequest.setWhereClause(whereClause);
+    queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
 
     new QueryDatabaseAsyncTask(new WeakReference(this), this, queryDatabaseRequest).execute(new String[]{
-        databaseName, queryDatabaseRequest.getRawQuery()});
+        databaseName, tableName, queryDatabaseRequest.getRawQuery()});
   }
 
 
