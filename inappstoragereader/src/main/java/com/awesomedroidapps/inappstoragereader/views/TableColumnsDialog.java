@@ -100,6 +100,7 @@ public class TableColumnsDialog extends DialogFragment {
           String columnString = stringBuilder.toString();
           if (Utils.isEmpty(columnString)) {
             columnSelectListener.onColumnsSelected(Constants.ASTERIK);
+            return;
           }
           if (columnString.endsWith(",")) {
             try {

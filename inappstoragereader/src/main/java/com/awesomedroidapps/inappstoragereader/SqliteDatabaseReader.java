@@ -262,8 +262,9 @@ public class SqliteDatabaseReader {
   }
 
   @NonNull
-  public static ArrayList<DatabaseColumnType> getTableDataColumnTypes(Context context, String databaseName,
-                                                          String tableName) {
+  public static ArrayList<DatabaseColumnType> getTableDataColumnTypes(Context context,
+                                                                      String databaseName,
+                                                                      String tableName) {
     String query = "pragma table_info(" + tableName + ")";
     SQLiteDatabase sqLiteDatabase;
     ArrayList<DatabaseColumnType> primaryKeyList = new ArrayList<>();
@@ -291,7 +292,7 @@ public class SqliteDatabaseReader {
     do {
       DatabaseColumnType databaseColumnType = DatabaseColumnType.getType(cursor.getString
           (primaryKeyColumnIndex));
-        primaryKeyList.add(databaseColumnType);
+      primaryKeyList.add(databaseColumnType);
     } while (cursor.moveToNext());
     cursor.close();
     return primaryKeyList;
@@ -457,16 +458,27 @@ public class SqliteDatabaseReader {
   public static QueryDataResponse queryDatabase(Context context, String databaseName,
                                                 String query) {
 
-    if (Utils.isEmpty(query)) {
-      return null;
-    }
-
     QueryDataResponse queryDataResponse = new QueryDataResponse();
+    String errorMessage = Utils.getString(context, R.string
+        .com_awesomedroidapps_inappstoragereader_database_query_failed);
     queryDataResponse.setQueryStatus(QueryStatus.FAILURE);
 
-    SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    if (Utils.isEmpty(query)) {
+      queryDataResponse.setErrorMessage(errorMessage);
+      return queryDataResponse;
+    }
+
+    SQLiteDatabase sqLiteDatabase;
+    try {
+      sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
+    } catch (Exception e) {
+      e.printStackTrace();
+      queryDataResponse.setErrorMessage(errorMessage);
+      return queryDataResponse;
+    }
 
     String sqliteStatementType = query;
+
     if (query.contains(Constants.SPACE)) {
       int index = query.indexOf(Constants.SPACE);
       sqliteStatementType = query.substring(Constants.ZERO_INDEX, index).trim();
@@ -475,13 +487,11 @@ public class SqliteDatabaseReader {
         (sqliteStatementType);
 
     switch (sqliteRawStatementsType) {
-      case DELETE:
-        int deletedRows = handleDeleteOrUpdateRawQuery(sqLiteDatabase, query, queryDataResponse);
-        if (deletedRows == Constants.INVALID_RESPONSE) {
-        } else {
-          queryDataResponse.setSuccessMessage("Success");
-        }
+      case SELECT:
+        queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
+        handleRawQuery(context, sqLiteDatabase, queryDataResponse, query);
         break;
+
       case UPDATE:
         queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
         int updatedRows = handleDeleteOrUpdateRawQuery(sqLiteDatabase, query, queryDataResponse);
@@ -490,10 +500,20 @@ public class SqliteDatabaseReader {
           queryDataResponse.setSuccessMessage("Success");
         }
         break;
-      case SELECT:
-        queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
-        handleRawQuery(context, sqLiteDatabase, queryDataResponse, query);
+
+      case DELETE:
+        queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.DELETE);
+        int deletedRows = handleDeleteOrUpdateRawQuery(sqLiteDatabase, query, queryDataResponse);
+        if (deletedRows == Constants.INVALID_RESPONSE) {
+        } else {
+          queryDataResponse.setSuccessMessage("Success");
+        }
         break;
+
+      case INSERT:
+        break;
+
+      case UNKNOWN:
       default:
         handleRawQuery(context, sqLiteDatabase, queryDataResponse, query);
     }
@@ -522,25 +542,38 @@ public class SqliteDatabaseReader {
     }
   }
 
-  public static int handleUpdateQuery(Context context, String databaseName, QueryDataResponse queryDataResponse,
-                                      String tableName, ContentValues contentValues,
-                                      String whereClause) {
+  public static int handleUpdateAndUpdateAndSelectQuery(Context context, String databaseName,
+                                                        QueryDataResponse queryDataResponse,
+                                                        String tableName,
+                                                        ContentValues contentValues,
+                                                        String whereClause,
+                                                        DatabaseQueryCommandType type) {
 
     SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
-
+    long affectedRows = -1;
     try {
-      int updateResult = sqLiteDatabase.update(tableName, contentValues, whereClause, null);
+
+      switch (type) {
+        case UPDATE:
+          affectedRows = sqLiteDatabase.update(tableName, contentValues, whereClause, null);
+          break;
+        case DELETE:
+          affectedRows = sqLiteDatabase.delete(tableName, whereClause, null);
+          break;
+        case INSERT:
+          affectedRows = sqLiteDatabase.insert(tableName, null, contentValues);
+          break;
+      }
       queryDataResponse.setQueryStatus(QueryStatus.SUCCESS);
-      return updateResult;
-    }catch (Exception e){
+      return (int ) affectedRows;
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return -1;
   }
 
   private static void handleRawQuery(Context context, SQLiteDatabase sqliteDatabase,
-                                     QueryDataResponse
-                                         queryDataResponse, String query) {
+                                     QueryDataResponse queryDataResponse, String query) {
     Cursor cursor = null;
     try {
       cursor = sqliteDatabase.rawQuery(query, null);

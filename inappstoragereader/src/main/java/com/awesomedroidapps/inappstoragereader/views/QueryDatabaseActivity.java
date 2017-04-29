@@ -266,11 +266,53 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   }
 
   private String getSelectQuery() {
-    return Constants.EMPTY_STRING;
+    String queryType = queryTypeSpinner.getSelectedItem().toString();
+    String queryColumns = selectedColumnsButton.getText().toString();
+    String queryTableName = fromTableTextView.getText().toString();
+    String queryWhereClause = whereClauseButton.getText().toString();
+
+    if (Constants.WHERE_CLAUSE.equals(queryWhereClause.trim())) {
+      queryWhereClause = Constants.EMPTY_STRING;
+    }
+
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(queryType)
+        .append(Constants.SPACE)
+        .append(queryColumns)
+        .append(Constants.SPACE)
+        .append(queryTableName)
+        .append(Constants.SPACE).append(queryWhereClause);
+
+    String query = stringBuilder.toString().trim();
+    return query;
   }
 
   private String getUpdateQuery() {
-    return Constants.EMPTY_STRING;
+
+    String queryType = queryTypeSpinner.getSelectedItem().toString();
+    String queryTableName = updateTableTextView.getText().toString();
+    String querySetClause = setClauseButton.getText().toString();
+    String queryWhereClause = whereClauseButton.getText().toString();
+
+
+    if (Constants.WHERE_CLAUSE.equals(queryWhereClause.trim())) {
+      queryWhereClause = Constants.EMPTY_STRING;
+    }
+
+    if(Constants.SET_CLAUSE.endsWith(querySetClause.trim())){
+      querySetClause = Constants.EMPTY_STRING;
+    }
+
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(queryType)
+        .append(Constants.SPACE)
+        .append(queryTableName)
+        .append(Constants.SPACE)
+        .append(querySetClause)
+        .append(Constants.SPACE).append(queryWhereClause);
+
+    String query = stringBuilder.toString().trim();
+    return query;
 
   }
 
