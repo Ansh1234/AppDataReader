@@ -3,6 +3,7 @@ package com.awesomedroidapps.inappstoragereader;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.support.annotation.NonNull;
@@ -483,12 +484,17 @@ public class SqliteDatabaseReader {
     switch (commandType) {
       case SELECT:
         queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
+        String selectQuery = queryDatabaseRequest.getSelectQuery();
         handleRawQuery(context, sqLiteDatabase, queryDataResponse, query);
         break;
 
       case UPDATE:
         queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
         int updatedRows = handleDeleteOrUpdateRawQuery(sqLiteDatabase, query, queryDataResponse);
+        handleUpdateAndDeleteAndIndexQuery(queryDatabaseRequest, context, databaseName,
+            queryDataResponse, null,
+            queryDatabaseRequest.getContentValues(), queryDatabaseRequest.getWhereClause(),
+            commandType);
         if (updatedRows == Constants.INVALID_RESPONSE) {
         } else {
           queryDataResponse.setSuccessMessage("Success");
@@ -536,12 +542,14 @@ public class SqliteDatabaseReader {
     }
   }
 
-  public static int handleUpdateAndUpdateAndSelectQuery(Context context, String databaseName,
-                                                        QueryDataResponse queryDataResponse,
-                                                        String tableName,
-                                                        ContentValues contentValues,
-                                                        String whereClause,
-                                                        DatabaseQueryCommandType type) {
+  public static int handleUpdateAndDeleteAndIndexQuery(QueryDatabaseRequest queryDatabaseRequest,
+                                                       Context context,
+                                                       String databaseName,
+                                                       QueryDataResponse queryDataResponse,
+                                                       String tableName,
+                                                       ContentValues contentValues,
+                                                       String whereClause,
+                                                       DatabaseQueryCommandType type) {
 
     SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
     long affectedRows = -1;
@@ -549,7 +557,8 @@ public class SqliteDatabaseReader {
 
       switch (type) {
         case UPDATE:
-          affectedRows = sqLiteDatabase.update(tableName, contentValues, whereClause, null);
+          handleUpdateQuery(queryDatabaseRequest, sqLiteDatabase, queryDataResponse, tableName,
+              contentValues, whereClause, type);
           break;
         case DELETE:
           affectedRows = sqLiteDatabase.delete(tableName, whereClause, null);
@@ -559,16 +568,46 @@ public class SqliteDatabaseReader {
           break;
       }
       queryDataResponse.setQueryStatus(QueryStatus.SUCCESS);
-      return (int ) affectedRows;
+      return (int) affectedRows;
     } catch (Exception e) {
       e.printStackTrace();
     }
     return -1;
   }
 
+  private static int handleUpdateQuery(QueryDatabaseRequest queryDatabaseRequest,
+                                       SQLiteDatabase sqLiteDatabase,
+                                       QueryDataResponse queryDataResponse,
+                                       String tableName,
+                                       ContentValues contentValues,
+                                       String whereClause,
+                                       DatabaseQueryCommandType type) {
+    long affectedRows = -1;
+    if (Utils.isEmpty(tableName)) {
+
+      Cursor cursor = sqLiteDatabase.rawQuery(queryDatabaseRequest.getRawQuery(), null);
+      try {
+        if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+          affectedRows = cursor.getLong(cursor.getColumnIndex("affected_row_count"));
+        } else {
+          // Some error occurred?
+        }
+      } catch (SQLException e) {
+        // Handle exception here.
+      } finally {
+        if (cursor != null) {
+          cursor.close();
+        }
+      }
+    } else {
+      affectedRows = sqLiteDatabase.update(tableName, contentValues, whereClause, null);
+    }
+    return (int) affectedRows;
+  }
+
 
   private static void handleSelectQuery(Context context, SQLiteDatabase sqliteDatabase,
-                                     QueryDataResponse queryDataResponse, String query) {
+                                        QueryDataResponse queryDataResponse, String query) {
     Cursor cursor = null;
     try {
       cursor = sqliteDatabase.rawQuery(query, null);

@@ -41,12 +41,10 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     AdapterView.OnItemSelectedListener, QueryDatabaseView {
 
   private Button submitQueryButton;
-  private String databaseName, tableName;
   private TextView errorMessageTextView;
   private Spinner queryTypeSpinner;
   private TextView fromTableTextView, updateTableTextView;
   private Button selectedColumnsButton, whereClauseButton, setClauseButton;
-  private final int whereClauseActivityRequestCode = 1, setClauseActivityRequestCode = 2;
   ArrayList<String> querySpinnerArrayList = new ArrayList<>();
   private EditText rawQueryEditText;
   private TableInfo tableInfo;
@@ -81,6 +79,14 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     initInitialUI();
   }
 
+  private void readBundle() {
+    //Read the bundle
+    Bundle bundle = getIntent().getExtras();
+    if (bundle != null) {
+      tableInfo = (TableInfo) bundle.get(Constants.BUNDLE_TABLE_INFO);
+    }
+  }
+
   private void initInitialUI() {
     for (DatabaseQueryCommandType sharedPreferenceDataType : DatabaseQueryCommandType.values()) {
       querySpinnerArrayList.add(sharedPreferenceDataType.getCommand());
@@ -92,16 +98,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     onSelectCommandSelected();
   }
 
-
-  private void readBundle() {
-    //Read the bundle
-    Bundle bundle = getIntent().getExtras();
-    if (bundle != null) {
-      tableInfo = (TableInfo) bundle.get(Constants.BUNDLE_TABLE_INFO);
-      databaseName = tableInfo.getDatabaseName();
-      tableName = tableInfo.getTableName();
-    }
-  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,32 +128,21 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     } else if (view == selectedColumnsButton) {
       launchColumnsSelectionDialog();
     } else if (view == whereClauseButton) {
-      launchWhereClauseActivity(whereClauseActivityRequestCode);
+      launchActivityForWhereClauseAndContentValues(Constants.REQUEST_CODE_WHERE_CLAUSE);
     } else if (view == setClauseButton) {
-      launchGetContentValuesActivity(setClauseActivityRequestCode);
+      launchActivityForWhereClauseAndContentValues(Constants.REQUEST_CODE_SET_CLAUSE);
     }
   }
 
-  private void launchWhereClauseActivity(int requestCode) {
+  private void launchActivityForWhereClauseAndContentValues(int requestCode) {
     Intent intent = new Intent(QueryDatabaseActivity.this, WhereClauseActivity.class);
     Bundle bundle = new Bundle();
-    bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
-    bundle.putString(Constants.BUNDLE_TABLE_NAME, tableName);
+    bundle.putSerializable(Constants.BUNDLE_TABLE_INFO, tableInfo);
+    bundle.putInt(Constants.BUNDLE_REQUEST_CODE, requestCode);
     intent.putExtras(bundle);
     startActivityForResult(intent, requestCode);
   }
 
-  private void launchGetContentValuesActivity(int requestCode){
-    Intent intent = new Intent(QueryDatabaseActivity.this, WhereClauseActivity.class);
-    Bundle bundle = new Bundle();
-    bundle.putSerializable(Constants.BUNDLE_QUERY_REQUEST, queryDatabaseRequest);
-    bundle.putString(Constants.BUNDLE_DATABASE_NAME,databaseName);
-    bundle.putString(Constants.BUNDLE_TABLE_NAME,tableName);
-    bundle.putSerializable(Constants.BUNDLE_TABLE_INFO,tableInfo);
-    bundle.putInt(Constants.BUNDLE_REQUEST_CODE, Constants.REQUEST_CODE_SET_CLAUSE);
-    intent.putExtras(bundle);
-    startActivityForResult(intent, requestCode);
-  }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -166,23 +151,32 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       return;
     }
 
-    String str = data.getStringExtra(Constants.BUNDLE_WHERE_CLAUSE);
-    if (requestCode == whereClauseActivityRequestCode) {
-      str = new StringBuilder(Constants.WHERE_CLAUSE).append(Constants
-          .SPACE).append(str).toString();
-      whereClauseButton.setText(str);
-    } else if (requestCode == setClauseActivityRequestCode) {
-      ContentValues contentValues = data.getExtras().getParcelable("contentValues");
-      queryDatabaseRequest.setContentValues(contentValues);
-       str = data.getStringExtra(Constants.SET_CLAUSE);
-      str = new StringBuilder(Constants.SET_CLAUSE).append(Constants
-          .SPACE).append(str).toString();
-      setClauseButton.setText(str);
+    if (requestCode == Constants.REQUEST_CODE_WHERE_CLAUSE) {
+      handleWhereClauseResult(data);
+    } else if (requestCode == Constants.REQUEST_CODE_SET_CLAUSE) {
+      handleContentValuesResult(data);
     }
   }
 
+  private void handleWhereClauseResult(Intent data) {
+    String str = data.getStringExtra(Constants.BUNDLE_WHERE_CLAUSE);
+    str = new StringBuilder(Constants.WHERE_CLAUSE).append(Constants
+        .SPACE).append(str).toString();
+    whereClauseButton.setText(str);
+  }
+
+  private void handleContentValuesResult(Intent data) {
+    ContentValues contentValues = data.getExtras().getParcelable(Constants.BUNDLE_CONTENT_VALUES);
+    queryDatabaseRequest.setContentValues(contentValues);
+    String str = data.getStringExtra(Constants.SET_CLAUSE);
+    str = new StringBuilder(Constants.SET_CLAUSE).append(Constants
+        .SPACE).append(str).toString();
+    setClauseButton.setText(str);
+  }
+
   private void launchColumnsSelectionDialog() {
-    String[] columnNames = SqliteDatabaseReader.getColumnNames(this, databaseName, tableName);
+    String[] columnNames = SqliteDatabaseReader.getColumnNames(this, tableInfo.getDatabaseName(),
+        tableInfo.getTableName());
     boolean[] previouslySelectedColumns = null;
     if (!Constants.ASTERIK.equals(selectedColumnsButton.getText().toString())) {
       String selectedColumnsStr = selectedColumnsButton.getText().toString();
@@ -208,7 +202,9 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       return;
     }
 
-    QueryDatabaseRequest queryDatabaseRequest = new QueryDatabaseRequest();
+    if (queryDatabaseRequest == null) {
+      queryDatabaseRequest = new QueryDatabaseRequest();
+    }
 
     String query = Constants.EMPTY_STRING;
     switch (databaseQueryCommandType) {
@@ -217,10 +213,8 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
         queryDatabaseRequest.setSelectQuery(query);
         break;
       case UPDATE:
-        query = getUpdateQuery();
         break;
       case DELETE:
-        query = getDeleteQuery();
         break;
       case INSERT:
         query = getInsertQuery();
@@ -241,8 +235,8 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     Intent intent = new Intent(this, QueryResultActivity.class);
     Bundle bundle = new Bundle();
     bundle.putString(Constants.BUNDLE_RAW_QUERY, query);
-    bundle.putString(Constants.BUNDLE_DATABASE_NAME, databaseName);
-    bundle.putSerializable(Constants.BUNDLE_QUERY_REQUEST,queryDatabaseRequest);
+    bundle.putString(Constants.BUNDLE_DATABASE_NAME, tableInfo.getDatabaseName());
+    bundle.putSerializable(Constants.BUNDLE_QUERY_REQUEST, queryDatabaseRequest);
     intent.putExtras(bundle);
     startActivity(intent);
   }
@@ -309,7 +303,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       queryWhereClause = Constants.EMPTY_STRING;
     }
 
-    if(Constants.SET_CLAUSE.endsWith(querySetClause.trim())){
+    if (Constants.SET_CLAUSE.endsWith(querySetClause.trim())) {
       querySetClause = Constants.EMPTY_STRING;
     }
 
@@ -353,7 +347,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     setClauseButton.setVisibility(View.GONE);
     selectedColumnsButton.setVisibility(View.VISIBLE);
     fromTableTextView.setVisibility(View.VISIBLE);
-    fromTableTextView.setText(Constants.FROM_PREFIX + Constants.SPACE + tableName);
+    fromTableTextView.setText(Constants.FROM_PREFIX + Constants.SPACE + tableInfo.getTableName());
     whereClauseButton.setText(Constants.WHERE_CLAUSE);
     selectedColumnsButton.setText(Constants.ASTERIK);
     rawQueryEditText.setVisibility(View.GONE);
@@ -364,7 +358,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
     fromTableTextView.setVisibility(View.GONE);
     updateTableTextView.setVisibility(View.VISIBLE);
-    updateTableTextView.setText(Constants.SPACE + tableName);
+    updateTableTextView.setText(Constants.SPACE + tableInfo.getTableName());
     selectedColumnsButton.setVisibility(View.GONE);
     setClauseButton.setVisibility(View.VISIBLE);
     setClauseButton.setText(Constants.SET_CLAUSE + Constants.SPACE);

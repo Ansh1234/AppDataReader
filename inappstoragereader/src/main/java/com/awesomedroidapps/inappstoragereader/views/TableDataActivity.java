@@ -19,12 +19,13 @@ import com.awesomedroidapps.inappstoragereader.DataItemDialogFragment;
 import com.awesomedroidapps.inappstoragereader.DatabaseColumnType;
 import com.awesomedroidapps.inappstoragereader.DatabaseQueryCommandType;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
+import com.awesomedroidapps.inappstoragereader.QueryDatabaseAsyncTask;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.TableDataAsyncTask;
-import com.awesomedroidapps.inappstoragereader.UpdateDatabaseAsyncTask;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseRequest;
 import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
 import com.awesomedroidapps.inappstoragereader.entities.TableInfo;
 import com.awesomedroidapps.inappstoragereader.interfaces.CommandResponses;
@@ -152,10 +153,6 @@ public class TableDataActivity extends AppCompatActivity
       return;
     }
 
-//    tableColumnNames = tableDataResponse.getColumnNames();
-//    tableColumnTypes = tableDataResponse.getColumnTypes();
-//    primaryKeysList = tableDataResponse.getPrimaryKeyList();
-
     tableDataRecyclerView.setVisibility(View.VISIBLE);
     tableDataRecyclerView.setRecyclerViewWidth(tableDataResponse.getRecyclerViewWidth());
 
@@ -193,9 +190,11 @@ public class TableDataActivity extends AppCompatActivity
     }
     String whereClause = AppDatabaseHelper.getUpdateWhereClause(tableColumnNames, tableColumnTypes,
         columnValues, primaryKeysList);
-    new UpdateDatabaseAsyncTask(new WeakReference(this), this, contentValues).execute(new String[]{
-        databaseName, tableName, whereClause
-    });
+    QueryDatabaseRequest queryDatabaseRequest = new QueryDatabaseRequest();
+    queryDatabaseRequest.setContentValues(contentValues);
+
+    new QueryDatabaseAsyncTask(new WeakReference(this), this, queryDatabaseRequest).execute(new String[]{
+        databaseName, queryDatabaseRequest.getRawQuery()});
   }
 
 

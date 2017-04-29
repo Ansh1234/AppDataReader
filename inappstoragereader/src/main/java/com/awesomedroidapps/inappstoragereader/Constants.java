@@ -12,6 +12,7 @@ public class Constants {
   public static final int REQUEST_CODE_WHERE_CLAUSE = 0;
   public static final int REQUEST_CODE_SET_CLAUSE = 1;
   public static final String BUNDLE_REQUEST_CODE = "requestCode";
+  public static final String BUNDLE_CONTENT_VALUES = "contentValues";
 
   public static final String BUNDLE_DATABASE_NAME = "databaseName";
   public static final String BUNDLE_TABLE_NAME = "tableName";

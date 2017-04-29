@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
-import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseRequest;
 import com.awesomedroidapps.inappstoragereader.entities.TableInfo;
 import com.awesomedroidapps.inappstoragereader.utilities.AppDatabaseHelper;
 
@@ -34,7 +33,6 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
   private String[] columnNames;
   private List list;
   private TableInfo tableInfo;
-  private QueryDatabaseRequest queryDatabaseRequest;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +43,6 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
 
     Bundle bundle = getIntent().getExtras();
     tableInfo = (TableInfo) bundle.getSerializable(Constants.BUNDLE_TABLE_INFO);
-    queryDatabaseRequest = (QueryDatabaseRequest) bundle.getSerializable(Constants
-        .BUNDLE_QUERY_REQUEST);
 
     String databaseName = tableInfo.getDatabaseName();
     String tableName = tableInfo.getTableName();
@@ -138,10 +134,8 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
     if (str.endsWith(Constants.SPACE + Constants.AND + Constants.SPACE)) {
       str = str.substring(0, str.lastIndexOf(Constants.SPACE + Constants.AND + Constants.SPACE));
     }
-    queryDatabaseRequest.setContentValues(contentValues);
     Intent intent = new Intent();
-   // intent.putExtra(Constants.BUNDLE_QUERY_REQUEST, queryDatabaseRequest);
-    intent.putExtra("contentValues" ,contentValues);
+    intent.putExtra(Constants.BUNDLE_CONTENT_VALUES ,contentValues);
     intent.putExtra(Constants.SET_CLAUSE, str);
     setResult(RESULT_OK, intent);
     finish();
