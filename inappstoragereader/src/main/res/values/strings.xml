@@ -1,8 +1,5 @@
 <resources>
     <string name="com_awesomedroidapps_inappstoragereader_app_name">inappstoragereader</string>
-    <string name="com_awesomedroidapps_inappstoragereader_sharedPreference_type">TYPE</string>
-    <string name="com_awesomedroidapps_inappstoragereader_sharedPreference_key">KEY</string>
-    <string name="com_awesomedroidapps_inappstoragereader_sharedPreference_value">VALUE</string>
     <string name="com_awesomedroidapps_inappstoragereader_app_data_list_activity">App Data</string>
     <string name="com_awesomedroidapps_inappstoragereader_shared_preferences_list_activity">SharedPreferences</string>
     <string name="com_awesomedroidapps_inappstoragereader_query_database_list_activity">Query Database
@@ -24,6 +21,10 @@
         Data...</string>
     <string name="com_awesomedroidapps_inappstoragereader_database_query_empty">The Query
         cannot be empty</string>
+    <!-- When a query is invalid, show this message -->
+    <string name="com_awesomedroidapps_inappstoragereader_database_query_invalid">The Query is
+        invalid
+        .</string>
     <!-- When a raw query fails, show this message -->
     <string name="com_awesomedroidapps_inappstoragereader_database_query_failed">The Query
         Execution failed.</string>
@@ -32,8 +33,14 @@
         Execution is successful.</string>
     <string name="com_awesomedroidapps_inappstoragereader_select_column_title">Select
         Columns</string>
-    <string name="com_awesomedroidapps_inappstoragereader_dialog_positive_button">OK</string>
-    <string name="com_awesomedroidapps_inappstoragereader_dialog_negetive_button">CANCEL</string>
     <string name="com_awesomedroidapps_inappstoragereader_select_column_subtitle">Click on
         individual column name and set the value</string>
+    <string name="com_awesomedroidapps_inappstoragereader_generic_error">Unexpected Error
+        occured.</string>
+    <!-- To show the user, the number of succesful rows updated -->
+    <string name="com_awesomedroidapps_inappstoragereader_table_updated_toast">%1$d number
+        of rows updated succesfully.</string>
+    <!-- To show to the user, when the where clause arguments are not proper -->
+    <string name="com_awesomedroidapps_inappstoragereader_table_wrong_arguments">The value of
+        %1%s field is not proper</string>
 </resources>

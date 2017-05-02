@@ -15,7 +15,7 @@ public class QueryDataResponse {
   private String errorMessage;
   private String successMessage;
   private DatabaseQueryCommandType databaseQueryCommandType;
-  private int affectedRows;
+  private long affectedRows;
 
   public QueryStatus getQueryStatus() {
     return queryStatus;
@@ -59,11 +59,11 @@ public class QueryDataResponse {
     this.databaseQueryCommandType = databaseQueryCommandType;
   }
 
-  public int getAffectedRows() {
+  public long getAffectedRows() {
     return affectedRows;
   }
 
-  public void setAffectedRows(int affectedRows) {
+  public void setAffectedRows(long affectedRows) {
     this.affectedRows = affectedRows;
   }
 }

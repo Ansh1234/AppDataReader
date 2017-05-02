@@ -2,7 +2,6 @@ package com.awesomedroidapps.inappstoragereader.views;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -12,11 +11,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.awesomedroidapps.inappstoragereader.Constants;
+import com.awesomedroidapps.inappstoragereader.DatabaseColumnType;
 import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.SqliteDatabaseReader;
+import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.entities.TableInfo;
 import com.awesomedroidapps.inappstoragereader.utilities.AppDatabaseHelper;
 
@@ -30,8 +30,8 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
 
   private Button whereClauseSubmitButton;
   private LinearLayout whereClauseContainer;
-  private String[] columnNames;
-  private List list;
+  private List list, columnNames;
+  private List<DatabaseColumnType> columnTypes;
   private TableInfo tableInfo;
 
   @Override
@@ -46,23 +46,24 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
 
     String databaseName = tableInfo.getDatabaseName();
     String tableName = tableInfo.getTableName();
+    columnNames = tableInfo.getTableColumnNames();
+    columnTypes = tableInfo.getTableColumnTypes();
 
-    columnNames = SqliteDatabaseReader.getColumnNames(this, databaseName, tableName);
     list = SqliteDatabaseReader.getColumnTypes(this, databaseName, tableName);
     LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
     whereClauseContainer = (LinearLayout) findViewById(R.id.where_clause_container);
     fillWhereClauseData(columnNames, layoutInflater);
   }
 
-  private void fillWhereClauseData(String[] columnNames, LayoutInflater layoutInflater) {
-    if (columnNames == null || columnNames.length == 0) {
+  private void fillWhereClauseData(List<String> columnNames, LayoutInflater layoutInflater) {
+    if (columnNames == null || columnNames.size() == 0) {
       return;
     }
-    for (int i = 0; i < columnNames.length; i++) {
+    for (int i = 0; i < columnNames.size(); i++) {
       View view = layoutInflater.inflate(R.layout
           .com_awesomedroidapps_inappstoragereader_columns_dropdown, null);
       TextView textView = (TextView) view.findViewById(R.id.column_name);
-      textView.setText(columnNames[i]);
+      textView.setText(columnNames.get(i));
       whereClauseContainer.addView(view);
     }
   }
@@ -94,22 +95,26 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
         continue;
       }
 
-      Integer queryDataType = (Integer) list.get(i);
+      DatabaseColumnType databaseColumnType = columnTypes.get(i);
 
-      if (queryDataType == Cursor.FIELD_TYPE_INTEGER) {
+      if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_INTEGER) {
         try {
           Integer.parseInt(editText.getText().toString());
         } catch (NumberFormatException exception) {
-          Toast.makeText(this, "The value of " + textView.getText().toString() + " field is not " +
-              "proper ", Toast.LENGTH_SHORT).show();
+          String toastMessage = Utils.getString(this, R.string
+              .com_awesomedroidapps_inappstoragereader_table_wrong_arguments, textView.getText()
+              .toString());
+          Utils.showLongToast(this, toastMessage);
           return contentValues;
         }
-      } else if (queryDataType == Cursor.FIELD_TYPE_FLOAT) {
+      } else if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_FLOAT) {
         try {
           Float.parseFloat(editText.getText().toString());
         } catch (NumberFormatException exception) {
-          Toast.makeText(this, "The value of " + textView.getText().toString() + " field is not " +
-              "proper ", Toast.LENGTH_SHORT).show();
+          String toastMessage = Utils.getString(this, R.string
+              .com_awesomedroidapps_inappstoragereader_table_wrong_arguments, textView.getText()
+              .toString());
+          Utils.showLongToast(this, toastMessage);
           return contentValues;
         }
       }
@@ -118,11 +123,11 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
           .getTableColumnTypes(), i, editText.getText().toString(), contentValues);
       queryBuilder.append(textView.getText().toString());
       queryBuilder.append(Constants.EQUAL);
-      if (Cursor.FIELD_TYPE_STRING == queryDataType) {
+      if (DatabaseColumnType.FIELD_TYPE_TEXT == databaseColumnType) {
         queryBuilder.append(Constants.INVERTED_COMMA);
       }
       queryBuilder.append(editText.getText().toString());
-      if (Cursor.FIELD_TYPE_STRING == queryDataType) {
+      if (DatabaseColumnType.FIELD_TYPE_TEXT == databaseColumnType) {
         queryBuilder.append(Constants.INVERTED_COMMA);
       }
       queryBuilder.append(Constants.SPACE);
@@ -135,7 +140,7 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
       str = str.substring(0, str.lastIndexOf(Constants.SPACE + Constants.AND + Constants.SPACE));
     }
     Intent intent = new Intent();
-    intent.putExtra(Constants.BUNDLE_CONTENT_VALUES ,contentValues);
+    intent.putExtra(Constants.BUNDLE_CONTENT_VALUES, contentValues);
     intent.putExtra(Constants.SET_CLAUSE, str);
     setResult(RESULT_OK, intent);
     finish();
@@ -152,32 +157,36 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
         continue;
       }
 
-      Integer queryDataType = (Integer) list.get(i);
+      DatabaseColumnType databaseColumnType = columnTypes.get(i);
 
-      if (queryDataType == Cursor.FIELD_TYPE_INTEGER) {
+      if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_INTEGER) {
         try {
           Integer.parseInt(editText.getText().toString());
         } catch (NumberFormatException exception) {
-          Toast.makeText(this, "The value of " + textView.getText().toString() + " field is not " +
-              "proper ", Toast.LENGTH_SHORT).show();
+          String toastMessage = Utils.getString(this, R.string
+              .com_awesomedroidapps_inappstoragereader_table_wrong_arguments, textView.getText()
+              .toString());
+          Utils.showLongToast(this, toastMessage);
           return;
         }
-      } else if (queryDataType == Cursor.FIELD_TYPE_FLOAT) {
+      } else if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_FLOAT) {
         try {
           Float.parseFloat(editText.getText().toString());
         } catch (NumberFormatException exception) {
-          Toast.makeText(this, "The value of " + textView.getText().toString() + " field is not " +
-              "proper ", Toast.LENGTH_SHORT).show();
+          String toastMessage = Utils.getString(this, R.string
+              .com_awesomedroidapps_inappstoragereader_table_wrong_arguments, textView.getText()
+              .toString());
+          Utils.showLongToast(this, toastMessage);
           return;
         }
       }
       queryBuilder.append(textView.getText().toString());
       queryBuilder.append(Constants.EQUAL);
-      if (Cursor.FIELD_TYPE_STRING == queryDataType) {
+      if (DatabaseColumnType.FIELD_TYPE_TEXT == databaseColumnType) {
         queryBuilder.append(Constants.INVERTED_COMMA);
       }
       queryBuilder.append(editText.getText().toString());
-      if (Cursor.FIELD_TYPE_STRING == queryDataType) {
+      if (DatabaseColumnType.FIELD_TYPE_TEXT == databaseColumnType) {
         queryBuilder.append(Constants.INVERTED_COMMA);
       }
       queryBuilder.append(Constants.SPACE);

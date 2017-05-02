@@ -160,6 +160,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
 
   private void handleWhereClauseResult(Intent data) {
     String str = data.getStringExtra(Constants.BUNDLE_WHERE_CLAUSE);
+    queryDatabaseRequest.setWhereClause(str);
     str = new StringBuilder(Constants.WHERE_CLAUSE).append(Constants
         .SPACE).append(str).toString();
     whereClauseButton.setText(str);
@@ -222,11 +223,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       case RAW_QUERY:
         query = getRawQuery();
         queryDatabaseRequest.setRawQuery(query);
-        if (query.contains(Constants.SPACE)) {
-          int index = query.indexOf(Constants.SPACE);
-          String commandType = query.substring(Constants.ZERO_INDEX, index).trim();
-          databaseQueryCommandType = DatabaseQueryCommandType.getCommand(commandType);
-        }
         break;
     }
     queryDatabaseRequest.setDatabaseQueryCommandType(databaseQueryCommandType);
@@ -236,6 +232,9 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     Bundle bundle = new Bundle();
     bundle.putString(Constants.BUNDLE_RAW_QUERY, query);
     bundle.putString(Constants.BUNDLE_DATABASE_NAME, tableInfo.getDatabaseName());
+    bundle.putString(Constants.BUNDLE_TABLE_NAME,tableInfo.getTableName());
+    bundle.putParcelable(Constants.BUNDLE_CONTENT_VALUES, queryDatabaseRequest.getContentValues());
+    queryDatabaseRequest.setContentValues(null);
     bundle.putSerializable(Constants.BUNDLE_QUERY_REQUEST, queryDatabaseRequest);
     intent.putExtras(bundle);
     startActivity(intent);

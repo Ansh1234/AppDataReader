@@ -38,7 +38,7 @@ public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDataRes
     String query = params[2];
 
     QueryDataResponse queryDataResponse = SqliteDatabaseReader.queryDatabase(
-        activtyWeakReference.get(), queryDatabaseRequest, databaseName, tableName, query);
+        activtyWeakReference.get(), queryDatabaseRequest, databaseName, tableName);
     return queryDataResponse;
   }
 

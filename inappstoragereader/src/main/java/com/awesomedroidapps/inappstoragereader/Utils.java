@@ -129,8 +129,8 @@ public class Utils {
    * @param context
    * @param resId
    */
-  public static String getString(Context context, int resId) {
-    return context.getResources().getString(resId);
+  public static String getString(Context context, int resId, Object... formatArgs) {
+    return context.getResources().getString(resId, formatArgs);
   }
 
 

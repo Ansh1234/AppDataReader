@@ -1,6 +1,7 @@
 package com.awesomedroidapps.inappstoragereader.views;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,7 +39,7 @@ public class QueryResultActivity extends AppCompatActivity
     QueryResponseListener, CommandResponses {
 
   private AppStorageDataRecyclerView tableDataRecyclerView;
-  private String rawQuery, databaseName;
+  private String rawQuery, databaseName, tableName;
   private ProgressDialog progressDialog;
   private RelativeLayout errorHandlerLayout;
   private QueryDatabaseRequest queryDatabaseRequest;
@@ -57,7 +58,10 @@ public class QueryResultActivity extends AppCompatActivity
     if (bundle != null) {
       rawQuery = bundle.getString(Constants.BUNDLE_RAW_QUERY);
       databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);
+      tableName = bundle.getString(Constants.BUNDLE_TABLE_NAME);
+      ContentValues contentValues = bundle.getParcelable(Constants.BUNDLE_CONTENT_VALUES);
       queryDatabaseRequest = (QueryDatabaseRequest) bundle.get(Constants.BUNDLE_QUERY_REQUEST);
+      queryDatabaseRequest.setContentValues(contentValues);
     }
   }
 
@@ -65,8 +69,7 @@ public class QueryResultActivity extends AppCompatActivity
   public void onStart() {
     super.onStart();
     new QueryDatabaseAsyncTask(new WeakReference(this), this, queryDatabaseRequest).execute(new String[]{
-        databaseName, rawQuery
-    });
+        databaseName, tableName, rawQuery});
   }
 
 

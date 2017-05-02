@@ -55,11 +55,9 @@ public class TableColumnsDialog extends DialogFragment {
         R.string.com_awesomedroidapps_inappstoragereader_select_column_title));
     builder.setMultiChoiceItems(columns, previouslySelectedColumns, null)
         // Set the action buttons
-        .setPositiveButton(Utils.getString(getActivity(),
-            R.string.com_awesomedroidapps_inappstoragereader_dialog_positive_button),
+        .setPositiveButton(Constants.DIALOG_OK_TEXT,
             dialogPositiveListener)
-        .setNegativeButton(Utils.getString(getActivity(),
-            R.string.com_awesomedroidapps_inappstoragereader_dialog_negetive_button),
+        .setNegativeButton(Constants.DIALOG_CANCEL_TEXT,
             dialogNegetiveListener);
     alertDialog = builder.create();
     return alertDialog;

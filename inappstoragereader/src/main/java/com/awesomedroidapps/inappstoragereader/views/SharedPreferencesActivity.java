@@ -263,12 +263,9 @@ public class SharedPreferencesActivity extends AppCompatActivity implements
 
   private ArrayList getSharedPreferenceHeadersInList() {
     ArrayList arrayList = new ArrayList();
-    arrayList.add(getResources().getString(R.string
-        .com_awesomedroidapps_inappstoragereader_sharedPreference_key));
-    arrayList.add(getResources().getString(R.string
-        .com_awesomedroidapps_inappstoragereader_sharedPreference_value));
-    arrayList.add(getResources().getString(R.string
-        .com_awesomedroidapps_inappstoragereader_sharedPreference_type));
+    arrayList.add(Constants.SHARED_PREFERENCES_KEY);
+    arrayList.add(Constants.SHARED_PREFERENCES_VALUE);
+    arrayList.add(Constants.SHARED_PREFERENCES_TYPE);
     return arrayList;
   }
 

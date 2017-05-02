@@ -7,6 +7,11 @@ package com.awesomedroidapps.inappstoragereader;
 
 public class Constants {
 
+  public static final String SHARED_PREFERENCES_KEY = "KEY";
+  public static final String SHARED_PREFERENCES_VALUE = "VALUE";
+  public static final String SHARED_PREFERENCES_TYPE = "TYPE";
+
+
   public static final String BUNDLE_QUERY_REQUEST = "bundleQueryRequest";
   public static final String BUNDLE_TABLE_INFO = "bundleTableInfo";
   public static final int REQUEST_CODE_WHERE_CLAUSE = 0;
@@ -44,4 +49,9 @@ public class Constants {
   public static final String PRAGMA_COLUMN_CID = "cid";
   public static final String PRAGMA_COLUMN_TYPE = "type";
   public static final int COLUMN_PRIMARY_KEY_VALUE = 1;
+
+  public static final String DIALOG_OK_TEXT = "OK";
+  public static final String DIALOG_CANCEL_TEXT = "CANCEL";
+  public static final String QUERY_AFFECTED_ROWS = "affected_row_count";
+
 }
