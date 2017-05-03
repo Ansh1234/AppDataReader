@@ -533,6 +533,11 @@ public class SqliteDatabaseReader {
 
       case INSERT:
         queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.INSERT);
+        int insertedRows = handleUpdateAndDeleteAndIndexQuery(queryDatabaseRequest, context,
+            databaseName,
+            queryDataResponse, tableName,
+            queryDatabaseRequest.getContentValues(), queryDatabaseRequest.getWhereClause(),
+            commandType);
         break;
 
       case RAW_QUERY:

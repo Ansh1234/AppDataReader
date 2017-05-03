@@ -75,6 +75,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     selectedColumnsButton.setOnClickListener(this);
     whereClauseButton.setOnClickListener(this);
     setClauseButton.setOnClickListener(this);
+    valuesClauseButton.setOnClickListener(this);
 
     queryDatabaseRequest = new QueryDatabaseRequest();
     readBundle();
@@ -159,6 +160,8 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       handleWhereClauseResult(data);
     } else if (requestCode == Constants.REQUEST_CODE_SET_CLAUSE) {
       handleContentValuesResult(data);
+    }else if(requestCode== Constants.REQUEST_CODE_VALUES_CLAUSE){
+      handleInsertValuesResult(data);
     }
   }
 
@@ -177,6 +180,13 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     str = new StringBuilder(Constants.SET_CLAUSE).append(Constants
         .SPACE).append(str).toString();
     setClauseButton.setText(str);
+  }
+
+  private void handleInsertValuesResult(Intent data){
+    ContentValues contentValues = data.getExtras().getParcelable(Constants.BUNDLE_CONTENT_VALUES);
+    queryDatabaseRequest.setContentValues(contentValues);
+    String str = data.getStringExtra(Constants.INSERT_CLAUSE);
+    valuesClauseButton.setText(str);
   }
 
   private void launchColumnsSelectionDialog() {

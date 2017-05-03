@@ -20,6 +20,7 @@ public class Constants {
   public static final String BUNDLE_REQUEST_CODE = "requestCode";
   public static final String BUNDLE_CONTENT_VALUES = "contentValues";
 
+
   public static final String BUNDLE_DATABASE_NAME = "databaseName";
   public static final String BUNDLE_TABLE_NAME = "tableName";
   public static final String BUNDLE_RAW_QUERY = "rawQuery";
@@ -40,6 +41,7 @@ public class Constants {
   public static final String INVERTED_COMMA = "'";
   public static final String AND = "AND";
   public static final String WHERE_CLAUSE = "WHERE";
+  public static final String INSERT_CLAUSE = "INSERT";
   public static final String SET_CLAUSE = "SET";
   public static final String VALUES = "VALUES";
   public static final String ASTERIK = "*";

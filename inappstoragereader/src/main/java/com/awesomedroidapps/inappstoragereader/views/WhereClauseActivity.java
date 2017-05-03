@@ -75,10 +75,90 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
       if (requestCode == Constants.REQUEST_CODE_SET_CLAUSE) {
         getContentValues();
         return;
-      } else {
+      } else if(requestCode== Constants.REQUEST_CODE_VALUES_CLAUSE) {
+        getContentValuesForInsertQuery();
+        return;
+      }else if(requestCode== Constants.REQUEST_CODE_WHERE_CLAUSE) {
         getWhereClauseQuery();
+        return;
       }
     }
+  }
+
+  private ContentValues getContentValuesForInsertQuery() {
+
+    ContentValues contentValues = new ContentValues();
+    StringBuilder queryBuilder = new StringBuilder();
+    StringBuilder columnNamesBuilder = new StringBuilder("( ");
+    StringBuilder columnValuesBuilder = new StringBuilder("( ");
+
+    for (int i = 0; i < whereClauseContainer.getChildCount(); i++) {
+      RelativeLayout listViewItem = (RelativeLayout) whereClauseContainer.getChildAt(i);
+      EditText editText = (EditText) listViewItem.findViewById(R.id.column_value);
+      TextView textView = (TextView) listViewItem.findViewById(R.id.column_name);
+      if (Constants.EMPTY_STRING.equals(editText.getText().toString())) {
+        continue;
+      }
+
+      DatabaseColumnType databaseColumnType = columnTypes.get(i);
+
+      if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_INTEGER) {
+        try {
+          Integer.parseInt(editText.getText().toString());
+        } catch (NumberFormatException exception) {
+          String toastMessage = Utils.getString(this, R.string
+              .com_awesomedroidapps_inappstoragereader_table_wrong_arguments, textView.getText()
+              .toString());
+          Utils.showLongToast(this, toastMessage);
+          return contentValues;
+        }
+      } else if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_FLOAT) {
+        try {
+          Float.parseFloat(editText.getText().toString());
+        } catch (NumberFormatException exception) {
+          String toastMessage = Utils.getString(this, R.string
+              .com_awesomedroidapps_inappstoragereader_table_wrong_arguments, textView.getText()
+              .toString());
+          Utils.showLongToast(this, toastMessage);
+          return contentValues;
+        }
+      }
+
+      contentValues = AppDatabaseHelper.getContentValues(tableInfo.getTableColumnNames(), tableInfo
+          .getTableColumnTypes(), i, editText.getText().toString(), contentValues);
+
+
+      columnNamesBuilder.append(textView.getText().toString());
+      columnNamesBuilder.append(Constants.COMMA);
+
+      if(databaseColumnType==DatabaseColumnType.FIELD_TYPE_TEXT){
+        columnValuesBuilder.append(Constants.INVERTED_COMMA);
+      }
+      columnValuesBuilder.append(editText.getText().toString());
+      if(databaseColumnType==DatabaseColumnType.FIELD_TYPE_TEXT){
+        columnValuesBuilder.append(Constants.INVERTED_COMMA);
+      }
+      columnValuesBuilder.append(Constants.COMMA);
+    }
+
+    String columnNames = columnNamesBuilder.toString();
+    String columnValues = columnValuesBuilder.toString();
+
+    if (columnNames.endsWith(Constants.COMMA)) {
+      columnNames = columnNames.substring(0, columnNames.lastIndexOf(Constants.COMMA));
+    }
+    if (columnValues.endsWith(Constants.COMMA)) {
+      columnValues = columnValues.substring(0, columnValues.lastIndexOf(Constants.COMMA));
+    }
+    columnNames = columnNames +")";
+    columnValues = columnValues+")";
+    Intent intent = new Intent();
+    intent.putExtra(Constants.BUNDLE_CONTENT_VALUES, contentValues);
+    String finalValue = columnNames + " VALUES "+ columnValues;
+    intent.putExtra(Constants.INSERT_CLAUSE, finalValue);
+    setResult(RESULT_OK, intent);
+    finish();
+    return contentValues;
   }
 
   private ContentValues getContentValues() {
