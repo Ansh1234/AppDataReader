@@ -26,7 +26,7 @@ import java.util.List;
  * Created by anshul on 31/03/17.
  */
 
-public class WhereClauseActivity extends AppCompatActivity implements View.OnClickListener {
+public class ClauseActivity extends AppCompatActivity implements View.OnClickListener {
 
   private Button whereClauseSubmitButton;
   private LinearLayout whereClauseContainer;
@@ -73,24 +73,28 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
     if (v == whereClauseSubmitButton) {
       int requestCode = getIntent().getExtras().getInt(Constants.BUNDLE_REQUEST_CODE);
       if (requestCode == Constants.REQUEST_CODE_SET_CLAUSE) {
-        getContentValues();
+        getContentValuesForUpdateQuery();
         return;
-      } else if(requestCode== Constants.REQUEST_CODE_VALUES_CLAUSE) {
+      } else if (requestCode == Constants.REQUEST_CODE_VALUES_CLAUSE) {
         getContentValuesForInsertQuery();
         return;
-      }else if(requestCode== Constants.REQUEST_CODE_WHERE_CLAUSE) {
+      } else if (requestCode == Constants.REQUEST_CODE_WHERE_CLAUSE) {
         getWhereClauseQuery();
         return;
       }
     }
   }
 
+  /**
+   * This method returns the Content Values for the insert Query. It has returns a string to be
+   * shown on the UI.
+   * @return
+   */
   private ContentValues getContentValuesForInsertQuery() {
 
     ContentValues contentValues = new ContentValues();
-    StringBuilder queryBuilder = new StringBuilder();
-    StringBuilder columnNamesBuilder = new StringBuilder("( ");
-    StringBuilder columnValuesBuilder = new StringBuilder("( ");
+    StringBuilder columnNamesBuilder = new StringBuilder(Constants.OPENING_BRACKET);
+    StringBuilder columnValuesBuilder = new StringBuilder(Constants.OPENING_BRACKET);
 
     for (int i = 0; i < whereClauseContainer.getChildCount(); i++) {
       RelativeLayout listViewItem = (RelativeLayout) whereClauseContainer.getChildAt(i);
@@ -127,15 +131,14 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
       contentValues = AppDatabaseHelper.getContentValues(tableInfo.getTableColumnNames(), tableInfo
           .getTableColumnTypes(), i, editText.getText().toString(), contentValues);
 
-
       columnNamesBuilder.append(textView.getText().toString());
       columnNamesBuilder.append(Constants.COMMA);
 
-      if(databaseColumnType==DatabaseColumnType.FIELD_TYPE_TEXT){
+      if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_TEXT) {
         columnValuesBuilder.append(Constants.INVERTED_COMMA);
       }
       columnValuesBuilder.append(editText.getText().toString());
-      if(databaseColumnType==DatabaseColumnType.FIELD_TYPE_TEXT){
+      if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_TEXT) {
         columnValuesBuilder.append(Constants.INVERTED_COMMA);
       }
       columnValuesBuilder.append(Constants.COMMA);
@@ -150,18 +153,26 @@ public class WhereClauseActivity extends AppCompatActivity implements View.OnCli
     if (columnValues.endsWith(Constants.COMMA)) {
       columnValues = columnValues.substring(0, columnValues.lastIndexOf(Constants.COMMA));
     }
-    columnNames = columnNames +")";
-    columnValues = columnValues+")";
+
+    columnNames = columnNames + Constants.CLOSING_BRACKET;
+    columnValues = columnValues + Constants.CLOSING_BRACKET;
+
+    StringBuilder insertQuery = new StringBuilder();
+    insertQuery.append(columnNames);
+    insertQuery.append(Constants.SPACE);
+    insertQuery.append(Constants.VALUES);
+    insertQuery.append(Constants.SPACE);
+    insertQuery.append(columnValues);
+
     Intent intent = new Intent();
     intent.putExtra(Constants.BUNDLE_CONTENT_VALUES, contentValues);
-    String finalValue = columnNames + " VALUES "+ columnValues;
-    intent.putExtra(Constants.INSERT_CLAUSE, finalValue);
+    intent.putExtra(Constants.INSERT_CLAUSE, insertQuery.toString());
     setResult(RESULT_OK, intent);
     finish();
     return contentValues;
   }
 
-  private ContentValues getContentValues() {
+  private ContentValues getContentValuesForUpdateQuery() {
 
     ContentValues contentValues = new ContentValues();
     StringBuilder queryBuilder = new StringBuilder();

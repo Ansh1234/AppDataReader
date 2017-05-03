@@ -66,7 +66,7 @@ public class AppDatabaseHelper {
       String columnName = tableColumnNames.get(i);
       String columnValue = columnValues.get(i);
 
-      if (Utils.isEmpty(columnName)) {
+      if (Utils.isEmpty(columnValue)) {
         continue;
       }
 

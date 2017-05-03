@@ -140,7 +140,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   }
 
   private void launchActivityForWhereClauseAndContentValues(int requestCode) {
-    Intent intent = new Intent(QueryDatabaseActivity.this, WhereClauseActivity.class);
+    Intent intent = new Intent(QueryDatabaseActivity.this, ClauseActivity.class);
     Bundle bundle = new Bundle();
     bundle.putSerializable(Constants.BUNDLE_TABLE_INFO, tableInfo);
     bundle.putInt(Constants.BUNDLE_REQUEST_CODE, requestCode);
