@@ -1,6 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.interfaces;
 
-import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseResponse;
 
 /**
  * Created by anshul on 27/04/17.
@@ -8,14 +8,14 @@ import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 
 public interface CommandResponses {
 
-  void onSelectQueryResponse(QueryDataResponse queryDataResponse);
+  void onSelectQueryResponse(QueryDatabaseResponse queryDatabaseResponse);
 
-  void onUpdateQueryResponse(QueryDataResponse queryDataResponse);
+  void onUpdateQueryResponse(QueryDatabaseResponse queryDatabaseResponse);
 
-  void onDeleteQueryResponse(QueryDataResponse queryDataResponse);
+  void onDeleteQueryResponse(QueryDatabaseResponse queryDatabaseResponse);
 
-  void onInsertQueryResponse(QueryDataResponse queryDataResponse);
+  void onInsertQueryResponse(QueryDatabaseResponse queryDatabaseResponse);
 
-  void onUnknownTypeQueryResponse(QueryDataResponse queryDataResponse);
+  void onUnknownTypeQueryResponse(QueryDatabaseResponse queryDatabaseResponse);
 
 }

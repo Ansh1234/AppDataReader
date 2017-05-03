@@ -1,6 +1,6 @@
 package com.awesomedroidapps.inappstoragereader.interfaces;
 
-import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseResponse;
 
 /**
  * Created by anshul on 1/3/17.
@@ -10,5 +10,5 @@ import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 
 public interface QueryResponseListener {
 
-  void onRawQueryDataFetched(QueryDataResponse queryDataResponse);
+  void onRawQueryDataFetched(QueryDatabaseResponse queryDatabaseResponse);
 }

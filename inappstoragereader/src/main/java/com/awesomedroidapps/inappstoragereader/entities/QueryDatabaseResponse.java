@@ -8,7 +8,7 @@ import com.awesomedroidapps.inappstoragereader.QueryStatus;
  * A class for encapsulating the response of a database query.
  */
 
-public class QueryDataResponse {
+public class QueryDatabaseResponse {
 
   private QueryStatus queryStatus;
   private TableDataResponse tableDataResponse;

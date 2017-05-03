@@ -24,8 +24,8 @@ import com.awesomedroidapps.inappstoragereader.R;
 import com.awesomedroidapps.inappstoragereader.TableDataAsyncTask;
 import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.TableDataListAdapter;
-import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseRequest;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseResponse;
 import com.awesomedroidapps.inappstoragereader.entities.TableDataResponse;
 import com.awesomedroidapps.inappstoragereader.entities.TableInfo;
 import com.awesomedroidapps.inappstoragereader.interfaces.CommandResponses;
@@ -174,10 +174,13 @@ public class TableDataActivity extends AppCompatActivity
     List<DatabaseColumnType> tableColumnTypes = tableDataResponse.getColumnTypes();
     List<Integer> primaryKeysList = tableDataResponse.getPrimaryKeyList();
 
+    QueryDatabaseRequest queryDatabaseRequest = new QueryDatabaseRequest();
+
     ContentValues contentValues = null;
     try {
       contentValues =
-          AppDatabaseHelper.getContentValues(tableColumnNames, tableColumnTypes,
+          AppDatabaseHelper.getContentValues(queryDatabaseRequest, tableColumnNames,
+              tableColumnTypes,
                columnIndex, newValue, contentValues);
     } catch (Exception e) {
       Toast.makeText(this, "Update Failed", Toast.LENGTH_LONG).show();
@@ -190,7 +193,6 @@ public class TableDataActivity extends AppCompatActivity
     }
     String whereClause = AppDatabaseHelper.getUpdateWhereClause(tableColumnNames, tableColumnTypes,
         columnValues, primaryKeysList);
-    QueryDatabaseRequest queryDatabaseRequest = new QueryDatabaseRequest();
     queryDatabaseRequest.setContentValues(contentValues);
     queryDatabaseRequest.setWhereClause(whereClause);
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
@@ -201,8 +203,8 @@ public class TableDataActivity extends AppCompatActivity
 
 
   @Override
-  public void onSelectQueryResponse(QueryDataResponse queryDataResponse) {
-    switch (queryDataResponse.getQueryStatus()) {
+  public void onSelectQueryResponse(QueryDatabaseResponse queryDatabaseResponse) {
+    switch (queryDatabaseResponse.getQueryStatus()) {
       case SUCCESS:
         break;
       case FAILURE:
@@ -211,12 +213,12 @@ public class TableDataActivity extends AppCompatActivity
   }
 
   @Override
-  public void onUpdateQueryResponse(QueryDataResponse queryDataResponse) {
-    if (queryDataResponse == null || queryDataResponse.getQueryStatus() == null) {
+  public void onUpdateQueryResponse(QueryDatabaseResponse queryDatabaseResponse) {
+    if (queryDatabaseResponse == null || queryDatabaseResponse.getQueryStatus() == null) {
       return;
     }
 
-    switch (queryDataResponse.getQueryStatus()) {
+    switch (queryDatabaseResponse.getQueryStatus()) {
       case SUCCESS:
         String toastMessage = Utils.getString(this, R.string
             .com_awesomedroidapps_inappstoragereader_database_query_success);
@@ -231,56 +233,56 @@ public class TableDataActivity extends AppCompatActivity
   }
 
   @Override
-  public void onDeleteQueryResponse(QueryDataResponse queryDataResponse) {
+  public void onDeleteQueryResponse(QueryDatabaseResponse queryDatabaseResponse) {
 
   }
 
   @Override
-  public void onInsertQueryResponse(QueryDataResponse queryDataResponse) {
+  public void onInsertQueryResponse(QueryDatabaseResponse queryDatabaseResponse) {
 
   }
 
   @Override
-  public void onUnknownTypeQueryResponse(QueryDataResponse queryDataResponse) {
+  public void onUnknownTypeQueryResponse(QueryDatabaseResponse queryDatabaseResponse) {
     fetchData();
   }
 
   @Override
-  public void onRawQueryDataFetched(QueryDataResponse queryDataResponse) {
+  public void onRawQueryDataFetched(QueryDatabaseResponse queryDatabaseResponse) {
 
     if (progressDialog != null) {
       progressDialog.dismiss();
     }
 
-    if (queryDataResponse == null || queryDataResponse.getQueryStatus() == null) {
+    if (queryDatabaseResponse == null || queryDatabaseResponse.getQueryStatus() == null) {
       String toastMessage = Utils.getString(this, R.string
           .com_awesomedroidapps_inappstoragereader_database_query_failed);
       Utils.showLongToast(this, toastMessage);
       return;
     }
 
-    DatabaseQueryCommandType commandType = queryDataResponse.getDatabaseQueryCommandType();
+    DatabaseQueryCommandType commandType = queryDatabaseResponse.getDatabaseQueryCommandType();
 
     if (commandType == null) {
-      onUnknownTypeQueryResponse(queryDataResponse);
+      onUnknownTypeQueryResponse(queryDatabaseResponse);
       return;
     }
 
     switch (commandType) {
       case UPDATE:
-        onUpdateQueryResponse(queryDataResponse);
+        onUpdateQueryResponse(queryDatabaseResponse);
         break;
       case SELECT:
-        onSelectQueryResponse(queryDataResponse);
+        onSelectQueryResponse(queryDatabaseResponse);
         break;
       case DELETE:
-        onDeleteQueryResponse(queryDataResponse);
+        onDeleteQueryResponse(queryDatabaseResponse);
         break;
       case INSERT:
-        onInsertQueryResponse(queryDataResponse);
+        onInsertQueryResponse(queryDatabaseResponse);
         break;
       default:
-        onUnknownTypeQueryResponse(queryDataResponse);
+        onUnknownTypeQueryResponse(queryDatabaseResponse);
     }
   }
 }

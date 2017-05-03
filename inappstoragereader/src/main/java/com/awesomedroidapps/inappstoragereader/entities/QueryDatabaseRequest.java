@@ -17,6 +17,8 @@ public class QueryDatabaseRequest implements Serializable {
   private String selectQuery;
   private String rawQuery;
   private String whereClause;
+  private String databaseName;
+  private String tableName;
 
   public DatabaseQueryCommandType getDatabaseQueryCommandType() {
     return databaseQueryCommandType;
@@ -57,5 +59,21 @@ public class QueryDatabaseRequest implements Serializable {
 
   public void setWhereClause(String whereClause) {
     this.whereClause = whereClause;
+  }
+
+  public String getDatabaseName() {
+    return databaseName;
+  }
+
+  public void setDatabaseName(String databaseName) {
+    this.databaseName = databaseName;
+  }
+
+  public String getTableName() {
+    return tableName;
+  }
+
+  public void setTableName(String tableName) {
+    this.tableName = tableName;
   }
 }

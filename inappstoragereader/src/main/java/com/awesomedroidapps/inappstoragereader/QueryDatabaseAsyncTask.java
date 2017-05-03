@@ -3,8 +3,8 @@ package com.awesomedroidapps.inappstoragereader;
 import android.app.Activity;
 import android.os.AsyncTask;
 
-import com.awesomedroidapps.inappstoragereader.entities.QueryDataResponse;
 import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseRequest;
+import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseResponse;
 import com.awesomedroidapps.inappstoragereader.interfaces.QueryResponseListener;
 
 import java.lang.ref.WeakReference;
@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference;
  * An async task for query the database tables.
  */
 
-public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDataResponse> {
+public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDatabaseResponse> {
 
   private final WeakReference<Activity> activtyWeakReference;
   private final QueryResponseListener queryResponseListener;
@@ -29,23 +29,21 @@ public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDataRes
   }
 
   @Override
-  protected QueryDataResponse doInBackground(String... params) {
-    if (activtyWeakReference.get() == null || params == null || params.length != 3) {
+  protected QueryDatabaseResponse doInBackground(String... params) {
+    if (activtyWeakReference.get() == null || queryDatabaseRequest==null) {
       return null;
     }
-    String databaseName = params[0];
-    String tableName = params[1];
-    String query = params[2];
 
-    QueryDataResponse queryDataResponse = SqliteDatabaseReader.queryDatabase(
-        activtyWeakReference.get(), queryDatabaseRequest, databaseName, tableName);
-    return queryDataResponse;
+
+    QueryDatabaseResponse queryDatabaseResponse = SqliteDatabaseReader.queryDatabase(
+        activtyWeakReference.get(), queryDatabaseRequest);
+    return queryDatabaseResponse;
   }
 
 
-  protected void onPostExecute(QueryDataResponse queryDataResponse) {
+  protected void onPostExecute(QueryDatabaseResponse queryDatabaseResponse) {
     if (queryResponseListener != null && activtyWeakReference.get() != null) {
-      queryResponseListener.onRawQueryDataFetched(queryDataResponse);
+      queryResponseListener.onRawQueryDataFetched(queryDatabaseResponse);
     }
   }
 }
