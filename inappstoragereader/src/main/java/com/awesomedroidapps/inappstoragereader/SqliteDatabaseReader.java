@@ -508,6 +508,7 @@ public class SqliteDatabaseReader {
             commandType);
         if (updatedRows == Constants.INVALID_RESPONSE) {
         } else {
+          queryDataResponse.setAffectedRows(updatedRows);
           String toastMessage = context.getResources().getString(R.string
               .com_awesomedroidapps_inappstoragereader_table_updated_toast, updatedRows);
           queryDataResponse.setSuccessMessage(toastMessage);
@@ -516,6 +517,18 @@ public class SqliteDatabaseReader {
 
       case DELETE:
         queryDataResponse.setDatabaseQueryCommandType(DatabaseQueryCommandType.DELETE);
+        int deletedRows = handleUpdateAndDeleteAndIndexQuery(queryDatabaseRequest, context,
+            databaseName,
+            queryDataResponse, tableName,
+            queryDatabaseRequest.getContentValues(), queryDatabaseRequest.getWhereClause(),
+            commandType);
+        if (deletedRows == Constants.INVALID_RESPONSE) {
+        } else {
+          queryDataResponse.setAffectedRows(deletedRows);
+          String toastMessage = context.getResources().getString(R.string
+              .com_awesomedroidapps_inappstoragereader_table_updated_toast, deletedRows);
+          queryDataResponse.setSuccessMessage(toastMessage);
+        }
         break;
 
       case INSERT:
@@ -653,7 +666,11 @@ public class SqliteDatabaseReader {
     long affectedRows = -1;
     try {
       if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-        affectedRows = cursor.getLong(cursor.getColumnIndex(Constants.QUERY_AFFECTED_ROWS));
+        int columnIndex = cursor.getColumnIndex(Constants.QUERY_AFFECTED_ROWS);
+        if (columnIndex < 0) {
+          return affectedRows;
+        }
+        affectedRows = cursor.getLong(columnIndex);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -668,6 +685,11 @@ public class SqliteDatabaseReader {
     Cursor cursor = null;
     try {
       cursor = sqliteDatabase.rawQuery(query, null);
+      if (cursor == null) {
+        queryDataResponse.setQueryStatus(QueryStatus.SUCCESS);
+        queryDataResponse.setAffectedRows(Constants.ZERO_INDEX);
+        return;
+      }
       TableDataResponse tableDataResponse = new TableDataResponse();
       tableDataResponse.setTableData(getAllTableData(cursor));
       ArrayList<Integer> tableColumnWidth = getTableColumnWidth(context, cursor);
@@ -675,7 +697,7 @@ public class SqliteDatabaseReader {
       tableDataResponse.setRecyclerViewWidth(Utils.getTableWidth(tableColumnWidth));
       queryDataResponse.setTableDataResponse(tableDataResponse);
       queryDataResponse.setQueryStatus(QueryStatus.SUCCESS);
-
+      queryDataResponse.setAffectedRows(cursor.getCount());
     } catch (Exception e) {
       queryDataResponse.setErrorMessage(e.getMessage());
     } finally {
@@ -701,10 +723,22 @@ public class SqliteDatabaseReader {
     Cursor cursor = null;
     try {
       cursor = sqliteDatabase.rawQuery(query, null);
+      if (cursor != null && cursor.getCount() > 0) {
+        TableDataResponse tableDataResponse = new TableDataResponse();
+        List<List<String>> data = getAllTableData(cursor);
+        tableDataResponse.setTableData(data);
+        queryDataResponse.setTableDataResponse(tableDataResponse);
+        List<Integer> tableColumnWidth = getTableColumnWidth(context,cursor);
+        tableDataResponse.setRecyclerViewColumnsWidth(tableColumnWidth);
+        //Get the width
+        int recyclerViewWidth = Utils.getTableWidth(tableColumnWidth);
+        tableDataResponse.setRecyclerViewWidth(recyclerViewWidth);
+      }
       long affectedRows = getAffectedRows(cursor);
       queryDataResponse.setQueryStatus(QueryStatus.SUCCESS);
       queryDataResponse.setAffectedRows(affectedRows);
     } catch (Exception e) {
+      queryDataResponse.setQueryStatus(QueryStatus.FAILURE);
       queryDataResponse.setErrorMessage(e.getMessage());
     } finally {
       if (cursor != null) {

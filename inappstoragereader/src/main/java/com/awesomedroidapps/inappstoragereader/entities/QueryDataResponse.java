@@ -15,7 +15,7 @@ public class QueryDataResponse {
   private String errorMessage;
   private String successMessage;
   private DatabaseQueryCommandType databaseQueryCommandType;
-  private long affectedRows;
+  private long affectedRows = -1;
 
   public QueryStatus getQueryStatus() {
     return queryStatus;

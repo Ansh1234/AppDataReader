@@ -16,6 +16,7 @@ public class Constants {
   public static final String BUNDLE_TABLE_INFO = "bundleTableInfo";
   public static final int REQUEST_CODE_WHERE_CLAUSE = 0;
   public static final int REQUEST_CODE_SET_CLAUSE = 1;
+  public static final int REQUEST_CODE_VALUES_CLAUSE = 2;
   public static final String BUNDLE_REQUEST_CODE = "requestCode";
   public static final String BUNDLE_CONTENT_VALUES = "contentValues";
 
@@ -33,12 +34,14 @@ public class Constants {
   public static final String EMPTY_STRING = "";
   public static final int INVALID_RESPONSE = -1;
   public static final String FROM_PREFIX = "FROM";
+  public static final String INTO_PREFIX = "INTO";
   public static final String COMMA = ",";
   public static final String EQUAL = "=";
   public static final String INVERTED_COMMA = "'";
   public static final String AND = "AND";
   public static final String WHERE_CLAUSE = "WHERE";
   public static final String SET_CLAUSE = "SET";
+  public static final String VALUES = "VALUES";
   public static final String ASTERIK = "*";
 
   public static final String DIALOG_COPY = "COPY";

@@ -17,6 +17,14 @@
         android:layout_below="@id/spinner_database_query_command"
         android:id="@+id/textview_update_query_table_name"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:gravity="left"
+        android:layout_below="@id/spinner_database_query_command"
+        android:id="@+id/textview_insert_query_table_name"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,6 +62,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_where_cause"
+        android:gravity="left"
+        android:textSize="16dp"
+        android:textAllCaps="false"
+        android:layout_below="@id/set_clause"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_values_cause"
         android:gravity="left"
         android:textSize="16dp"
         android:textAllCaps="false"

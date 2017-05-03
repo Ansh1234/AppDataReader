@@ -43,8 +43,8 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   private Button submitQueryButton;
   private TextView errorMessageTextView;
   private Spinner queryTypeSpinner;
-  private TextView fromTableTextView, updateTableTextView;
-  private Button selectedColumnsButton, whereClauseButton, setClauseButton;
+  private TextView fromTableTextView, updateTableTextView, insertTableTextView;
+  private Button selectedColumnsButton, whereClauseButton, setClauseButton, valuesClauseButton;
   ArrayList<String> querySpinnerArrayList = new ArrayList<>();
   private EditText rawQueryEditText;
   private TableInfo tableInfo;
@@ -61,6 +61,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     // tableColumnsSpinner = (AppCompatSpinner) findViewById(R.id.spinner_database_table_columns);
     fromTableTextView = (TextView) findViewById(R.id.textview_select_query_table_name);
     updateTableTextView = (TextView) findViewById(R.id.textview_update_query_table_name);
+    insertTableTextView = (TextView) findViewById(R.id.textview_insert_query_table_name);
     rawQueryEditText = (EditText) findViewById(R.id
         .com_awesomedroidapps_inappstoragereader_query_editText);
 
@@ -70,6 +71,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     selectedColumnsButton = (Button) findViewById(R.id.button_database_table_columns);
     whereClauseButton = (Button) findViewById(R.id.button_where_cause);
     setClauseButton = (Button) findViewById(R.id.set_clause);
+    valuesClauseButton = (Button) findViewById(R.id.button_values_cause);
     selectedColumnsButton.setOnClickListener(this);
     whereClauseButton.setOnClickListener(this);
     setClauseButton.setOnClickListener(this);
@@ -131,6 +133,8 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       launchActivityForWhereClauseAndContentValues(Constants.REQUEST_CODE_WHERE_CLAUSE);
     } else if (view == setClauseButton) {
       launchActivityForWhereClauseAndContentValues(Constants.REQUEST_CODE_SET_CLAUSE);
+    }else if(view == valuesClauseButton){
+      launchActivityForWhereClauseAndContentValues(Constants.REQUEST_CODE_VALUES_CLAUSE);
     }
   }
 
@@ -342,6 +346,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   @Override
   public void onSelectCommandSelected() {
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
+    insertTableTextView.setVisibility(View.GONE);
     updateTableTextView.setVisibility(View.GONE);
     setClauseButton.setVisibility(View.GONE);
     selectedColumnsButton.setVisibility(View.VISIBLE);
@@ -355,6 +360,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   @Override
   public void onUpdateCommandSelected() {
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
+    insertTableTextView.setVisibility(View.GONE);
     fromTableTextView.setVisibility(View.GONE);
     updateTableTextView.setVisibility(View.VISIBLE);
     updateTableTextView.setText(Constants.SPACE + tableInfo.getTableName());
@@ -367,6 +373,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   @Override
   public void onDeleteCommandSelected() {
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.DELETE);
+    insertTableTextView.setVisibility(View.GONE);
     selectedColumnsButton.setVisibility(View.GONE);
     setClauseButton.setVisibility(View.GONE);
     whereClauseButton.setVisibility(View.VISIBLE);
@@ -377,11 +384,19 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   @Override
   public void onInsertCommandSelected() {
     rawQueryEditText.setVisibility(View.GONE);
+    insertTableTextView.setVisibility(View.VISIBLE);
+    valuesClauseButton.setText(Constants.VALUES);
+    selectedColumnsButton.setVisibility(View.GONE);
+    setClauseButton.setVisibility(View.GONE);
+    fromTableTextView.setVisibility(View.GONE);
+    updateTableTextView.setVisibility(View.GONE);
+    insertTableTextView.setText(Constants.INTO_PREFIX + Constants.SPACE + tableInfo.getTableName());
   }
 
   @Override
   public void onRawQueryCommandSelected() {
     whereClauseButton.setVisibility(View.GONE);
+    insertTableTextView.setVisibility(View.GONE);
     setClauseButton.setVisibility(View.GONE);
     selectedColumnsButton.setVisibility(View.GONE);
     updateTableTextView.setVisibility(View.GONE);

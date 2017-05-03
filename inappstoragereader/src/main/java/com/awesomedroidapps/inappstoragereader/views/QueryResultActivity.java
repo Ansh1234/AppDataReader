@@ -68,8 +68,10 @@ public class QueryResultActivity extends AppCompatActivity
   @Override
   public void onStart() {
     super.onStart();
-    new QueryDatabaseAsyncTask(new WeakReference(this), this, queryDatabaseRequest).execute(new String[]{
-        databaseName, tableName, rawQuery});
+    new QueryDatabaseAsyncTask(new WeakReference(this), this, queryDatabaseRequest).execute(
+        new String[]{
+            databaseName, tableName, rawQuery
+        });
   }
 
 
@@ -132,6 +134,7 @@ public class QueryResultActivity extends AppCompatActivity
       case INSERT:
         onInsertQueryResponse(queryDataResponse);
         break;
+      case RAW_QUERY:
       default:
         onUnknownTypeQueryResponse(queryDataResponse);
     }
@@ -162,6 +165,8 @@ public class QueryResultActivity extends AppCompatActivity
         tableDataResponse.getTableData().size() - 1);
     tableDataRecyclerView.setLayoutManager(linearLayoutManager);
     tableDataRecyclerView.setAdapter(adapter);
+
+
   }
 
   /**
@@ -196,6 +201,11 @@ public class QueryResultActivity extends AppCompatActivity
     switch (queryDataResponse.getQueryStatus()) {
       case SUCCESS:
         showQueryData(queryDataResponse.getTableDataResponse());
+        if (queryDataResponse.getAffectedRows() == 0) {
+          String toastMessage = Utils.getString(this, R.string
+              .com_awesomedroidapps_inappstoragereader_zero_records_found);
+          Utils.showLongToast(this, toastMessage);
+        }
         break;
       case FAILURE:
         showQueryError(queryDataResponse.getErrorMessage());
@@ -218,6 +228,18 @@ public class QueryResultActivity extends AppCompatActivity
   @Override
   public void onDeleteQueryResponse(QueryDataResponse queryDataResponse) {
 
+    if (queryDataResponse == null) {
+      return;
+    }
+
+    long affectedRows = queryDataResponse.getAffectedRows();
+
+    if (affectedRows != -1) {
+      String toastMessage = Utils.getString(this, R.string
+          .com_awesomedroidapps_inappstoragereader_query_deleted_successful, affectedRows);
+      Utils.showLongToast(this, toastMessage);
+    }
+    finish();
   }
 
   @Override
@@ -238,6 +260,13 @@ public class QueryResultActivity extends AppCompatActivity
         }
         break;
       case FAILURE:
+        String failureReason = queryDataResponse.getErrorMessage();
+        if(Utils.isEmpty(failureReason)){
+          failureReason = Utils.getString(this, R.string
+              .com_awesomedroidapps_inappstoragereader_database_query_failed);
+        }
+        Utils.showLongToast(this,failureReason);
+        finish();
         break;
     }
   }
