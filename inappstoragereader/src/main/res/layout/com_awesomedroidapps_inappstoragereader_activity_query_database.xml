@@ -15,8 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-
-
         <Button
             android:id="@+id/com_awesomedroidapps_inappstoragereader_submit"
             style="@style/Widget.AppCompat.Button"
@@ -26,10 +24,8 @@
             android:padding="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_padding"
             android:textAllCaps="false"
             android:text="@string/com_awesomedroidapps_inappstoragereader_submit"
+            android:background="#00bfa5"
+            android:textColor="#ffffff"
             android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_textSize" />
 
-        <TextView
-            android:id="@+id/error_message_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 </RelativeLayout>

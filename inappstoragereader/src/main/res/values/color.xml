@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="com_awesomedroidapps_inappstoragereader_shared_preference_textViewColor">#666666</color>
-    <color name="com_awesomedroidapps_inappstoragereader_primary">#3F51B5</color>
-    <color name="com_awesomedroidapps_inappstoragereader_color_primary_dark">#303F9F</color>
+    <color name="com_awesomedroidapps_inappstoragereader_primary">#e53935</color>
+    <color name="com_awesomedroidapps_inappstoragereader_color_primary_dark">#ab000d</color>
+    <color name="com_awesomedroidapps_inappstoragereader_color_primary_light">#e53935</color>
     <color name="com_awesomedroidapps_inappstoragereader_color_accent">#FF4081</color>
     <color name="com_awesomedroidapps_inappstoragereader_dividerColor">#000000</color>
 </resources>

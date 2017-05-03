@@ -41,7 +41,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     AdapterView.OnItemSelectedListener, QueryDatabaseView {
 
   private Button submitQueryButton;
-  private TextView errorMessageTextView;
   private Spinner queryTypeSpinner;
   private TextView fromTableTextView, updateTableTextView, insertTableTextView;
   private Button selectedColumnsButton, whereClauseButton, setClauseButton, valuesClauseButton;
@@ -55,7 +54,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.com_awesomedroidapps_inappstoragereader_activity_query_database);
     submitQueryButton = (Button) findViewById(R.id.com_awesomedroidapps_inappstoragereader_submit);
-    errorMessageTextView = (TextView) findViewById(R.id.error_message_textview);
     submitQueryButton.setOnClickListener(this);
 
     // tableColumnsSpinner = (AppCompatSpinner) findViewById(R.id.spinner_database_table_columns);
@@ -80,6 +78,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     queryDatabaseRequest = new QueryDatabaseRequest();
     readBundle();
     initInitialUI();
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   }
 
   private void readBundle() {
