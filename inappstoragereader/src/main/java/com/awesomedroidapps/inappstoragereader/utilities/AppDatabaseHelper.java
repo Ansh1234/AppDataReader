@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.DatabaseColumnType;
 import com.awesomedroidapps.inappstoragereader.Utils;
-import com.awesomedroidapps.inappstoragereader.entities.QueryDatabaseRequest;
 
 import java.util.List;
 
@@ -15,8 +14,7 @@ import java.util.List;
 
 public class AppDatabaseHelper {
 
-  public static ContentValues getContentValues(QueryDatabaseRequest queryDatabaseRequest,
-                                               List<String> tableColumnNames,
+  public static ContentValues getContentValues(List<String> tableColumnNames,
                                                List<DatabaseColumnType> tableColumnTypes,
                                                int columnIndex,
                                                String newValue, ContentValues contentValues) {

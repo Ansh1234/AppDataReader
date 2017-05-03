@@ -21,8 +21,8 @@ public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDatabas
   private final QueryDatabaseRequest queryDatabaseRequest;
 
   public QueryDatabaseAsyncTask(WeakReference activtyWeakReference,
-                                QueryResponseListener queryResponseListener, QueryDatabaseRequest
-                                    queryDatabaseRequest) {
+                                QueryResponseListener queryResponseListener,
+                                QueryDatabaseRequest queryDatabaseRequest) {
     this.activtyWeakReference = activtyWeakReference;
     this.queryResponseListener = queryResponseListener;
     this.queryDatabaseRequest = queryDatabaseRequest;
@@ -33,7 +33,6 @@ public class QueryDatabaseAsyncTask extends AsyncTask<String, Void, QueryDatabas
     if (activtyWeakReference.get() == null || queryDatabaseRequest==null) {
       return null;
     }
-
 
     QueryDatabaseResponse queryDatabaseResponse = SqliteDatabaseReader.queryDatabase(
         activtyWeakReference.get(), queryDatabaseRequest);

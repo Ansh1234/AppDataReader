@@ -128,7 +128,8 @@ public class ClauseActivity extends AppCompatActivity implements View.OnClickLis
         }
       }
 
-      contentValues = AppDatabaseHelper.getContentValues(tableInfo.getTableColumnNames(), tableInfo
+      contentValues = AppDatabaseHelper.getContentValues( tableInfo.getTableColumnNames(),
+          tableInfo
           .getTableColumnTypes(), i, editText.getText().toString(), contentValues);
 
       columnNamesBuilder.append(textView.getText().toString());

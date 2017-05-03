@@ -472,8 +472,7 @@ public class SqliteDatabaseReader {
         break;
 
       case RAW_QUERY:
-        handleRawQuery(context, sqLiteDatabase, queryDatabaseResponse,
-            queryDatabaseRequest.getRawQuery());
+        handleRawQuery(context, sqLiteDatabase, queryDatabaseRequest, queryDatabaseResponse);
     }
     return queryDatabaseResponse;
   }
@@ -671,20 +670,13 @@ public class SqliteDatabaseReader {
 
   private static void handleRawQuery(Context context,
                                      SQLiteDatabase sqliteDatabase,
-                                     QueryDatabaseResponse queryDatabaseResponse,
-                                     String query) {
-
-    if (sqliteDatabase == null) {
-      queryDatabaseResponse.setQueryStatus(QueryStatus.FAILURE);
-      String errorMessage = Utils.getString(context, R.string
-          .com_awesomedroidapps_inappstoragereader_generic_error);
-      queryDatabaseResponse.setErrorMessage(errorMessage);
-      return;
-    }
+                                     QueryDatabaseRequest queryDatabaseRequest,
+                                     QueryDatabaseResponse queryDatabaseResponse) {
 
     Cursor cursor = null;
     try {
-      cursor = sqliteDatabase.rawQuery(query, null);
+      String rawQuery = queryDatabaseRequest.getRawQuery();
+      cursor = sqliteDatabase.rawQuery(rawQuery, null);
       if (cursor != null && cursor.getCount() > 0) {
         TableDataResponse tableDataResponse = new TableDataResponse();
         List<List<String>> data = getAllTableData(cursor);

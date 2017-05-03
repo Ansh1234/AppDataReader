@@ -179,7 +179,7 @@ public class TableDataActivity extends AppCompatActivity
     ContentValues contentValues = null;
     try {
       contentValues =
-          AppDatabaseHelper.getContentValues(queryDatabaseRequest, tableColumnNames,
+          AppDatabaseHelper.getContentValues(tableColumnNames,
               tableColumnTypes,
                columnIndex, newValue, contentValues);
     } catch (Exception e) {
@@ -197,8 +197,7 @@ public class TableDataActivity extends AppCompatActivity
     queryDatabaseRequest.setWhereClause(whereClause);
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
 
-    new QueryDatabaseAsyncTask(new WeakReference(this), this, queryDatabaseRequest).execute(new String[]{
-        databaseName, tableName, queryDatabaseRequest.getRawQuery()});
+    new QueryDatabaseAsyncTask(new WeakReference(this), this, queryDatabaseRequest).execute();
   }
 
 
