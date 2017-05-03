@@ -65,6 +65,7 @@
         android:gravity="left"
         android:textSize="16dp"
         android:textAllCaps="false"
+        android:text="Where Clause"
         android:layout_below="@id/set_clause"/>
 
     <Button

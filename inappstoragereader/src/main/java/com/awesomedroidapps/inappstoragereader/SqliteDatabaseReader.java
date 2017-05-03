@@ -570,6 +570,7 @@ public class SqliteDatabaseReader {
         fillQueryResponseWithError(queryDatabaseResponse, e);
         e.printStackTrace();
       }
+      return;
     }
 
     if (Utils.isEmpty(queryDatabaseRequest.getRawQuery())) {

@@ -42,7 +42,7 @@
         of rows updated succesfully.</string>
     <!-- To show to the user, when the where clause arguments are not proper -->
     <string name="com_awesomedroidapps_inappstoragereader_table_wrong_arguments">The value of
-        %1%s field is not proper</string>
+        %1$s field is not proper</string>
     <!-- To show to the user, when the where clause arguments are not proper -->
     <string name="com_awesomedroidapps_inappstoragereader_zero_records_found">0 records
         found for the query.</string>
@@ -50,6 +50,6 @@
     <string name="com_awesomedroidapps_inappstoragereader_query_deleted_successful">%1$d records
         have been deleted.</string>
     <!-- To show the user, the number of succesful rows updated -->
-    <string name="com_awesomedroidapps_inappstoragereader_table_inserted_toast">%1$d number
-        of rows inserted succesfully.</string>
+    <string name="com_awesomedroidapps_inappstoragereader_table_inserted_toast">The record
+        has been inserted succesfully.</string>
 </resources>

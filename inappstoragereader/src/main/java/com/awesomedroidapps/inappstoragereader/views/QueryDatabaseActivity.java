@@ -134,7 +134,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       launchActivityForWhereClauseAndContentValues(Constants.REQUEST_CODE_WHERE_CLAUSE);
     } else if (view == setClauseButton) {
       launchActivityForWhereClauseAndContentValues(Constants.REQUEST_CODE_SET_CLAUSE);
-    }else if(view == valuesClauseButton){
+    } else if (view == valuesClauseButton) {
       launchActivityForWhereClauseAndContentValues(Constants.REQUEST_CODE_VALUES_CLAUSE);
     }
   }
@@ -160,7 +160,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       handleWhereClauseResult(data);
     } else if (requestCode == Constants.REQUEST_CODE_SET_CLAUSE) {
       handleContentValuesResult(data);
-    }else if(requestCode== Constants.REQUEST_CODE_VALUES_CLAUSE){
+    } else if (requestCode == Constants.REQUEST_CODE_VALUES_CLAUSE) {
       handleInsertValuesResult(data);
     }
   }
@@ -182,7 +182,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     setClauseButton.setText(str);
   }
 
-  private void handleInsertValuesResult(Intent data){
+  private void handleInsertValuesResult(Intent data) {
     ContentValues contentValues = data.getExtras().getParcelable(Constants.BUNDLE_CONTENT_VALUES);
     queryDatabaseRequest.setContentValues(contentValues);
     String str = data.getStringExtra(Constants.INSERT_CLAUSE);
@@ -236,6 +236,12 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
         break;
       case RAW_QUERY:
         query = getRawQuery();
+        if (Utils.isEmpty(query)) {
+          String toastMessage = Utils.getString(this, R.string
+              .com_awesomedroidapps_inappstoragereader_database_query_empty);
+          Utils.showLongToast(this, toastMessage);
+          return;
+        }
         queryDatabaseRequest.setRawQuery(query);
         break;
     }
@@ -246,7 +252,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     Bundle bundle = new Bundle();
     bundle.putString(Constants.BUNDLE_RAW_QUERY, query);
     bundle.putString(Constants.BUNDLE_DATABASE_NAME, tableInfo.getDatabaseName());
-    bundle.putString(Constants.BUNDLE_TABLE_NAME,tableInfo.getTableName());
+    bundle.putString(Constants.BUNDLE_TABLE_NAME, tableInfo.getTableName());
     bundle.putParcelable(Constants.BUNDLE_CONTENT_VALUES, queryDatabaseRequest.getContentValues());
     queryDatabaseRequest.setContentValues(null);
     bundle.putSerializable(Constants.BUNDLE_QUERY_REQUEST, queryDatabaseRequest);
@@ -304,40 +310,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     return query;
   }
 
-  private String getUpdateQuery() {
-
-    String queryType = queryTypeSpinner.getSelectedItem().toString();
-    String queryTableName = updateTableTextView.getText().toString();
-    String querySetClause = setClauseButton.getText().toString();
-    String queryWhereClause = whereClauseButton.getText().toString();
-
-
-    if (Constants.WHERE_CLAUSE.equals(queryWhereClause.trim())) {
-      queryWhereClause = Constants.EMPTY_STRING;
-    }
-
-    if (Constants.SET_CLAUSE.endsWith(querySetClause.trim())) {
-      querySetClause = Constants.EMPTY_STRING;
-    }
-
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(queryType)
-        .append(Constants.SPACE)
-        .append(queryTableName)
-        .append(Constants.SPACE)
-        .append(querySetClause)
-        .append(Constants.SPACE).append(queryWhereClause);
-
-    String query = stringBuilder.toString().trim();
-    return query;
-
-  }
-
-  private String getDeleteQuery() {
-    return Constants.EMPTY_STRING;
-
-  }
-
   private String getInsertQuery() {
     return Constants.EMPTY_STRING;
 
@@ -355,11 +327,14 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
 
   @Override
   public void onSelectCommandSelected() {
+    queryTypeSpinner.setSelection(Constants.ZERO_INDEX);
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
     insertTableTextView.setVisibility(View.GONE);
     updateTableTextView.setVisibility(View.GONE);
+    valuesClauseButton.setVisibility(View.GONE);
     setClauseButton.setVisibility(View.GONE);
     selectedColumnsButton.setVisibility(View.VISIBLE);
+    whereClauseButton.setVisibility(View.VISIBLE);
     fromTableTextView.setVisibility(View.VISIBLE);
     fromTableTextView.setText(Constants.FROM_PREFIX + Constants.SPACE + tableInfo.getTableName());
     whereClauseButton.setText(Constants.WHERE_CLAUSE);
@@ -395,8 +370,10 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   public void onInsertCommandSelected() {
     rawQueryEditText.setVisibility(View.GONE);
     insertTableTextView.setVisibility(View.VISIBLE);
+    valuesClauseButton.setVisibility(View.VISIBLE);
     valuesClauseButton.setText(Constants.VALUES);
     selectedColumnsButton.setVisibility(View.GONE);
+    whereClauseButton.setVisibility(View.GONE);
     setClauseButton.setVisibility(View.GONE);
     fromTableTextView.setVisibility(View.GONE);
     updateTableTextView.setVisibility(View.GONE);

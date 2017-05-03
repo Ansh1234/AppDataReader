@@ -70,10 +70,9 @@ public class QueryResultActivity extends AppCompatActivity
   @Override
   public void onStart() {
     super.onStart();
-    new QueryDatabaseAsyncTask(new WeakReference(this), this, queryDatabaseRequest).execute(
-        new String[]{
-            databaseName, tableName, rawQuery
-        });
+    queryDatabaseRequest.setDatabaseName(databaseName);
+    queryDatabaseRequest.setTableName(tableName);
+    new QueryDatabaseAsyncTask(new WeakReference(this), this, queryDatabaseRequest).execute();
   }
 
 
@@ -273,9 +272,7 @@ public class QueryResultActivity extends AppCompatActivity
 
     switch (queryDatabaseResponse.getQueryStatus()) {
       case SUCCESS:
-        long insertedRows = queryDatabaseResponse.getAffectedRows();
-        String toastMessage = Utils.getString(this, R.string
-            .com_awesomedroidapps_inappstoragereader_table_inserted_toast, insertedRows);
+        String toastMessage = Utils.getString(this, R.string.com_awesomedroidapps_inappstoragereader_table_inserted_toast);
         Utils.showLongToast(this, toastMessage);
         break;
       case FAILURE:

@@ -177,18 +177,18 @@ public class TableDataActivity extends AppCompatActivity
     QueryDatabaseRequest queryDatabaseRequest = new QueryDatabaseRequest();
 
     ContentValues contentValues = null;
+    String genericError = Utils.getString(this, R.string.com_awesomedroidapps_inappstoragereader_database_query_failed);
     try {
       contentValues =
-          AppDatabaseHelper.getContentValues(tableColumnNames,
-              tableColumnTypes,
-               columnIndex, newValue, contentValues);
+          AppDatabaseHelper.getContentValues(tableColumnNames, tableColumnTypes,
+              columnIndex, newValue, contentValues);
     } catch (Exception e) {
-      Toast.makeText(this, "Update Failed", Toast.LENGTH_LONG).show();
+      //TODO anshul.jain Instead of throwing Generic exception, throw the relevant exception.
+      Utils.showLongToast(this, genericError);
       return;
     }
     if (contentValues == null) {
-      Toast.makeText(this, "Update Failed", Toast.LENGTH_LONG).show();
-      //TODO anshul.jain Take proper action here.
+      Utils.showLongToast(this, genericError);
       return;
     }
     String whereClause = AppDatabaseHelper.getUpdateWhereClause(tableColumnNames, tableColumnTypes,
@@ -196,7 +196,8 @@ public class TableDataActivity extends AppCompatActivity
     queryDatabaseRequest.setContentValues(contentValues);
     queryDatabaseRequest.setWhereClause(whereClause);
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
-
+    queryDatabaseRequest.setDatabaseName(databaseName);
+    queryDatabaseRequest.setTableName(tableName);
     new QueryDatabaseAsyncTask(new WeakReference(this), this, queryDatabaseRequest).execute();
   }
 
