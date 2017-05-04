@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,12 +43,13 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
 
   private Button submitQueryButton;
   private Spinner queryTypeSpinner;
-  private TextView fromTableTextView, updateTableTextView, insertTableTextView;
+  private TextView selectTableTextView, updateTableTextView, insertTableTextView, deleteTableTextView;
   private Button selectedColumnsButton, whereClauseButton, setClauseButton, valuesClauseButton;
   ArrayList<String> querySpinnerArrayList = new ArrayList<>();
   private EditText rawQueryEditText;
   private TableInfo tableInfo;
   private QueryDatabaseRequest queryDatabaseRequest;
+  private RelativeLayout selectContainer, updateContainer, deleteContainer, insertContainer;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +59,10 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     submitQueryButton.setOnClickListener(this);
 
     // tableColumnsSpinner = (AppCompatSpinner) findViewById(R.id.spinner_database_table_columns);
-    fromTableTextView = (TextView) findViewById(R.id.textview_select_query_table_name);
+    selectTableTextView = (TextView) findViewById(R.id.textview_select_query_table_name);
     updateTableTextView = (TextView) findViewById(R.id.textview_update_query_table_name);
     insertTableTextView = (TextView) findViewById(R.id.textview_insert_query_table_name);
+    deleteTableTextView = (TextView) findViewById(R.id.textview_delete_query_table_name);
     rawQueryEditText = (EditText) findViewById(R.id
         .com_awesomedroidapps_inappstoragereader_query_editText);
 
@@ -75,10 +78,17 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     setClauseButton.setOnClickListener(this);
     valuesClauseButton.setOnClickListener(this);
 
+    selectContainer = (RelativeLayout) findViewById(R.id.select_clause_container);
+    updateContainer = (RelativeLayout) findViewById(R.id.update_clause_container);
+    deleteContainer = (RelativeLayout) findViewById(R.id.delete_clause_container);
+    insertContainer = (RelativeLayout) findViewById(R.id.insert_clause_container);
+
     queryDatabaseRequest = new QueryDatabaseRequest();
     readBundle();
     initInitialUI();
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
   }
 
   private void readBundle() {
@@ -290,7 +300,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   private String getSelectQuery() {
     String queryType = queryTypeSpinner.getSelectedItem().toString();
     String queryColumns = selectedColumnsButton.getText().toString();
-    String queryTableName = fromTableTextView.getText().toString();
+    String queryTableName = selectTableTextView.getText().toString();
     String queryWhereClause = whereClauseButton.getText().toString();
 
     if (Constants.WHERE_CLAUSE.equals(queryWhereClause.trim())) {
@@ -326,68 +336,62 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
 
   @Override
   public void onSelectCommandSelected() {
-    queryTypeSpinner.setSelection(Constants.ZERO_INDEX);
+    showOrHideViews(selectContainer);
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
-    insertTableTextView.setVisibility(View.GONE);
-    updateTableTextView.setVisibility(View.GONE);
-    valuesClauseButton.setVisibility(View.GONE);
-    setClauseButton.setVisibility(View.GONE);
-    selectedColumnsButton.setVisibility(View.VISIBLE);
-    whereClauseButton.setVisibility(View.VISIBLE);
-    fromTableTextView.setVisibility(View.VISIBLE);
-    fromTableTextView.setText(Constants.FROM_PREFIX + Constants.SPACE + tableInfo.getTableName());
+    queryTypeSpinner.setSelection(Constants.ZERO_INDEX);
+    selectTableTextView.setText(Constants.FROM_PREFIX + Constants.SPACE + tableInfo.getTableName());
     whereClauseButton.setText(Constants.WHERE_CLAUSE);
     selectedColumnsButton.setText(Constants.ASTERIK);
-    rawQueryEditText.setVisibility(View.GONE);
   }
 
   @Override
   public void onUpdateCommandSelected() {
+    showOrHideViews(updateContainer);
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
-    insertTableTextView.setVisibility(View.GONE);
-    fromTableTextView.setVisibility(View.GONE);
-    updateTableTextView.setVisibility(View.VISIBLE);
     updateTableTextView.setText(Constants.SPACE + tableInfo.getTableName());
-    selectedColumnsButton.setVisibility(View.GONE);
-    setClauseButton.setVisibility(View.VISIBLE);
     setClauseButton.setText(Constants.SET_CLAUSE + Constants.SPACE);
-    rawQueryEditText.setVisibility(View.GONE);
   }
 
   @Override
   public void onDeleteCommandSelected() {
+    showOrHideViews(deleteContainer);
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.DELETE);
-    insertTableTextView.setVisibility(View.GONE);
-    selectedColumnsButton.setVisibility(View.GONE);
-    setClauseButton.setVisibility(View.GONE);
-    whereClauseButton.setVisibility(View.VISIBLE);
-    fromTableTextView.setVisibility(View.VISIBLE);
-    rawQueryEditText.setVisibility(View.GONE);
+    deleteTableTextView.setText(Constants.SPACE + tableInfo.getTableName());
+    whereClauseButton.setText(Constants.WHERE_CLAUSE);
   }
 
   @Override
   public void onInsertCommandSelected() {
-    rawQueryEditText.setVisibility(View.GONE);
-    insertTableTextView.setVisibility(View.VISIBLE);
-    valuesClauseButton.setVisibility(View.VISIBLE);
+    showOrHideViews(insertContainer);
+    queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.DELETE);
     valuesClauseButton.setText(Constants.VALUES);
-    selectedColumnsButton.setVisibility(View.GONE);
-    whereClauseButton.setVisibility(View.GONE);
-    setClauseButton.setVisibility(View.GONE);
-    fromTableTextView.setVisibility(View.GONE);
-    updateTableTextView.setVisibility(View.GONE);
     insertTableTextView.setText(Constants.INTO_PREFIX + Constants.SPACE + tableInfo.getTableName());
   }
 
   @Override
   public void onRawQueryCommandSelected() {
-    whereClauseButton.setVisibility(View.GONE);
-    insertTableTextView.setVisibility(View.GONE);
-    setClauseButton.setVisibility(View.GONE);
-    selectedColumnsButton.setVisibility(View.GONE);
-    updateTableTextView.setVisibility(View.GONE);
-    fromTableTextView.setVisibility(View.GONE);
-    rawQueryEditText.setVisibility(View.VISIBLE);
+    showOrHideViews(rawQueryEditText);
+    queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.RAW_QUERY);
+  }
+
+  private void showOrHideViews(View view) {
+    selectContainer.setVisibility(View.GONE);
+    updateContainer.setVisibility(View.GONE);
+    insertContainer.setVisibility(View.GONE);
+    deleteContainer.setVisibility(View.GONE);
+    rawQueryEditText.setVisibility(View.GONE);
+
+    if (view == selectContainer) {
+      selectContainer.setVisibility(View.VISIBLE);
+    } else if (view == updateContainer) {
+      updateContainer.setVisibility(View.VISIBLE);
+    } else if (view == deleteContainer) {
+      deleteContainer.setVisibility(View.VISIBLE);
+    } else if (view == insertContainer) {
+      insertContainer.setVisibility(View.VISIBLE);
+    } else if (view == rawQueryEditText) {
+      rawQueryEditText.setVisibility(View.VISIBLE);
+    }
   }
 
   @Override

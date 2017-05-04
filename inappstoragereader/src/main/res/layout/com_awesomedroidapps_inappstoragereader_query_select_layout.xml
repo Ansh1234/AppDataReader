@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/button_database_table_columns_container"
+        style="@style/MyCardViewStyle"
+        android:layout_below="@id/spinner_database_query_command_container">
+
+        <Button
+            android:id="@+id/button_database_table_columns"
+            style="@style/ComAwesomeDroidQueryButtons" />
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/textview_select_query_table_name"
+        style="@style/ComAwesomeDroidQueryTextView"
+        android:layout_below="@id/button_database_table_columns_container"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/where_clause_container"
+        style="@style/MyCardViewStyle"
+        android:layout_below="@+id/textview_select_query_table_name">
+        <Button
+            android:id="@+id/button_where_cause"
+            style="@style/ComAwesomeDroidQueryButtons" />
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

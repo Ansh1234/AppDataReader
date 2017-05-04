@@ -4,28 +4,56 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/database_query_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-    </RelativeLayout>
+    <android.support.v7.widget.CardView style="@style/MyCardViewStyle"
+        android:id="@+id/spinner_database_query_command_container">
+        <android.support.v7.widget.AppCompatSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_database_query_command">
+        </android.support.v7.widget.AppCompatSpinner>
+    </android.support.v7.widget.CardView>
 
-    <include
-        layout="@layout/com_awesomedroidapps_inappstoragereader_activity_query_database_dropdown"
+    <include layout="@layout/com_awesomedroidapps_inappstoragereader_query_select_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_database_query_command_container"
+        android:id="@+id/select_clause_container"/>
 
-        <Button
+    <include layout="@layout/com_awesomedroidapps_inappstoragereader_query_update_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_database_query_command_container"
+        android:id="@+id/update_clause_container"/>
+
+    <include layout="@layout/com_awesomedroidapps_inappstoragereader_query_delete_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_database_query_command_container"
+        android:id="@+id/delete_clause_container"/>
+
+    <include layout="@layout/com_awesomedroidapps_inappstoragereader_query_insert_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_database_query_command_container"
+        android:id="@+id/insert_clause_container"/>
+
+    <EditText
+        android:id="@+id/com_awesomedroidapps_inappstoragereader_query_editText"
+        style="@style/ComAwesomeDroidAppEditTextTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_database_query_command_container"
+        android:hint="@string/com_awesomedroidapps_inappstoragereader_query" />
+
+    <Button
             android:id="@+id/com_awesomedroidapps_inappstoragereader_submit"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:padding="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_padding"
-            android:textAllCaps="false"
             android:text="@string/com_awesomedroidapps_inappstoragereader_submit"
-            android:background="#00bfa5"
-            android:textColor="#ffffff"
+            android:background="@color/com_awesomedroidapps_inappstoragereader_submitButtonBackground"
+            android:textColor="@color/com_awesomedroidapps_inappstoragereader_submitButtonTextColor"
             android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_textSize" />
-
 </RelativeLayout>
