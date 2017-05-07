@@ -23,6 +23,7 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/select_where_clause_container"
+        android:layout_marginTop="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_padding"
         style="@style/MyCardViewStyle"
         android:layout_below="@+id/set_clause_container">
 

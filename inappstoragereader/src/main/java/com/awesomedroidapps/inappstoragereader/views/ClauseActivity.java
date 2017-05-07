@@ -199,45 +199,39 @@ public class ClauseActivity extends AppCompatActivity implements View.OnClickLis
       RelativeLayout listViewItem = (RelativeLayout) whereClauseContainer.getChildAt(i);
       EditText editText = (EditText) listViewItem.findViewById(R.id.column_value);
       TextView textView = (TextView) listViewItem.findViewById(R.id.column_name);
-      if (Constants.EMPTY_STRING.equals(editText.getText().toString())) {
+      String columnValue = editText.getText().toString();
+      if (Constants.EMPTY_STRING.equals(columnValue)) {
         continue;
       }
 
       DatabaseColumnType databaseColumnType = columnTypes.get(i);
 
-      if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_INTEGER) {
-        try {
-          Integer.parseInt(editText.getText().toString());
-        } catch (NumberFormatException exception) {
-          String toastMessage = Utils.getString(this,
-              R.string.com_awesomedroidapps_inappstoragereader_table_wrong_arguments,
-              textView.getText().toString());
-          Utils.showLongToast(this, toastMessage);
-          return contentValues;
+      String columnName = textView.getText().toString();
+      try {
+        if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_INTEGER) {
+          Integer.parseInt(columnValue);
+        } else if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_FLOAT) {
+          Float.parseFloat(columnValue);
+        } else if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_TEXT &&
+            editText.isEnabled()) {
+          columnValue = Constants.INVERTED_COMMA + columnValue + Constants.INVERTED_COMMA;
         }
-      } else if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_FLOAT) {
-        try {
-          Float.parseFloat(editText.getText().toString());
-        } catch (NumberFormatException exception) {
+      } catch (Exception e) {
+        if (!columnValue.equalsIgnoreCase(Constants.IS_NULL)) {
           String toastMessage = Utils.getString(this,
               R.string.com_awesomedroidapps_inappstoragereader_table_wrong_arguments,
-              textView.getText().toString());
+              columnName);
           Utils.showLongToast(this, toastMessage);
           return contentValues;
         }
       }
 
+
       contentValues = AppDatabaseHelper.getContentValues(tableInfo.getTableColumnNames(), tableInfo
-          .getTableColumnTypes(), i, editText.getText().toString(), contentValues);
-      queryBuilder.append(textView.getText().toString());
+          .getTableColumnTypes(), i, columnValue, contentValues);
+      queryBuilder.append(columnName);
       queryBuilder.append(Constants.EQUAL);
-      if (DatabaseColumnType.FIELD_TYPE_TEXT == databaseColumnType) {
-        queryBuilder.append(Constants.INVERTED_COMMA);
-      }
-      queryBuilder.append(editText.getText().toString());
-      if (DatabaseColumnType.FIELD_TYPE_TEXT == databaseColumnType) {
-        queryBuilder.append(Constants.INVERTED_COMMA);
-      }
+      queryBuilder.append(columnValue);
       queryBuilder.append(Constants.SPACE);
       queryBuilder.append(Constants.AND);
       queryBuilder.append(Constants.SPACE);
@@ -269,6 +263,11 @@ public class ClauseActivity extends AppCompatActivity implements View.OnClickLis
       e.printStackTrace();
       finish();
     }
+
+    if (Constants.INVALID_STRING.equalsIgnoreCase(str)) {
+      return;
+    }
+
     if (Utils.isEmpty(str)) {
       finish();
       return;
@@ -304,7 +303,8 @@ public class ClauseActivity extends AppCompatActivity implements View.OnClickLis
           Integer.parseInt(columnValue);
         } else if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_FLOAT) {
           Float.parseFloat(columnValue);
-        } else if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_TEXT) {
+        } else if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_TEXT &&
+            editText.isEnabled()) {
           columnValue = Constants.INVERTED_COMMA + columnValue + Constants.INVERTED_COMMA;
         }
       } catch (NumberFormatException e) {
@@ -313,7 +313,7 @@ public class ClauseActivity extends AppCompatActivity implements View.OnClickLis
               R.string.com_awesomedroidapps_inappstoragereader_table_wrong_arguments,
               columnName);
           Utils.showLongToast(this, toastMessage);
-          return null;
+          return Constants.INVALID_STRING;
         }
       }
 

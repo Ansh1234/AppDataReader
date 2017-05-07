@@ -28,6 +28,11 @@ public class AppDatabaseHelper {
     if (contentValues == null) {
       contentValues = new ContentValues();
     }
+
+    if(Constants.IS_NULL.equalsIgnoreCase(newValue)){
+      contentValues.putNull(columnName);
+      return contentValues;
+    }
     switch (tableColumnTypes.get(columnIndex)) {
       case FIELD_TYPE_BLOB:
         contentValues.put(columnName, newValue.getBytes());

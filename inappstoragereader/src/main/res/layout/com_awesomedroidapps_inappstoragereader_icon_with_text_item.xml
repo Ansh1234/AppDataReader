@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/com_awesomedroidapps_inappstoragereader_database_item_text_marginLeft"
+        android:textColor="@color/com_awesomedroidapps_inappstoragereader_blackColor"
         android:layout_toRightOf="@+id/icon_item"
         android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_database_item_text_size" />
 

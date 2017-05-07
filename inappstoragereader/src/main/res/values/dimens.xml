@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="com_awesomedroidapps_inappstoragereader_database_item_height">50dp</dimen>
+    <dimen name="com_awesomedroidapps_inappstoragereader_database_item_height">60dp</dimen>
     <dimen name="com_awesomedroidapps_inappstoragereader_shared_preference_item_min_height">60dp
     </dimen>
     <dimen name="com_awesomedroidapps_inappstoragereader_shared_preference_item_max_height">150dp
@@ -9,7 +9,7 @@
     <dimen name="com_awesomedroidapps_inappstoragereader_database_item_text_marginLeft">20dp</dimen>
     <dimen name="com_awesomedroidapps_inappstoragereader_database_item_image_marginLeft">10dp
     </dimen>
-    <dimen name="com_awesomedroidapps_inappstoragereader_database_item_text_size">18dp</dimen>
+    <dimen name="com_awesomedroidapps_inappstoragereader_database_item_text_size">22dp</dimen>
     <dimen name="com_awesomedroidapps_inappstoragereader_table_item_text_size">18dp</dimen>
     <dimen name="com_awesomedroidapps_inappstoragereader_table_data_item_height">50dp</dimen>
     <dimen name="com_awesomedroidapps_inappstoragereader_table_header_column_width">120dp</dimen>

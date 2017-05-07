@@ -3,22 +3,21 @@ package com.awesomedroidapps.inappstoragereader.views;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.awesomedroidapps.inappstoragereader.AppStorageItemListAsyncTask;
-import com.awesomedroidapps.inappstoragereader.StorageType;
-import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
+import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.ErrorMessageHandler;
 import com.awesomedroidapps.inappstoragereader.ErrorType;
-import com.awesomedroidapps.inappstoragereader.Utils;
-import com.awesomedroidapps.inappstoragereader.interfaces.AppStorageItemClickListener;
-import com.awesomedroidapps.inappstoragereader.Constants;
 import com.awesomedroidapps.inappstoragereader.R;
+import com.awesomedroidapps.inappstoragereader.StorageType;
+import com.awesomedroidapps.inappstoragereader.Utils;
 import com.awesomedroidapps.inappstoragereader.adapters.IconWithTextListAdapter;
+import com.awesomedroidapps.inappstoragereader.entities.AppDataStorageItem;
+import com.awesomedroidapps.inappstoragereader.interfaces.AppStorageItemClickListener;
 import com.awesomedroidapps.inappstoragereader.interfaces.ErrorMessageInterface;
 import com.awesomedroidapps.inappstoragereader.interfaces.ListDataView;
 
@@ -30,7 +29,7 @@ import java.util.List;
  * Created by anshul on 11/2/17.
  */
 
-public class TableListActivity extends AppCompatActivity implements AppStorageItemClickListener,
+public class TableListActivity extends BaseActivity implements AppStorageItemClickListener,
     ErrorMessageInterface, ListDataView {
 
   RecyclerView tablesRecylerView;
@@ -48,6 +47,7 @@ public class TableListActivity extends AppCompatActivity implements AppStorageIt
     Bundle bundle = getIntent().getExtras();
     databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);
     progressDialog = new ProgressDialog(this);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   }
 
   @Override
@@ -65,7 +65,6 @@ public class TableListActivity extends AppCompatActivity implements AppStorageIt
     progressDialog.setIndeterminate(false);
     progressDialog.show();
   }
-
 
   @Override
   public void onItemClicked(AppDataStorageItem appDataStorageItem) {

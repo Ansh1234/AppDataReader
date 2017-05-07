@@ -17,6 +17,7 @@
 
     <style name="ComAwesomeDroidAppsDataItemHeaderTextView" parent="@style/ComAwesomeDroidAppsDataItemTextView">
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
     </style>
     
     <style name="MyCardViewStyle">
@@ -30,7 +31,7 @@
 
     <style name="ComAwesomeDroidAppsDataItemTextView" parent="android:Widget.TextView">
         <item name="android:textColor">
-            @color/com_awesomedroidapps_inappstoragereader_shared_preference_textViewColor
+            @color/com_awesomedroidapps_inappstoragereader_blackColor
         </item>
         <item name="android:textSize">@dimen/com_awesomedroidapps_inappstoragereader_sharedpreferences_textview_text_size</item>
         <item name="android:gravity">center</item>
@@ -51,6 +52,7 @@
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:textColor">#000000</item>
         <item name="android:textSize">20dp</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="ComAwesomeDroidQueryButtons"  parent="BaseComAwesomeDroidQueryButtons">
@@ -58,7 +60,7 @@
 
     <style name="BaseComAwesomeDroidQueryButtons"  parent="Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:textColor">#000000</item>
         <item name="android:textSize">20dp</item>

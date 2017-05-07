@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,7 +42,7 @@ import java.util.List;
  * Created by anshul on 11/2/17.
  */
 
-public class TableDataActivity extends AppCompatActivity
+public class TableDataActivity extends BaseActivity
     implements ErrorMessageInterface, DataItemClickListener, TableDataView,
     TableDataEditListener, QueryResponseListener, CommandResponses {
 
