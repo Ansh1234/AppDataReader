@@ -4,6 +4,8 @@
     <string name="com_awesomedroidapps_inappstoragereader_shared_preferences_list_activity">SharedPreferences</string>
     <string name="com_awesomedroidapps_inappstoragereader_query_database_list_activity">Query Database
     </string>
+    <string name="com_awesomedroidapps_inappstoragereader_query_database_clause_activity">Add a
+        Clause</string>
     <string name="com_awesomedroidapps_inappstoragereader_query_database_result_activity">Query
         Results
     </string>
@@ -52,4 +54,5 @@
     <!-- To show the user, the number of succesful rows updated -->
     <string name="com_awesomedroidapps_inappstoragereader_table_inserted_toast">The record
         has been inserted succesfully.</string>
+    <string name="com_awesomedroidapps_inappstoragereader_column_is_null">Is Null</string>
 </resources>

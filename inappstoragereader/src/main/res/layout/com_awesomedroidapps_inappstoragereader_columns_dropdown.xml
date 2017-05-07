@@ -2,34 +2,36 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingRight="10dp"
-    android:paddingLeft="10dp">
+    android:paddingLeft="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_padding"
+    android:paddingRight="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_padding">
+
+    <TextView
+        android:id="@+id/column_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_marginTop"
+        android:textColor="@color/com_awesomedroidapps_inappstoragereader_blackColor"
+        android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_column_text_size" />
+
+    <CheckBox
+        android:id="@+id/field_is_null"
+        android:layout_width="@dimen/com_awesomedroidapps_inappstoragereader_icon_container_height"
+        android:layout_height="@dimen/com_awesomedroidapps_inappstoragereader_icon_container_height"
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/column_name"/>
-
-    <FrameLayout
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:id="@+id/column_select_container"
-        android:layout_alignParentRight="true">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/column_select"
-        android:src="@drawable/com_awesomedroidapps_inappstorage_arrow_down" />
-    </FrameLayout>
+        android:layout_marginTop="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_marginTop"
+        android:layout_toLeftOf="@id/field_is_null"
+        android:gravity="center_vertical"
+        android:text="@string/com_awesomedroidapps_inappstoragereader_column_is_null" />
 
     <EditText
+        android:id="@+id/column_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/column_name"
-        android:id="@+id/column_value"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
 </RelativeLayout>

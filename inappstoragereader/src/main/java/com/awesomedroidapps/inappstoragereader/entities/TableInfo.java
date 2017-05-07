@@ -1,6 +1,7 @@
 package com.awesomedroidapps.inappstoragereader.entities;
 
 import com.awesomedroidapps.inappstoragereader.DatabaseColumnType;
+import com.awesomedroidapps.inappstoragereader.Utils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by anshul on 29/04/17.
  */
 
-public class TableInfo implements Serializable{
+public class TableInfo implements Serializable {
 
   private String databaseName;
   private String tableName;
@@ -56,5 +57,16 @@ public class TableInfo implements Serializable{
 
   public void setPrimaryKeysList(List<Integer> primaryKeysList) {
     this.primaryKeysList = primaryKeysList;
+  }
+
+  //TODO anshul.jain Write a UT for testing this scenario.
+  public boolean isNotProper() {
+    boolean FieldsNullOrEmpty = (Utils.isEmpty(databaseName) || Utils.isEmpty(tableName) ||
+        Utils.isEmpty(tableColumnNames) || Utils.isEmpty(tableColumnTypes));
+    if (FieldsNullOrEmpty) {
+      return true;
+    }
+    boolean sizesAreNotEqual = (tableColumnNames.size() != tableColumnTypes.size());
+    return sizesAreNotEqual;
   }
 }

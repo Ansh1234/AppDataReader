@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_padding">
+
+        <TextView
+            android:id="@+id/where_clause_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_padding"
+            android:layout_marginRight="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_padding"
+            android:layout_marginTop="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_marginTop"
+            android:text="Enter the Values"
+            android:textColor="@color/com_awesomedroidapps_inappstoragereader_blackColor"
+            android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_title_size"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:id="@+id/dialog_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/where_clause_title"
+            android:layout_marginLeft="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_padding"
+            android:layout_marginRight="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_padding"
+            android:layout_marginTop="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_marginTop">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/select_where_clause_container"></LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/where_clause_button_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/com_awesomedroidapps_inappstoragereader_submit"
+            android:background="@color/com_awesomedroidapps_inappstoragereader_submitButtonBackground"
+            android:textColor="@color/com_awesomedroidapps_inappstoragereader_submitButtonTextColor"
+            android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_submit_button_textSize" />
+    </RelativeLayout>
+</LinearLayout>

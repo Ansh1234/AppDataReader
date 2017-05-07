@@ -58,5 +58,6 @@ public class Constants {
   public static final String DIALOG_OK_TEXT = "OK";
   public static final String DIALOG_CANCEL_TEXT = "CANCEL";
   public static final String QUERY_AFFECTED_ROWS = "affected_row_count";
+  public static final String IS_NULL = "is null";
 
 }

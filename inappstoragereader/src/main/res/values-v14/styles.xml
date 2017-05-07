@@ -4,4 +4,8 @@
     <style name="ComAwesomeDroidQueryTextView" parent="BaseComAwesomeDroidQueryTextView">
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="ComAwesomeDroidQueryButtons" parent="BaseComAwesomeDroidQueryButtons">
+        <item name="android:textAllCaps">false</item>
+    </style>
 </resources>

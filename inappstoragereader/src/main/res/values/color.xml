@@ -4,8 +4,8 @@
     <color name="com_awesomedroidapps_inappstoragereader_primary">#e53935</color>
     <color name="com_awesomedroidapps_inappstoragereader_color_primary_dark">#ab000d</color>
     <color name="com_awesomedroidapps_inappstoragereader_color_primary_light">#e53935</color>
-    <color name="com_awesomedroidapps_inappstoragereader_color_accent">#FF4081</color>
-    <color name="com_awesomedroidapps_inappstoragereader_dividerColor">#000000</color>
+    <color name="com_awesomedroidapps_inappstoragereader_color_accent">#00bfa5</color>
+    <color name="com_awesomedroidapps_inappstoragereader_blackColor">#000000</color>
     <color name="com_awesomedroidapps_inappstoragereader_submitButtonBackground">#00bfa5</color>
     <color name="com_awesomedroidapps_inappstoragereader_submitButtonTextColor">#ffffff</color>
 </resources>

@@ -44,7 +44,9 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
   private Button submitQueryButton;
   private Spinner queryTypeSpinner;
   private TextView selectTableTextView, updateTableTextView, insertTableTextView, deleteTableTextView;
-  private Button selectedColumnsButton, whereClauseButton, setClauseButton, valuesClauseButton;
+  private Button selectedColumnsButton, deleteWhereClause, selectWhereClause,
+  updateWhereClause, setClauseButton,
+      valuesClauseButton;
   ArrayList<String> querySpinnerArrayList = new ArrayList<>();
   private EditText rawQueryEditText;
   private TableInfo tableInfo;
@@ -69,12 +71,19 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     queryTypeSpinner = (AppCompatSpinner) findViewById(R.id
         .spinner_database_query_command);
     queryTypeSpinner.setOnItemSelectedListener(this);
+
     selectedColumnsButton = (Button) findViewById(R.id.button_database_table_columns);
-    whereClauseButton = (Button) findViewById(R.id.button_where_cause);
+    updateWhereClause = (Button) findViewById(R.id.button_update_where_cause);
+    deleteWhereClause = (Button) findViewById(R.id.button_delete_where_cause);
+    selectWhereClause = (Button) findViewById(R.id.button_select_where_cause);
+
     setClauseButton = (Button) findViewById(R.id.set_clause);
     valuesClauseButton = (Button) findViewById(R.id.button_values_cause);
     selectedColumnsButton.setOnClickListener(this);
-    whereClauseButton.setOnClickListener(this);
+    updateWhereClause.setOnClickListener(this);
+    deleteWhereClause.setOnClickListener(this);
+    selectWhereClause.setOnClickListener(this);
+
     setClauseButton.setOnClickListener(this);
     valuesClauseButton.setOnClickListener(this);
 
@@ -87,8 +96,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     readBundle();
     initInitialUI();
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
   }
 
   private void readBundle() {
@@ -103,7 +110,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     for (DatabaseQueryCommandType sharedPreferenceDataType : DatabaseQueryCommandType.values()) {
       querySpinnerArrayList.add(sharedPreferenceDataType.getCommand());
     }
-    ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
+    ArrayAdapter adapter = new ArrayAdapter(this, R.layout.com_awesomedroidapps_inappstoragereadder_custom_spinner,
         querySpinnerArrayList);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     queryTypeSpinner.setAdapter(adapter);
@@ -139,7 +146,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       queryDatabase();
     } else if (view == selectedColumnsButton) {
       launchColumnsSelectionDialog();
-    } else if (view == whereClauseButton) {
+    } else if (view == deleteWhereClause|| view==selectWhereClause|| view==updateWhereClause) {
       launchActivityForWhereClauseAndContentValues(Constants.REQUEST_CODE_WHERE_CLAUSE);
     } else if (view == setClauseButton) {
       launchActivityForWhereClauseAndContentValues(Constants.REQUEST_CODE_SET_CLAUSE);
@@ -174,12 +181,15 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     }
   }
 
+
   private void handleWhereClauseResult(Intent data) {
     String str = data.getStringExtra(Constants.BUNDLE_WHERE_CLAUSE);
     queryDatabaseRequest.setWhereClause(str);
     str = new StringBuilder(Constants.WHERE_CLAUSE).append(Constants
         .SPACE).append(str).toString();
-    whereClauseButton.setText(str);
+    selectWhereClause.setText(str);
+    deleteWhereClause.setText(str);
+    updateWhereClause.setText(str);
   }
 
   private void handleContentValuesResult(Intent data) {
@@ -301,7 +311,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     String queryType = queryTypeSpinner.getSelectedItem().toString();
     String queryColumns = selectedColumnsButton.getText().toString();
     String queryTableName = selectTableTextView.getText().toString();
-    String queryWhereClause = whereClauseButton.getText().toString();
+    String queryWhereClause = selectWhereClause.getText().toString();
 
     if (Constants.WHERE_CLAUSE.equals(queryWhereClause.trim())) {
       queryWhereClause = Constants.EMPTY_STRING;
@@ -340,7 +350,7 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
     queryTypeSpinner.setSelection(Constants.ZERO_INDEX);
     selectTableTextView.setText(Constants.FROM_PREFIX + Constants.SPACE + tableInfo.getTableName());
-    whereClauseButton.setText(Constants.WHERE_CLAUSE);
+    selectWhereClause.setText(Constants.WHERE_CLAUSE);
     selectedColumnsButton.setText(Constants.ASTERIK);
   }
 
@@ -350,14 +360,15 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
     updateTableTextView.setText(Constants.SPACE + tableInfo.getTableName());
     setClauseButton.setText(Constants.SET_CLAUSE + Constants.SPACE);
+    updateWhereClause.setText(Constants.WHERE_CLAUSE);
   }
 
   @Override
   public void onDeleteCommandSelected() {
     showOrHideViews(deleteContainer);
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.DELETE);
-    deleteTableTextView.setText(Constants.SPACE + tableInfo.getTableName());
-    whereClauseButton.setText(Constants.WHERE_CLAUSE);
+    deleteTableTextView.setText(Constants.FROM_PREFIX+Constants.SPACE+tableInfo.getTableName());
+    deleteWhereClause.setText(Constants.WHERE_CLAUSE);
   }
 
   @Override

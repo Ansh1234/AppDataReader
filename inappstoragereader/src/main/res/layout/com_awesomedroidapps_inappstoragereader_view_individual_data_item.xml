@@ -18,12 +18,12 @@
         android:layout_height="@dimen/com_awesomedroidapps_inappstoragereader_divider_height"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
-        android:background="@color/com_awesomedroidapps_inappstoragereader_dividerColor" />
+        android:background="@color/com_awesomedroidapps_inappstoragereader_blackColor" />
     <View
         android:layout_width="@dimen/com_awesomedroidapps_inappstoragereader_divider_height"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:background="@color/com_awesomedroidapps_inappstoragereader_dividerColor" />
+        android:background="@color/com_awesomedroidapps_inappstoragereader_blackColor" />
 
 </RelativeLayout>
 
