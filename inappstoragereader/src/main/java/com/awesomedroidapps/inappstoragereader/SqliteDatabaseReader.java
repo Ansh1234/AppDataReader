@@ -266,7 +266,9 @@ public class SqliteDatabaseReader {
   public static ArrayList<DatabaseColumnType> getTableDataColumnTypes(Context context,
                                                                       String databaseName,
                                                                       String tableName) {
-    String query = "pragma table_info(" + tableName + ")";
+
+    String pragmaQuery = Utils.getString(context,
+        R.string.com_awesomedroidapps_inappstoragereader_pragma_query, tableName);
     SQLiteDatabase sqLiteDatabase;
     ArrayList<DatabaseColumnType> primaryKeyList = new ArrayList<>();
 
@@ -279,7 +281,7 @@ public class SqliteDatabaseReader {
 
     Cursor cursor = null;
     try {
-      cursor = sqLiteDatabase.rawQuery(query, null);
+      cursor = sqLiteDatabase.rawQuery(pragmaQuery, null);
     } catch (Exception e) {
       e.printStackTrace();
       return primaryKeyList;

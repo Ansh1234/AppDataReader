@@ -81,7 +81,8 @@ public class AppDatabaseHelper {
           databaseColumnType == DatabaseColumnType.FIELD_TYPE_INTEGER) {
         if (Utils.isEmpty(columnValue)) {
           stringBuilder.append(Constants.SPACE);
-          stringBuilder.append("IS NULL ");
+          stringBuilder.append(Constants.IS_NULL);
+          stringBuilder.append(Constants.SPACE);
           stringBuilder.append(Constants.AND);
           stringBuilder.append(Constants.SPACE);
           continue;

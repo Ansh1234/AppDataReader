@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -36,7 +35,7 @@ import java.util.List;
  * Created by anshul on 11/2/17.
  */
 
-public class QueryResultActivity extends AppCompatActivity
+public class QueryResultActivity extends BaseActivity
     implements ErrorMessageInterface, DataItemClickListener, TableDataView,
     QueryResponseListener, CommandResponses {
 
@@ -211,11 +210,12 @@ public class QueryResultActivity extends AppCompatActivity
     switch (queryStatus) {
       case SUCCESS:
         showQueryData(queryDatabaseResponse.getTableDataResponse());
+        String toastMessage = Utils.getString(this, R.string
+            .com_awesomedroidapps_inappstoragereader_zero_records_found);
         if (queryDatabaseResponse.getAffectedRows() == 0) {
-          String toastMessage = Utils.getString(this, R.string
-              .com_awesomedroidapps_inappstoragereader_zero_records_found);
-          Utils.showLongToast(this, toastMessage);
+          toastMessage = toastMessage.replace("records", "record");
         }
+        Utils.showLongToast(this, toastMessage);
         break;
       case FAILURE:
         finish();
@@ -272,7 +272,8 @@ public class QueryResultActivity extends AppCompatActivity
 
     switch (queryDatabaseResponse.getQueryStatus()) {
       case SUCCESS:
-        String toastMessage = Utils.getString(this, R.string.com_awesomedroidapps_inappstoragereader_table_inserted_toast);
+        String toastMessage = Utils.getString(this,
+            R.string.com_awesomedroidapps_inappstoragereader_table_inserted_toast);
         Utils.showLongToast(this, toastMessage);
         break;
       case FAILURE:

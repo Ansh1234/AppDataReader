@@ -27,6 +27,9 @@
     <dimen name="com_awesomedroidapps_inappstoragereader_where_clause_marginTop">15dp</dimen>
     <dimen name="com_awesomedroidapps_inappstoragereader_icon_container_height">48dp</dimen>
     <dimen name="com_awesomedroidapps_inappstoragereader_column_text_size">20dp</dimen>
+    <dimen name="com_awesomedroidapps_inappstoragereader_edit_dialog_text_size">16dp</dimen>
+    <dimen name="com_awesomedroidapps_inappstoragereader_edit_dialog_marginTop">10dp</dimen>
+    <dimen name="com_awesomedroidapps_inappstoragereader_edit_dialog_margin">5dp</dimen>
 
     <!-- Values for shared preferences-->
     <dimen name="com_awesomedroidapps_inappstoragereader_sharedpreferences_textview_text_size">

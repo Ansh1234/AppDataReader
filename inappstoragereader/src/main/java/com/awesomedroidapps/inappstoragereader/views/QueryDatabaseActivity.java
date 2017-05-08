@@ -3,7 +3,6 @@ package com.awesomedroidapps.inappstoragereader.views;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +36,7 @@ import java.util.List;
  * Created by anshul on 27/2/17.
  */
 
-public class QueryDatabaseActivity extends AppCompatActivity implements
+public class QueryDatabaseActivity extends BaseActivity implements
     View.OnClickListener, ErrorMessageInterface, ColumnSelectListener,
     AdapterView.OnItemSelectedListener, QueryDatabaseView {
 
@@ -139,7 +138,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     super.onStart();
   }
 
-
   @Override
   public void onClick(View view) {
     if (view == submitQueryButton) {
@@ -164,7 +162,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
     startActivityForResult(intent, requestCode);
   }
 
-
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -180,7 +177,6 @@ public class QueryDatabaseActivity extends AppCompatActivity implements
       handleInsertValuesResult(data);
     }
   }
-
 
   private void handleWhereClauseResult(Intent data) {
     String str = data.getStringExtra(Constants.BUNDLE_WHERE_CLAUSE);

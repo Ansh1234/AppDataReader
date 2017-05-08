@@ -9,10 +9,17 @@
     <TextView
         android:id="@+id/column_value"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/com_awesomedroidapps_inappstoragereader_edit_dialog_margin"
+        android:layout_marginLeft="@dimen/com_awesomedroidapps_inappstoragereader_edit_dialog_margin"
+        android:layout_marginRight="@dimen/com_awesomedroidapps_inappstoragereader_edit_dialog_margin"
+        android:layout_marginTop="@dimen/com_awesomedroidapps_inappstoragereader_edit_dialog_marginTop"
+        android:textColor="@color/com_awesomedroidapps_inappstoragereader_blackColor"
+        android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_edit_dialog_text_size" />
 
     <EditText
         android:id="@+id/edited_column_value"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/com_awesomedroidapps_inappstoragereader_edit_dialog_text_size" />
 </LinearLayout>

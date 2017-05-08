@@ -1,5 +1,8 @@
 package com.awesomedroidapps.inappstoragereader;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * A file for storing all the Constants.
  * Created by anshul on 11/2/17.
@@ -60,5 +63,22 @@ public class Constants {
   public static final String QUERY_AFFECTED_ROWS = "affected_row_count";
   public static final String IS_NULL = "is null";
   public static final String INVALID_STRING = "INVALID";
+
+  public static final List integerTypes = Arrays.asList(new String[]{
+      "int", "integer", "tinyint", "smallint", "mediumint",
+      "bigint", "unsigned bigint", "int2", "int8"
+  });
+
+  public static final List floatTypes = Arrays.asList(new String[]{
+      "real", "double", "double precision", "float", "numeric",
+      "decimal(10,5)", "boolean", "date", "datetime"
+  });
+
+  public static final List textTypes = Arrays.asList(new String[]{
+      "character(20)", "varchar(255)", "varying character(255)",
+          "nchar(55)", "native character(70)", "nvarchar(100)", "text"
+  });
+
+  public static final List blobTypes = Arrays.asList(new String[]{"blob", "clob"});
 
 }

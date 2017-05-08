@@ -3,7 +3,6 @@ package com.awesomedroidapps.inappstoragereader.views;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
@@ -41,7 +40,7 @@ import java.util.List;
  * Created by anshul on 11/2/17.
  */
 
-public class SharedPreferencesActivity extends AppCompatActivity implements
+public class SharedPreferencesActivity extends BaseActivity implements
     ErrorMessageInterface, PopupMenu.OnMenuItemClickListener, AppStorageItemClickListener,
     DataItemClickListener, ListDataView, SharedPreferenceView {
 

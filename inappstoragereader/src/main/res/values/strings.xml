@@ -55,4 +55,7 @@
     <string name="com_awesomedroidapps_inappstoragereader_table_inserted_toast">The record
         has been inserted succesfully.</string>
     <string name="com_awesomedroidapps_inappstoragereader_column_is_null">Is Null</string>
+    <!-- Pragma query -->
+    <string name="com_awesomedroidapps_inappstoragereader_pragma_query">pragma table_info( %1$s
+        )</string>
 </resources>

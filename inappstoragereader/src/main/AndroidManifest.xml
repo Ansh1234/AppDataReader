@@ -42,7 +42,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".views.QueryResultActivity"
-            android:label="@string/com_awesomedroidapps_inappstoragereader_query_database_list_activity"
+            android:label="@string/com_awesomedroidapps_inappstoragereader_query_database_result_activity"
             android:taskAffinity=".views.AppDataListActivity"
             android:theme="@style/ComAwesomeDroidAppStorageReaderTheme"
             android:screenOrientation="portrait"/>
