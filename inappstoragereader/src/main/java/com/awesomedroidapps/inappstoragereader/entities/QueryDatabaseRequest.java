@@ -8,17 +8,20 @@ import java.io.Serializable;
 
 /**
  * Created by anshul on 29/04/17.
+ * A POJO class for encapsulating any type of query whether it is SELECT, UPDATE, DELETE, SELECT
+ * or RAW QUERY.
  */
 
 public class QueryDatabaseRequest implements Serializable {
 
-  private DatabaseQueryCommandType databaseQueryCommandType;
-  private ContentValues contentValues;
-  private String selectQuery;
-  private String rawQuery;
-  private String whereClause;
   private String databaseName;
   private String tableName;
+  private String selectQuery;
+  private String rawQuery;
+  private DatabaseQueryCommandType databaseQueryCommandType;
+  private ContentValues contentValues;
+  private String whereClause;
+
 
   public DatabaseQueryCommandType getDatabaseQueryCommandType() {
     return databaseQueryCommandType;

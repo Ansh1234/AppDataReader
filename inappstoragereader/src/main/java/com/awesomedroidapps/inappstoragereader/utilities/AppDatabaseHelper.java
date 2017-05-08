@@ -19,7 +19,8 @@ public class AppDatabaseHelper {
                                                int columnIndex,
                                                String newValue, ContentValues contentValues) {
 
-    if (tableColumnNames == null) {
+    if (tableColumnNames == null || tableColumnTypes == null || tableColumnTypes.get(columnIndex)
+        == null) {
       return null;
     }
 
@@ -29,7 +30,7 @@ public class AppDatabaseHelper {
       contentValues = new ContentValues();
     }
 
-    if(Constants.IS_NULL.equalsIgnoreCase(newValue)){
+    if (Constants.IS_NULL.equalsIgnoreCase(newValue)) {
       contentValues.putNull(columnName);
       return contentValues;
     }
