@@ -209,12 +209,10 @@ public class QueryResultActivity extends BaseActivity
 
     switch (queryStatus) {
       case SUCCESS:
+        int selectedRows = (int) queryDatabaseResponse.getAffectedRows();
         showQueryData(queryDatabaseResponse.getTableDataResponse());
-        String toastMessage = Utils.getString(this, R.string
-            .com_awesomedroidapps_inappstoragereader_zero_records_found);
-        if (queryDatabaseResponse.getAffectedRows() == 0) {
-          toastMessage = toastMessage.replace("records", "record");
-        }
+        String toastMessage = getResources().getQuantityString(R.plurals
+            .com_awesomedroidapps_inappstoragereader_records_found, selectedRows, selectedRows);
         Utils.showLongToast(this, toastMessage);
         break;
       case FAILURE:

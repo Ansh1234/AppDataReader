@@ -45,9 +45,7 @@
     <!-- To show to the user, when the where clause arguments are not proper -->
     <string name="com_awesomedroidapps_inappstoragereader_table_wrong_arguments">The value of
         %1$s field is not proper</string>
-    <!-- To show to the user, when the where clause arguments are not proper -->
-    <string name="com_awesomedroidapps_inappstoragereader_zero_records_found">0 records
-        found for the query.</string>
+
     <!-- To show to the user, when the delete query is executed -->
     <string name="com_awesomedroidapps_inappstoragereader_query_deleted_successful">%1$d records
         have been deleted.</string>
@@ -58,4 +56,9 @@
     <!-- Pragma query -->
     <string name="com_awesomedroidapps_inappstoragereader_pragma_query">pragma table_info( %1$s
         )</string>
+    <plurals name="com_awesomedroidapps_inappstoragereader_records_found">
+        <item quantity="zero">No record found for the query</item>
+        <item quantity="one">%d record found for the query.</item>
+        <item quantity="other">%d records found for the query.</item>
+    </plurals>
 </resources>
