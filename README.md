@@ -43,7 +43,6 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 ## Tentative features for the next release
 
-* Query the database and change the values within the application.
 * Copy an entire row to Clipboard.
 * Export an entire table in csv format.
 
