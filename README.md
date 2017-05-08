@@ -37,7 +37,7 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 ## Demo 
 
-![](images/query_updated.png) &nbsp; ![](images/selected.png) &nbsp;![](images/query_raw.png)
+![](images/query_updated.png) &nbsp; &nbsp; &nbsp; &nbsp; ![](images/selected.png) &nbsp; &nbsp; &nbsp; &nbsp;![](images/query_raw.png)
 
 ***
 
