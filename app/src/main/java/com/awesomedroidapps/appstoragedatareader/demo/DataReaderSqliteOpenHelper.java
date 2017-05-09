@@ -23,7 +23,7 @@ public class DataReaderSqliteOpenHelper extends SQLiteOpenHelper {
 
 
   private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + TABLE_NAME + " (" +
-      COLUMN_ID + " INTEGER," +
+      COLUMN_ID + " INTEGER PRIMARY KEY," +
       COLUMN_FIRST_NAME + " TEXT," +
       COLUMN_LAST_NAME + " TEXT," +
       COLUMN_ADDRESS + " TEXT)";

@@ -9,7 +9,7 @@ public enum DatabaseQueryCommandType {
   UPDATE("UPDATE"),
   DELETE("DELETE"),
   INSERT("INSERT"),
-  RAW_QUERY("RAW");
+  RAW_QUERY("RAW_QUERY");
 
 
   private String command;

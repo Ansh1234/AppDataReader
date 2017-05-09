@@ -44,8 +44,11 @@ public class Constants {
   public static final String INVERTED_COMMA = "'";
   public static final String AND = "AND";
   public static final String WHERE_CLAUSE = "WHERE";
+  public static final String WHERE_CONDITION = "WHERE CONDITION";
+  public static final String COLUMN_NAMES = "COLUMN NAMES";
   public static final String INSERT_CLAUSE = "INSERT";
   public static final String SET_CLAUSE = "SET";
+  public static final String SET_VALUES = "SET VALUES";
   public static final String VALUES = "VALUES";
   public static final String ASTERIK = "*";
 

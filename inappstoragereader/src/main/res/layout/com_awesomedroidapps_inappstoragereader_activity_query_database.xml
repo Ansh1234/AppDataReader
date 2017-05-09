@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_padding"
+            android:paddingLeft="10dp"
             android:layout_marginRight="@dimen/com_awesomedroidapps_inappstoragereader_where_clause_padding"
             android:id="@+id/spinner_database_query_command">
         </android.support.v7.widget.AppCompatSpinner>

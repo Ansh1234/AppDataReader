@@ -309,7 +309,7 @@ public class QueryDatabaseActivity extends BaseActivity implements
     String queryTableName = selectTableTextView.getText().toString();
     String queryWhereClause = selectWhereClause.getText().toString();
 
-    if (Constants.WHERE_CLAUSE.equals(queryWhereClause.trim())) {
+    if (Constants.WHERE_CONDITION.equals(queryWhereClause.trim())) {
       queryWhereClause = Constants.EMPTY_STRING;
     }
 
@@ -346,8 +346,8 @@ public class QueryDatabaseActivity extends BaseActivity implements
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.SELECT);
     queryTypeSpinner.setSelection(Constants.ZERO_INDEX);
     selectTableTextView.setText(Constants.FROM_PREFIX + Constants.SPACE + tableInfo.getTableName());
-    selectWhereClause.setText(Constants.WHERE_CLAUSE);
-    selectedColumnsButton.setText(Constants.ASTERIK);
+    selectWhereClause.setText(Constants.WHERE_CONDITION);
+    selectedColumnsButton.setText(Constants.COLUMN_NAMES);
   }
 
   @Override
@@ -355,8 +355,8 @@ public class QueryDatabaseActivity extends BaseActivity implements
     showOrHideViews(updateContainer);
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.UPDATE);
     updateTableTextView.setText(Constants.SPACE + tableInfo.getTableName());
-    setClauseButton.setText(Constants.SET_CLAUSE + Constants.SPACE);
-    updateWhereClause.setText(Constants.WHERE_CLAUSE);
+    setClauseButton.setText(Constants.SET_VALUES);
+    updateWhereClause.setText(Constants.WHERE_CONDITION);
   }
 
   @Override
@@ -364,7 +364,7 @@ public class QueryDatabaseActivity extends BaseActivity implements
     showOrHideViews(deleteContainer);
     queryDatabaseRequest.setDatabaseQueryCommandType(DatabaseQueryCommandType.DELETE);
     deleteTableTextView.setText(Constants.FROM_PREFIX+Constants.SPACE+tableInfo.getTableName());
-    deleteWhereClause.setText(Constants.WHERE_CLAUSE);
+    deleteWhereClause.setText(Constants.WHERE_CONDITION);
   }
 
   @Override
