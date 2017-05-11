@@ -45,6 +45,6 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 ## Tentative features for the next release
 
 * Copy an entire row to Clipboard.
-* Export an entire table in csv format.
+* Export an entire table in csv and json format.
 
 
