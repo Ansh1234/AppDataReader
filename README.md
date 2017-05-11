@@ -1,6 +1,6 @@
 # AppDataReader
 
-A library for reading Shared Preferences and Database values of the application within the device. 
+A library for reading Shared Preferences and reading and updating Database values of the application within the device. 
 
 ## Advantages of using this library
 * No Java Code. Only gradle dependency.
