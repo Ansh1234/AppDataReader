@@ -50,6 +50,8 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 ***
 
+Checkout the Live Demo of the application [here](https://appetize.io/app/qvfqvbvjbyvya59bacw4uwrab0)
+
 ## Tentative features for the next release
 
 * Copy an entire row to Clipboard.
@@ -64,5 +66,7 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 [RxFbLiveVideoEmoticons](https://github.com/Ansh1234/RxFbLiveVideoEmoticons) - Demo of Fb Live Video Reactions using RxJava2. 
 
 [WebViewDemo](https://github.com/Ansh1234/WebViewDemo) - A demo project for showing how to use WebViews in Android.
+
+[AppDataReader](https://github.com/Ansh1234/AppDataReader) - A library for reading Shared Preferences and Database values within the application.
 
 
