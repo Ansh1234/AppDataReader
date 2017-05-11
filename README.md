@@ -38,11 +38,12 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 ## Demo 
 
+Checkout the Live Demo of the application [here](https://appetize.io/app/qvfqvbvjbyvya59bacw4uwrab0)
+
 #### View Database and Shared Preferences
 
 &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; ![](images/demoSharedPreferences.png) &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;![](images/demoDatabase.png)
 
-***
 
 #### Query The Database
 
@@ -50,7 +51,6 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 ***
 
-Checkout the Live Demo of the application [here](https://appetize.io/app/qvfqvbvjbyvya59bacw4uwrab0)
 
 ## Tentative features for the next release
 
