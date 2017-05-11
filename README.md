@@ -38,7 +38,13 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 ## Demo 
 
+#### View Database and Shared Preferences
+
 &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; ![](images/demoSharedPreferences.png) &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;![](images/demoDatabase.png)
+
+***
+
+#### Query The Database
 
 ![](images/demoSelectQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoUpdateQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoRawQuery.png)
 
