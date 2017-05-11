@@ -313,6 +313,10 @@ public class QueryDatabaseActivity extends BaseActivity implements
       queryWhereClause = Constants.EMPTY_STRING;
     }
 
+    if(Constants.COLUMN_NAMES.equals(queryColumns.trim())){
+      queryColumns=Constants.ASTERIK;
+    }
+
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(queryType)
         .append(Constants.SPACE)

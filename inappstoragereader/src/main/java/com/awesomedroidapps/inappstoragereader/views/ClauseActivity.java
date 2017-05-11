@@ -211,9 +211,6 @@ public class ClauseActivity extends BaseActivity implements View.OnClickListener
           Integer.parseInt(columnValue);
         } else if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_FLOAT) {
           Float.parseFloat(columnValue);
-        } else if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_TEXT &&
-            editText.isEnabled()) {
-          columnValue = Constants.INVERTED_COMMA + columnValue + Constants.INVERTED_COMMA;
         }
       } catch (Exception e) {
         if (!columnValue.equalsIgnoreCase(Constants.IS_NULL)) {
@@ -225,9 +222,14 @@ public class ClauseActivity extends BaseActivity implements View.OnClickListener
         }
       }
 
-
       contentValues = AppDatabaseHelper.getContentValues(tableInfo.getTableColumnNames(), tableInfo
           .getTableColumnTypes(), i, columnValue, contentValues);
+
+      if (databaseColumnType == DatabaseColumnType.FIELD_TYPE_TEXT &&
+          editText.isEnabled()) {
+        columnValue = Constants.INVERTED_COMMA + columnValue + Constants.INVERTED_COMMA;
+      }
+
       queryBuilder.append(columnName);
       queryBuilder.append(Constants.EQUAL);
       queryBuilder.append(columnValue);

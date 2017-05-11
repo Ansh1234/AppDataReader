@@ -304,7 +304,8 @@ public class SqliteDatabaseReader {
   @NonNull
   public static ArrayList<Integer> getTableDataPrimaryKey(Context context, String databaseName,
                                                           String tableName) {
-    String query = "pragma table_info(" + tableName + ")";
+    String query = Utils.getString(context,R.string
+            .com_awesomedroidapps_inappstoragereader_pragma_query, tableName);
     SQLiteDatabase sqLiteDatabase;
     ArrayList<Integer> primaryKeyList = new ArrayList<>();
 
