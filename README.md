@@ -34,7 +34,22 @@ project.ext {
 ```
 
 
-The library declares an activity `AppDataListActivity` with action `android.intent.action.MAIN` in the `AndroidManifest.xml`. So as soon as your application is installed, this activity will also be placed in the launcher of the phone. Search for **App Data** on the launcher.  
+The library declares an activity `AppDataListActivity` with action `android.intent.action.MAIN` in the `AndroidManifest.xml`. So as soon as your application is installed, this activity will also be placed in the launcher of the phone. Search for **App Data** on the launcher.
+
+<div style="max-width: 650px">
+    <div style=" display: inline-block;">
+      <img src="images/demo_select_query.png" />
+      <p>Image One</p>
+    </div>
+    <div style=" display: inline-block;">
+      <img src="images/demo_update_query.png" />
+      <p>Image Two</p>
+    </div>
+    <div style=" display: inline-block;">
+      <img src="images/demo_raw_query.png" />
+      <p> Image Three</p>
+    </div>
+</div>
 
 ## Demo 
 
