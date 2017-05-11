@@ -57,7 +57,7 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 =====
 
-Checkout my other projects
+**Checkout my other projects**
 
 [RxDownloader](https://github.com/Ansh1234/RxDownloader)- Demo of Downloading Songs/Images through Android Download Manager using RxJava2
 
