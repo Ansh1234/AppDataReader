@@ -38,7 +38,15 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 ## Demo 
 
-![](images/demoSelectQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoUpdateQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoRawQuery.png)
+#### View Database and Shared Preferences
+
+&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; ![](images/demoSharedPreferences.png) &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;![](images/demoDatabase.png)
+
+***
+
+#### Query The Database
+
+![](images/demoSelectQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoRawQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoUpdateQuery.png)
 
 ***
 
@@ -46,5 +54,15 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 * Copy an entire row to Clipboard.
 * Export an entire table in csv and json format.
+
+=====
+
+**Checkout my other projects**
+
+[RxDownloader](https://github.com/Ansh1234/RxDownloader)- Demo of Downloading Songs/Images through Android Download Manager using RxJava2
+
+[RxFbLiveVideoEmoticons](https://github.com/Ansh1234/RxFbLiveVideoEmoticons) - Demo of Fb Live Video Reactions using RxJava2. 
+
+[WebViewDemo](https://github.com/Ansh1234/WebViewDemo) - A demo project for showing how to use WebViews in Android.
 
 
