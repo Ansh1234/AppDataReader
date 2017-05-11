@@ -21,6 +21,7 @@ allprojects {
   project.ext {
     rvv = '23.1.0' //RecyclerView  version
     slv = '23.1.0' // Support AppCompat v7 library version.
+    clv = '23.1.0' //CardView library version.
     csv = 23 // compile Sdk version
     tsv = 23 //Target Sdk version
     btv = '23.0.2' // Build tools version.
