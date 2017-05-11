@@ -38,6 +38,8 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 ## Demo 
 
+![](images/demoSharedPreferences.png) &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;![](images/demoDatabase.png)
+
 ![](images/demoSelectQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoUpdateQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoRawQuery.png)
 
 ***
