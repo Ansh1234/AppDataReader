@@ -46,7 +46,7 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 #### Query The Database
 
-![](images/demoSelectQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoUpdateQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoRawQuery.png)
+![](images/demoSelectQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoRawQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoUpdateQuery.png)
 
 ***
 
