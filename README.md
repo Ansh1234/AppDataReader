@@ -67,6 +67,5 @@ Checkout the Live Demo of the application [here](https://appetize.io/app/qvfqvbv
 
 [WebViewDemo](https://github.com/Ansh1234/WebViewDemo) - A demo project for showing how to use WebViews in Android.
 
-[AppDataReader](https://github.com/Ansh1234/AppDataReader) - A library for reading Shared Preferences and Database values within the application.
 
 
