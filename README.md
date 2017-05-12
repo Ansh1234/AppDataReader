@@ -13,11 +13,11 @@ A library for reading and writing Shared Preferences and Database values of the 
 
 ## Install the library
 ```
-compile 'com.awesomedroidapps:inappstoragereader:1.0.1'
+compile 'com.awesomedroidapps:inappstoragereader:1.0.2'
 ```
 Or if the library is to be used only for debug builds and not release builds, then 
 ```
-debugCompile 'com.awesomedroidapps:inappstoragereader:1.0.1'
+debugCompile 'com.awesomedroidapps:inappstoragereader:1.0.2'
 ```
 
 The library is using some dependencies for building the UI i.e. `RecyclerView v23.2.0`, `CardView v23.2.0` and the `Support Library v23.2.0`. In case, your project is also using these dependencies, but with a different version, then declare the following variables in the `build.gradle` file of the root project.
