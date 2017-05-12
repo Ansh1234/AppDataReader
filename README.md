@@ -42,7 +42,7 @@ Checkout the Live Demo of the application [here](https://appetize.io/app/qvfqvbv
 
 #### View Database and Shared Preferences
 
-&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; ![](images/demoSharedPreferences.png) &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;![](images/demoDatabase.png)
+&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; ![](images/sharedPreferencesDemoImage.png) &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;![](images/databaseImageDemo.png)
 
 
 #### Query The Database
