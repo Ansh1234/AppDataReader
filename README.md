@@ -38,17 +38,19 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 
 ## Demo 
 
+Checkout the Live Demo of the application [here](https://appetize.io/app/qvfqvbvjbyvya59bacw4uwrab0)
+
 #### View Database and Shared Preferences
 
 &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; ![](images/demoSharedPreferences.png) &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;![](images/demoDatabase.png)
 
-***
 
 #### Query The Database
 
 ![](images/demoSelectQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoRawQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoUpdateQuery.png)
 
 ***
+
 
 ## Tentative features for the next release
 
@@ -64,5 +66,6 @@ The library declares an activity `AppDataListActivity` with action `android.inte
 [RxFbLiveVideoEmoticons](https://github.com/Ansh1234/RxFbLiveVideoEmoticons) - Demo of Fb Live Video Reactions using RxJava2. 
 
 [WebViewDemo](https://github.com/Ansh1234/WebViewDemo) - A demo project for showing how to use WebViews in Android.
+
 
 
