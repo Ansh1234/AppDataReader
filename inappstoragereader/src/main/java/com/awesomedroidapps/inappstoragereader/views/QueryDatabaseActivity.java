@@ -241,6 +241,14 @@ public class QueryDatabaseActivity extends BaseActivity implements
         query = getSelectQuery();
         queryDatabaseRequest.setSelectQuery(query);
         break;
+      case INSERT:
+        if(queryDatabaseRequest.getContentValues()==null) {
+          String toastMessage = Utils.getString(this, R.string
+              .com_awesomedroidapps_inappstoragereader_database_contentValues_empty_insertQuery);
+          Utils.showLongToast(this, toastMessage);
+          return;
+        }
+        break;
       case RAW_QUERY:
         query = getRawQuery();
         if (Utils.isEmpty(query)) {
