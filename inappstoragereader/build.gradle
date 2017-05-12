@@ -14,7 +14,7 @@ ext {
   siteUrl = 'https://github.com/Ansh1234/AppDataReader'
   gitUrl = 'https://github.com/Ansh1234/AppDataReader.git'
 
-  libraryVersion = '1.0.1'
+  libraryVersion = '1.0.2'
 
   developerId = 'ansh1234'
   developerName = 'Anshul Jain'
