@@ -94,7 +94,6 @@ public class QueryDatabaseActivity extends BaseActivity implements
     queryDatabaseRequest = new QueryDatabaseRequest();
     readBundle();
     initInitialUI();
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   }
 
   private void readBundle() {
@@ -242,13 +241,6 @@ public class QueryDatabaseActivity extends BaseActivity implements
         query = getSelectQuery();
         queryDatabaseRequest.setSelectQuery(query);
         break;
-      case UPDATE:
-        break;
-      case DELETE:
-        break;
-      case INSERT:
-        query = getInsertQuery();
-        break;
       case RAW_QUERY:
         query = getRawQuery();
         if (Utils.isEmpty(query)) {
@@ -327,11 +319,6 @@ public class QueryDatabaseActivity extends BaseActivity implements
 
     String query = stringBuilder.toString().trim();
     return query;
-  }
-
-  private String getInsertQuery() {
-    return Constants.EMPTY_STRING;
-
   }
 
   private String getRawQuery() {

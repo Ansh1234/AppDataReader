@@ -89,7 +89,8 @@ public class TableColumnsDialog extends DialogFragment {
             int key = sparseBooleanArray.keyAt(i);
             try {
               String value = columns[key];
-              stringBuilder.append(value + ",");
+              stringBuilder.append(value);
+              stringBuilder.append(Constants.COMMA);
             } catch (Exception e) {
               e.printStackTrace();
             }
@@ -100,7 +101,7 @@ public class TableColumnsDialog extends DialogFragment {
             columnSelectListener.onColumnsSelected(Constants.ASTERIK);
             return;
           }
-          if (columnString.endsWith(",")) {
+          if (columnString.endsWith(Constants.COMMA)) {
             try {
               columnString = columnString.substring(0, columnString.length() - 1);
             } catch (Exception e) {

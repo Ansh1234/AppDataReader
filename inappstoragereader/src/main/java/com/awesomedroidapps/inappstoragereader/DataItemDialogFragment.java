@@ -75,9 +75,7 @@ public class DataItemDialogFragment extends DialogFragment {
 
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-
     builder.setView(alertDialogView);
-    // builder.setMessage(data);
     builder.setPositiveButton(Constants.DIALOG_COPY, null);
     builder.setNegativeButton(Constants.DIALOG_EDIT, null);
 
@@ -104,7 +102,7 @@ public class DataItemDialogFragment extends DialogFragment {
         public void onClick(View v) {
           if (Constants.DIALOG_EDIT.equals(editOrDoneButton.getText().toString())) {
             onEditButtonClicked(editOrDoneButton);
-          } else if(Constants.DIALOG_DONE.equals(editOrDoneButton.getText().toString())) {
+          } else if (Constants.DIALOG_DONE.equals(editOrDoneButton.getText().toString())) {
             onDoneButtonClicked();
           }
         }
@@ -130,6 +128,7 @@ public class DataItemDialogFragment extends DialogFragment {
 
   private void onDoneButtonClicked() {
     alertDialog.dismiss();
-    dataEditListener.onTableDataEdited(editedColumnValue.getText().toString(),columnIndex,currentColumnValues);
+    dataEditListener.onTableDataEdited(editedColumnValue.getText().toString(), columnIndex,
+        currentColumnValues);
   }
 }

@@ -47,7 +47,6 @@ public class TableListActivity extends BaseActivity implements AppStorageItemCli
     Bundle bundle = getIntent().getExtras();
     databaseName = bundle.getString(Constants.BUNDLE_DATABASE_NAME);
     progressDialog = new ProgressDialog(this);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   }
 
   @Override

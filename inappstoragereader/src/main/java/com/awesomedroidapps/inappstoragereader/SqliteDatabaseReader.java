@@ -304,8 +304,8 @@ public class SqliteDatabaseReader {
   @NonNull
   public static ArrayList<Integer> getTableDataPrimaryKey(Context context, String databaseName,
                                                           String tableName) {
-    String query = Utils.getString(context,R.string
-            .com_awesomedroidapps_inappstoragereader_pragma_query, tableName);
+    String query = Utils.getString(context, R.string
+        .com_awesomedroidapps_inappstoragereader_pragma_query, tableName);
     SQLiteDatabase sqLiteDatabase;
     ArrayList<Integer> primaryKeyList = new ArrayList<>();
 
@@ -440,7 +440,7 @@ public class SqliteDatabaseReader {
       sqLiteDatabase = context.openOrCreateDatabase(databaseName, 0, null);
     } catch (Exception e) {
       e.printStackTrace();
-      fillQueryResponseWithError(queryDatabaseResponse, e);
+      fillQueryResponseWithError(context, queryDatabaseResponse, e);
       return queryDatabaseResponse;
     }
 
@@ -570,7 +570,7 @@ public class SqliteDatabaseReader {
         queryDatabaseResponse.setQueryStatus(QueryStatus.SUCCESS);
         queryDatabaseResponse.setAffectedRows(affectedRows);
       } catch (Exception e) {
-        fillQueryResponseWithError(queryDatabaseResponse, e);
+        fillQueryResponseWithError(context, queryDatabaseResponse, e);
         e.printStackTrace();
       }
       return;
@@ -587,10 +587,9 @@ public class SqliteDatabaseReader {
     Cursor cursor = null;
     try {
       cursor = sqLiteDatabase.rawQuery(queryDatabaseRequest.getRawQuery(), null);
-      affectedRows = getAffectedRows(cursor);
       queryDatabaseResponse.setQueryStatus(QueryStatus.SUCCESS);
     } catch (Exception e) {
-      fillQueryResponseWithError(queryDatabaseResponse, e);
+      fillQueryResponseWithError(context, queryDatabaseResponse, e);
     } finally {
       if (cursor != null) {
         cursor.close();
@@ -665,7 +664,7 @@ public class SqliteDatabaseReader {
       queryDatabaseResponse.setAffectedRows(cursor.getCount());
 
     } catch (Exception e) {
-      fillQueryResponseWithError(queryDatabaseResponse, e);
+      fillQueryResponseWithError(context, queryDatabaseResponse, e);
     } finally {
       closeCursor(cursor);
     }
@@ -678,8 +677,11 @@ public class SqliteDatabaseReader {
                                      QueryDatabaseResponse queryDatabaseResponse) {
 
     Cursor cursor = null;
+    String rawQuery = queryDatabaseRequest.getRawQuery();
+    if (Utils.isEmpty(rawQuery)) {
+      fillQueryResponseWithUnExpectedError(context, queryDatabaseResponse);
+    }
     try {
-      String rawQuery = queryDatabaseRequest.getRawQuery();
       cursor = sqliteDatabase.rawQuery(rawQuery, null);
       if (cursor != null && cursor.getCount() > 0) {
         TableDataResponse tableDataResponse = new TableDataResponse();
@@ -696,17 +698,21 @@ public class SqliteDatabaseReader {
       queryDatabaseResponse.setQueryStatus(QueryStatus.SUCCESS);
       queryDatabaseResponse.setAffectedRows(affectedRows);
     } catch (Exception e) {
-      fillQueryResponseWithError(queryDatabaseResponse, e);
+      fillQueryResponseWithError(context, queryDatabaseResponse, e);
     } finally {
-      if (cursor != null) {
-        cursor.close();
-      }
+      closeCursor(cursor);
     }
   }
 
-  private static void fillQueryResponseWithError(
-      @NonNull QueryDatabaseResponse queryDatabaseResponse, Exception e) {
+  private static void fillQueryResponseWithError(Context context,
+                                                 @NonNull QueryDatabaseResponse queryDatabaseResponse,
+                                                 Exception e) {
     queryDatabaseResponse.setQueryStatus(QueryStatus.FAILURE);
+    if (e == null) {
+      String errorMessage = Utils.getString(context, R.string
+          .com_awesomedroidapps_inappstoragereader_generic_error);
+      queryDatabaseResponse.setErrorMessage(errorMessage);
+    }
     queryDatabaseResponse.setErrorMessage(e.getMessage());
   }
 

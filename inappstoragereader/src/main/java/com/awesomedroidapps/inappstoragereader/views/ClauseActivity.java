@@ -48,11 +48,11 @@ public class ClauseActivity extends BaseActivity implements View.OnClickListener
       String toastMessage = Utils.getString(this, R.string
           .com_awesomedroidapps_inappstoragereader_generic_error);
       Utils.showLongToast(this, toastMessage);
+      finish();
       return;
     }
 
     fillWhereClauseData(tableInfo.getTableColumnNames());
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   }
 
   private void fillWhereClauseData(List<String> columnNames) {
@@ -117,7 +117,7 @@ public class ClauseActivity extends BaseActivity implements View.OnClickListener
         try {
           Integer.parseInt(columnNewValue);
         } catch (NumberFormatException exception) {
-          if (columnNewValue.equals("is null")) {
+          if (columnNewValue.equalsIgnoreCase(Constants.IS_NULL)) {
             contentValues.putNull(textView.getText().toString());
             continue;
           }
@@ -135,9 +135,9 @@ public class ClauseActivity extends BaseActivity implements View.OnClickListener
             contentValues.putNull(textView.getText().toString());
             continue;
           }
-          String toastMessage = Utils.getString(this, R.string
-              .com_awesomedroidapps_inappstoragereader_table_wrong_arguments, textView.getText()
-              .toString());
+          String toastMessage = Utils.getString(this,
+              R.string.com_awesomedroidapps_inappstoragereader_table_wrong_arguments,
+              textView.getText().toString());
           Utils.showLongToast(this, toastMessage);
           return contentValues;
         }
