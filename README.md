@@ -47,7 +47,7 @@ Checkout the Live Demo of the application [here](https://appetize.io/app/qvfqvbv
 
 #### Query The Database
 
-![](images/demoSelectQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoRawQuery.png) &nbsp; &nbsp; &nbsp; ![](images/demoUpdateQuery.png)
+![](images/selectDemoImage.png) &nbsp; &nbsp; &nbsp; ![](images/rawQueryDemoImage.png) &nbsp; &nbsp; &nbsp; ![](images/insertDemoImage.png)
 
 ***
 
